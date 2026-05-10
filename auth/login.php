@@ -165,8 +165,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_GET['code'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Log In - <?php echo htmlspecialchars($store_settings['store_name']); ?></title>
-    <link rel="icon" type="image/png" href="<?php echo htmlspecialchars($store_settings['fav_icon']); ?>">
+    <title>Log In - <?php echo htmlspecialchars($setting['store_name']); ?></title>
+    <link rel="icon" type="image/png" href="<?php echo htmlspecialchars($setting['fav_icon']); ?>">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -331,7 +331,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_GET['code'])) {
     </main>
 
     <nav class="fixed bottom-0 w-full glass-panel z-50 h-16 flex justify-around items-center max-w-md left-1/2 -translate-x-1/2 border-t-0 shadow-[0_-8px_30px_rgba(0,0,0,0.04)]">
-        <a href="<?php echo htmlspecialchars($store_settings['whatsapp']); ?>" class="flex flex-col items-center text-themeDark/40 hover:text-themeDark transition">
+        <a href="<?php echo htmlspecialchars($setting['whatsapp'] ?? 'https://wa.me/'); ?>" class="flex flex-col items-center text-themeDark/40 hover:text-themeDark transition">
             <i class="fa-brands fa-whatsapp text-lg"></i>
             <span class="text-[9px] font-black uppercase tracking-tighter mt-1">Support</span>
         </a>
