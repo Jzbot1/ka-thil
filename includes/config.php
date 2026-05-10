@@ -63,10 +63,6 @@ define('USD_TO_INR', (float)env('USD_TO_INR', 85.0));
 
 define('CALLBACK_SECRET', env('CALLBACK_SECRET'));
 
-// 5. GOOGLE OAUTH CONFIGURATION
-$google_client_id     = env('GOOGLE_CLIENT_ID');
-$google_client_secret = env('GOOGLE_CLIENT_SECRET');
-$google_redirect_uri  = BASE_URL . '/auth/login.php';
 
 // Detect Base URL Dynamically
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
@@ -81,6 +77,11 @@ $web_path = str_replace($document_root, '', $project_root_dir);
 $base_url = rtrim($protocol . $host . '/' . ltrim($web_path, '/'), '/');
 
 define('BASE_URL', $base_url);
+
+// 5. GOOGLE OAUTH CONFIGURATION
+$google_client_id     = env('GOOGLE_CLIENT_ID');
+$google_client_secret = env('GOOGLE_CLIENT_SECRET');
+$google_redirect_uri  = BASE_URL . '/auth/login.php';
 
 // Include Global Helpers
 require_once __DIR__ . '/functions.php';
