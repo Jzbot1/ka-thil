@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://jzstore.in/sitemap.xml
+
+# Disallow sensitive directories
+Disallow: /admin/
+Disallow: /includes/
+Disallow: /api/
+Disallow: /payment/
+Disallow: /scratch/
+Disallow: /uploads/notifications/

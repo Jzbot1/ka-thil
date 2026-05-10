@@ -1,0 +1,7 @@
+# Deny access to all files in this directory
+Order deny,allow
+Deny from all
+<Files "*.php">
+    Order deny,allow
+    Deny from all
+</Files>

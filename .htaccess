@@ -1,0 +1,77 @@
+# ===============================
+# Enable Rewrite Engine
+# ===============================
+RewriteEngine On
+
+# ===============================
+# Prevent Directory Listing
+# ===============================
+Options -Indexes
+
+# ===============================
+# Default Index File
+# ===============================
+DirectoryIndex index.php index.html
+
+# ===============================
+# Product Routing (Clean URLs)
+# ===============================
+
+# 1. Route: /product/mobile-legends/weekly-pass
+# → product.php?game=mobile-legends&category=weekly-pass
+RewriteRule ^product/([^/]+)/([^/]+)/?$ product.php?game=$1&category=$2 [L,QSA,NC]
+
+# 2. Route: /product/mobile-legends
+# → product.php?game=mobile-legends
+RewriteRule ^product/([^/]+)/?$ product.php?game=$1 [L,QSA,NC]
+
+# 3. Route: /payment/receipt/ORD_123
+# → payment/receipt.php?orderId=ORD_123
+RewriteRule ^payment/receipt/([^/]+)/?$ payment/receipt.php?orderId=$1 [L,QSA,NC]
+
+# 4. Route: sitemap.xml
+# → sitemap_dynamic.php
+RewriteRule ^sitemap\.xml$ sitemap_dynamic.php [L,NC]
+
+# ===============================
+# Hide .php Extension (Global)
+# ===============================
+
+# 1. Force remove .php extension from URL (External Redirect)
+# Only for GET requests to prevent losing POST data
+RewriteCond %{REQUEST_METHOD} !POST
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php [NC]
+RewriteRule ^ %1 [R=301,L]
+
+# 2. Internally map extensionless URLs to .php files
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*?)/?$ $1.php [L]
+
+# ===============================
+# Protect Sensitive Files
+# ===============================
+<FilesMatch "(^\.|config\.php|\.env|composer\.json|composer\.lock|.*\.sql)">
+    Require all denied
+</FilesMatch>
+
+# ===============================
+# Disable Access to .htaccess
+# ===============================
+<Files .htaccess>
+    Require all denied
+</Files>
+
+# ===============================
+# PHP Version (cPanel Generated)
+# ===============================
+<IfModule mime_module>
+    AddHandler application/x-httpd-ea-php81 .php .php8 .phtml
+</IfModule>
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php81” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php81 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

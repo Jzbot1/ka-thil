@@ -1,0 +1,7 @@
+Order ORD_808B2394 | CRITICAL ERROR: Call to a member function bind_param() on bool
+Order ORD_2DC7326D | CRITICAL ERROR: Call to a member function bind_param() on bool
+Order ORD_2DC7326D | CRITICAL ERROR: Call to a member function bind_param() on bool
+Order ORD_2DC7326D | CRITICAL ERROR: Call to a member function bind_param() on bool
+Order ORD_B94EA722 | CRITICAL ERROR: Call to a member function bind_param() on bool
+Order ORD_B94EA722 | CRITICAL ERROR: Call to a member function bind_param() on bool
+Order ORD_B94EA722 | CRITICAL ERROR: Call to a member function bind_param() on bool

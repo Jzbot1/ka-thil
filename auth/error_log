@@ -1,0 +1,2 @@
+[06-Apr-2026 05:47:19 UTC] PHP Warning:  Undefined array key "referral_code" in /home/jzstore1/mobapay.in/auth/register.php on line 94
+[06-Apr-2026 05:47:19 UTC] PHP Deprecated:  trim(): Passing null to parameter #1 ($string) of type string is deprecated in /home/jzstore1/mobapay.in/auth/register.php on line 94
