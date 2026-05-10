@@ -180,7 +180,7 @@ ob_end_flush();
         .animate-scroll-text { animation: scrollText 12s linear infinite; }
     </style>
     <script>
-        window.flashSaleEnd = "<?= $setting['flash_sale_end'] ?? '' ?>";
+        window.flashSaleEnd = "<?= !empty($setting['flash_sale_end']) ? date('c', strtotime($setting['flash_sale_end'])) : '' ?>";
     </script>
 </head>
 <body class="pb-32">
@@ -564,7 +564,7 @@ ob_end_flush();
             // Flash Sale Timer
             const timerEl = document.querySelector('#flash-sale-timer span');
             if (timerEl && window.flashSaleEnd) {
-                const endTime = new Date(window.flashSaleEnd).getTime();
+                const endTime = new Date(window.flashSaleEnd.replace(/\s/, 'T')).getTime();
                 
                 const updateTimer = () => {
                     const now = new Date().getTime();
