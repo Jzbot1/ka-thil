@@ -322,10 +322,12 @@ ob_end_flush();
                         <i class="fa-solid fa-bolt-lightning text-orange-500 text-sm animate-bounce"></i>
                     </span>
                 </div>
+                <?php if (!empty($setting['flash_sale_end'])): ?>
                 <div id="flash-sale-timer" class="flex items-center gap-1 bg-white/10 border border-white/10 px-2 py-0.5 rounded-lg shadow-sm">
                     <i class="fa-solid fa-clock text-orange-500 text-[9px] animate-pulse"></i>
                     <span class="text-[9px] font-black text-themeDark font-mono tracking-wider">00:00:00</span>
                 </div>
+                <?php endif; ?>
             </h3>
 
             <div class="grid grid-cols-4 gap-x-2 gap-y-4">
