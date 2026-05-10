@@ -116,6 +116,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['flash_msg'] = "Notification sent.";
         header("Location: " . $_SERVER['PHP_SELF']); exit;
     }
+    // === D. SAVE SMTP / EMAIL SETTINGS ===
+    if (isset($_POST['save_smtp'])) {
+        $smtp_enabled    = isset($_POST['smtp_enabled']) ? 1 : 0;
+        $smtp_from_name  = trim($_POST['smtp_from_name']);
+        $smtp_from_email = trim($_POST['smtp_from_email']);
+
+        $stmt = $conn->prepare("UPDATE fav_setting SET smtp_enabled=?, smtp_from_name=?, smtp_from_email=? WHERE id=1");
+        if ($stmt) {
+            $stmt->bind_param("iss", $smtp_enabled, $smtp_from_name, $smtp_from_email);
+            if ($stmt->execute()) {
+                $_SESSION['flash_msg']  = "Email notification settings saved!";
+                $_SESSION['flash_type'] = "success";
+            } else {
+                $_SESSION['flash_msg']  = "DB Error: " . $stmt->error . " — Did you run smtp_migration.sql?";
+                $_SESSION['flash_type'] = "error";
+            }
+            $stmt->close();
+        }
+        header("Location: " . $_SERVER['PHP_SELF']); exit;
+    }
 }
 
 // --- 4. DATA FETCHING ---
@@ -329,6 +349,57 @@ $setting = $current_settings;
                     <i class="fa-solid fa-arrow-right text-white/60"></i>
                 </div>
             </a>
+        </div>
+
+        <!-- Email / Invoice Notification Settings -->
+        <div class="mb-10">
+            <h2 class="text-sm font-bold text-themeDark flex items-center gap-2 mb-4 px-1">
+                <span class="w-1 h-4 bg-violet-500 rounded-full shadow-[0_0_8px_rgba(139,92,246,0.5)]"></span>
+                Email Invoice Notifications
+            </h2>
+            <form method="POST" class="glass-panel p-6 rounded-[2rem] shadow-sm space-y-5">
+                <input type="hidden" name="save_smtp" value="1">
+
+                <!-- Enable Toggle -->
+                <div class="flex items-center justify-between glass-panel p-4 rounded-2xl border-white/50">
+                    <div>
+                        <p class="text-xs font-black text-themeDark">Send Invoice Email on Order</p>
+                        <p class="text-[10px] text-themeDark/50 mt-0.5">Sends a HTML invoice to user after every completed order</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="smtp_enabled" value="1" class="sr-only peer" <?= ($current_settings['smtp_enabled'] ?? 0) == 1 ? 'checked' : '' ?>>
+                        <div class="w-11 h-6 bg-white/40 rounded-full peer peer-checked:bg-violet-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-themeDark/50 uppercase ml-1 mb-1.5">Sender Name</label>
+                        <input type="text" name="smtp_from_name"
+                            value="<?= htmlspecialchars($current_settings['smtp_from_name'] ?? '') ?>"
+                            placeholder="e.g. JZ Store" class="w-full px-4 py-3 text-sm font-bold text-themeDark">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-themeDark/50 uppercase ml-1 mb-1.5">Sender Email (From)</label>
+                        <input type="email" name="smtp_from_email"
+                            value="<?= htmlspecialchars($current_settings['smtp_from_email'] ?? '') ?>"
+                            placeholder="e.g. no-reply@jzstore.in" class="w-full px-4 py-3 text-sm font-bold text-themeDark">
+                    </div>
+                </div>
+
+                <div class="bg-blue-500/10 border border-blue-400/20 rounded-2xl p-4 text-[11px] text-themeDark/60 leading-relaxed">
+                    <p class="font-black text-blue-600 mb-1 uppercase tracking-wider text-[10px]">⚠️ Important — XAMPP / cPanel Note</p>
+                    <p>On <strong>XAMPP localhost</strong>, PHP <code>mail()</code> requires Sendmail to be configured in <code>php.ini</code>.<br>
+                    On <strong>cPanel hosting</strong>, mail() works automatically if the sender email matches your domain.<br>
+                    Run <code>smtp_migration.sql</code> in phpMyAdmin before saving these settings.</p>
+                </div>
+
+                <div class="text-right">
+                    <button type="submit" class="bg-violet-600 hover:bg-violet-700 text-white font-black py-4 px-10 rounded-2xl transition shadow-xl active:scale-95 text-sm">
+                        <i class="fa-solid fa-paper-plane mr-2"></i>Save Email Settings
+                    </button>
+                </div>
+            </form>
         </div>
 
         <!-- Payment Methods Section -->

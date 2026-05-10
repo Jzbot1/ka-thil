@@ -427,6 +427,101 @@ ob_end_flush();
         endforeach; 
         ?>
 
+        <!-- ── Information & Help Section ── -->
+        <div class="mb-8 mt-2">
+            <h3 class="text-sm font-bold text-themeDark flex items-center justify-between gap-2 mb-4 px-1">
+                <div class="flex items-center gap-2">
+                    <span class="w-1 h-4 bg-cyan-400 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.6)]"></span>
+                    Information &amp; Help
+                </div>
+                <a href="<?= BASE_URL ?>/tutorial" class="text-[10px] font-black text-white/40 hover:text-white transition flex items-center gap-1">
+                    View All <i class="fa-solid fa-arrow-right text-[8px]"></i>
+                </a>
+            </h3>
+
+            <!-- 3 Tutorial Category Cards -->
+            <div class="grid grid-cols-3 gap-2 mb-3">
+
+                <!-- Recharge Card -->
+                <a href="<?= BASE_URL ?>/tutorial#recharge"
+                   onclick="sessionStorage.setItem('tutCat','recharge')"
+                   class="group relative overflow-hidden rounded-2xl border border-white/10 p-3.5 flex flex-col gap-2 transition active:scale-95"
+                   style="background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);">
+                    <div class="w-9 h-9 rounded-xl flex items-center justify-center text-lg mb-0.5"
+                         style="background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.2);">
+                        ⚡
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-black text-white leading-tight">Recharge</p>
+                        <p class="text-[9px] text-white/40 font-bold mt-0.5">Recharge Dan</p>
+                    </div>
+                    <div class="flex items-center gap-1 mt-auto">
+                        <span class="text-[8px] font-black text-cyan-400 bg-cyan-400/10 px-1.5 py-0.5 rounded-full">6 steps</span>
+                    </div>
+                    <!-- Hover glow -->
+                    <div class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition pointer-events-none"
+                         style="background:radial-gradient(circle at 50% 0%,rgba(59,130,246,0.12),transparent 70%);"></div>
+                </a>
+
+                <!-- Wallet Card -->
+                <a href="<?= BASE_URL ?>/tutorial#wallet"
+                   onclick="sessionStorage.setItem('tutCat','wallet')"
+                   class="group relative overflow-hidden rounded-2xl border border-white/10 p-3.5 flex flex-col gap-2 transition active:scale-95"
+                   style="background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);">
+                    <div class="w-9 h-9 rounded-xl flex items-center justify-center text-lg mb-0.5"
+                         style="background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.2);">
+                        💳
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-black text-white leading-tight">Wallet</p>
+                        <p class="text-[9px] text-white/40 font-bold mt-0.5">Wallet Hman Dan</p>
+                    </div>
+                    <div class="flex items-center gap-1 mt-auto">
+                        <span class="text-[8px] font-black text-purple-400 bg-purple-400/10 px-1.5 py-0.5 rounded-full">4 steps</span>
+                    </div>
+                    <div class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition pointer-events-none"
+                         style="background:radial-gradient(circle at 50% 0%,rgba(139,92,246,0.12),transparent 70%);"></div>
+                </a>
+
+                <!-- Register Card -->
+                <a href="<?= BASE_URL ?>/tutorial#register"
+                   onclick="sessionStorage.setItem('tutCat','register')"
+                   class="group relative overflow-hidden rounded-2xl border border-white/10 p-3.5 flex flex-col gap-2 transition active:scale-95"
+                   style="background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);">
+                    <div class="w-9 h-9 rounded-xl flex items-center justify-center text-lg mb-0.5"
+                         style="background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.2);">
+                        🙋
+                    </div>
+                    <div>
+                        <p class="text-[11px] font-black text-white leading-tight">Register</p>
+                        <p class="text-[9px] text-white/40 font-bold mt-0.5">Account Siam Dan</p>
+                    </div>
+                    <div class="flex items-center gap-1 mt-auto">
+                        <span class="text-[8px] font-black text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded-full">4 steps</span>
+                    </div>
+                    <div class="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition pointer-events-none"
+                         style="background:radial-gradient(circle at 50% 0%,rgba(16,185,129,0.12),transparent 70%);"></div>
+                </a>
+            </div>
+
+            <!-- WhatsApp Support + Tutorial CTA Row -->
+            <div class="grid grid-cols-2 gap-2">
+                <a href="<?= htmlspecialchars($setting['whatsapp'] ?? 'https://wa.me/') ?>"
+                   class="flex items-center justify-center gap-2 rounded-2xl py-3.5 font-black text-xs transition active:scale-95 border border-white/10"
+                   style="background:rgba(37,211,102,0.12);color:#25d366;">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span>WhatsApp Support</span>
+                </a>
+                <a href="<?= BASE_URL ?>/tutorial"
+                   class="flex items-center justify-center gap-2 rounded-2xl py-3.5 font-black text-xs text-white transition active:scale-95 border border-white/10"
+                   style="background:rgba(255,255,255,0.08);">
+                    <i class="fa-solid fa-play-circle text-cyan-400 text-base"></i>
+                    <span>Full Tutorial</span>
+                </a>
+            </div>
+        </div>
+        <!-- ── / Information & Help ── -->
+
         <?php include 'footer.php'; ?>
     </main>
 

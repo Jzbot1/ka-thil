@@ -225,8 +225,22 @@ if ($check_setting && $check_setting->num_rows > 0) {
             updateUI();
         }
 
-        // Initialize on page load
-        window.onload = updateUI;
+        // Initialize — respect hash or sessionStorage from homepage cards
+        window.onload = function () {
+            updateUI();
+
+            // Priority: URL hash > sessionStorage > default (recharge)
+            const hash = window.location.hash.replace('#', '').trim();
+            const stored = sessionStorage.getItem('tutCat');
+            const target = (hash && data[hash]) ? hash : (stored && data[stored]) ? stored : 'recharge';
+
+            // Clear so it doesn't persist on refresh
+            sessionStorage.removeItem('tutCat');
+
+            if (target !== 'recharge') {
+                switchCat(target);
+            }
+        };
     </script>
 </body>
 </html>

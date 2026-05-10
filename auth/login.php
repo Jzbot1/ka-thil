@@ -242,6 +242,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_GET['code'])) {
             from { transform: translate(-10%, -10%) scale(1); }
             to { transform: translate(10%, 10%) scale(1.1); }
         }
+
+        /* ── Premium Sign-In Button ── */
+        .btn-signin {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f4c8f 0%, #1a6fc4 50%, #2d9cdb 100%);
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 8px 24px rgba(15, 76, 143, 0.55), inset 0 1px 0 rgba(255,255,255,0.15);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+        .btn-signin::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -75%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+            transform: skewX(-20deg);
+            animation: shimmer 2.8s infinite;
+        }
+        @keyframes shimmer {
+            0%   { left: -75%; }
+            100% { left: 125%; }
+        }
+        .btn-signin:active { transform: scale(0.97); box-shadow: 0 4px 12px rgba(15,76,143,0.4); }
+        .btn-signin:disabled { opacity: 0.75; cursor: not-allowed; animation: none; }
+
+        /* ── Google Button ── */
+        .btn-google {
+            background: #ffffff;
+            color: #3c4043;
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+        }
+        .btn-google:hover  { background: #f5f7ff; box-shadow: 0 6px 20px rgba(0,0,0,0.22); }
+        .btn-google:active { transform: scale(0.97); }
+
+        /* Loading spinner */
+        .spinner {
+            display: none;
+            width: 16px; height: 16px;
+            border: 2px solid rgba(255,255,255,0.35);
+            border-top-color: #ffffff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="pb-32 antialiased relative">
@@ -307,23 +355,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_GET['code'])) {
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-themeDark text-white py-4.5 rounded-2xl font-black text-sm shadow-xl shadow-themeDark/20 active:scale-[0.97] transition-all flex items-center justify-center gap-3">
-                    <span>SIGN IN</span>
-                    <i class="fa-solid fa-arrow-right-to-bracket text-xs"></i>
+                <!-- ── Sign-In Button ── -->
+                <button type="submit" id="loginBtn" class="btn-signin w-full rounded-2xl py-[1.1rem] font-black text-sm flex items-center justify-center gap-3">
+                    <span id="btnText" class="tracking-[0.18em] uppercase">Sign In</span>
+                    <i id="btnIcon" class="fa-solid fa-arrow-right-to-bracket text-sm"></i>
+                    <span id="btnSpinner" class="spinner"></span>
                 </button>
 
-                <div class="relative my-10">
+                <div class="relative my-8">
                     <div class="absolute inset-0 flex items-center">
-                        <div class="w-full border-t border-themeDark/5"></div>
+                        <div class="w-full border-t border-white/10"></div>
                     </div>
                     <div class="relative flex justify-center text-[10px]">
-                        <span class="px-4 bg-transparent text-themeDark/30 font-black tracking-[0.3em] uppercase">OR CONTINUE WITH</span>
+                        <span class="px-4 bg-transparent text-white/30 font-bold tracking-[0.28em] uppercase">or continue with</span>
                     </div>
                 </div>
 
-                <a href="<?php echo $google_login_url; ?>" class="w-full bg-white/60 hover:bg-white text-themeDark py-4 rounded-2xl font-bold active:scale-[0.97] transition-all flex items-center justify-center gap-3 shadow-sm border border-white/40">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5">
-                    <span class="text-xs font-black uppercase tracking-wider">Google Account</span>
+                <!-- ── Google Sign-In Button ── -->
+                <a href="<?php echo htmlspecialchars($google_login_url); ?>" id="googleBtn" class="btn-google w-full rounded-2xl py-[0.95rem] font-bold flex items-center justify-center gap-3">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google Logo" class="w-5 h-5" loading="lazy">
+                    <span class="text-[13px] font-black text-[#3c4043] tracking-wide">Continue with Google</span>
                 </a>
 
                 <div class="mt-10 text-center border-t border-themeDark/5 pt-8">
@@ -359,10 +410,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_GET['code'])) {
     </nav>
 
     <script>
-        // Password Visibility Toggle
-        const toggleBtn = document.getElementById('togglePassword');
+        /* ── Password Visibility Toggle ── */
+        const toggleBtn    = document.getElementById('togglePassword');
         const passwordInput = document.getElementById('password');
-
         if (toggleBtn) {
             toggleBtn.addEventListener('click', function () {
                 const isPassword = passwordInput.getAttribute('type') === 'password';
@@ -370,6 +420,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && !isset($_GET['code'])) {
                 const icon = this.querySelector('i');
                 icon.classList.toggle('fa-eye');
                 icon.classList.toggle('fa-eye-slash');
+            });
+        }
+
+        /* ── Sign-In Loading State ── */
+        const loginForm    = document.querySelector('form');
+        const loginBtn     = document.getElementById('loginBtn');
+        const btnText      = document.getElementById('btnText');
+        const btnIcon      = document.getElementById('btnIcon');
+        const btnSpinner   = document.getElementById('btnSpinner');
+
+        if (loginForm && loginBtn) {
+            loginForm.addEventListener('submit', function () {
+                loginBtn.disabled  = true;
+                btnText.textContent = 'Signing In…';
+                btnIcon.style.display   = 'none';
+                btnSpinner.style.display = 'block';
+            });
+        }
+
+        /* ── Google Button Click Feedback ── */
+        const googleBtn = document.getElementById('googleBtn');
+        if (googleBtn) {
+            googleBtn.addEventListener('click', function () {
+                this.style.opacity = '0.75';
+                this.style.pointerEvents = 'none';
             });
         }
     </script>

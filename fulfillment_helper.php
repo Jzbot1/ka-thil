@@ -20,7 +20,8 @@ function processFulfillment($order_id) {
     $conn->begin_transaction();
 
     try {
-        $stmt = $conn->prepare("SELECT o.*, g.provider, d.region, d.smileone_game, d.moogold_category, u.username
+        // ✅ FIX: Added g.name as game_name so notification shows real game name
+        $stmt = $conn->prepare("SELECT o.*, g.provider, g.name as game_name, d.region, d.smileone_game, d.moogold_category, u.username
             FROM orders o 
             LEFT JOIN diamonds d ON o.product_id = d.product_id 
             LEFT JOIN games g ON d.game_id = g.id 
@@ -172,18 +173,30 @@ function processFulfillment($order_id) {
     $conn->commit();
 
     // 6. TELEGRAM NOTIFICATION (On Success)
+    // ✅ FIX: Use HTML parse_mode tags instead of Markdown to avoid parse errors on special chars
     if ($fulfillment_success) {
-        $msg = "🔔 *NEW ORDER COMPLETED*\n\n";
-        $msg .= "🆔 Order ID: `" . $order_id . "`\n";
-        $msg .= "👤 User: " . ($order_full['username'] ?? 'User ID: ' . $order_full['user_id']) . "\n";
-        $msg .= "🎮 Game: " . ($order_full['game_name'] ?? 'N/A') . "\n";
-        $msg .= "💎 Item: " . $order_full['product_name'] . "\n";
-        $msg .= "💰 Price: ₹" . $order_full['price'] . "\n";
-        $msg .= "🔑 Game ID: `" . $order_full['game_user_id'] . "`\n";
-        if (!empty($order_full['game_zone_id'])) $msg .= "🌐 Zone: `" . $order_full['game_zone_id'] . "`\n";
-        $msg .= "🏦 Method: " . $order_full['payment_method'] . "\n";
-        $msg .= "🚀 Status: *INSTANT*";
-        
+        $username    = htmlspecialchars($order_full['username'] ?? ('User #' . $order_full['user_id']), ENT_XML1);
+        $game_name   = htmlspecialchars($order_full['game_name'] ?? 'N/A', ENT_XML1);
+        $product     = htmlspecialchars($order_full['product_name'] ?? 'N/A', ENT_XML1);
+        $price       = htmlspecialchars($order_full['price'] ?? '0', ENT_XML1);
+        $game_uid    = htmlspecialchars($order_full['game_user_id'] ?? '-', ENT_XML1);
+        $game_zone   = htmlspecialchars($order_full['game_zone_id'] ?? '', ENT_XML1);
+        $pay_method  = htmlspecialchars($order_full['payment_method'] ?? 'N/A', ENT_XML1);
+        $oid         = htmlspecialchars($order_id, ENT_XML1);
+
+        $msg  = "🔔 <b>NEW ORDER COMPLETED</b>\n\n";
+        $msg .= "🆔 Order ID: <code>{$oid}</code>\n";
+        $msg .= "👤 User: {$username}\n";
+        $msg .= "🎮 Game: {$game_name}\n";
+        $msg .= "💎 Item: {$product}\n";
+        $msg .= "💰 Price: ₹{$price}\n";
+        $msg .= "🔑 Game ID: <code>{$game_uid}</code>\n";
+        if (!empty($game_zone) && $game_zone !== 'none') {
+            $msg .= "🌐 Zone: <code>{$game_zone}</code>\n";
+        }
+        $msg .= "🏦 Method: {$pay_method}\n";
+        $msg .= "🚀 Status: <b>INSTANT ✅</b>";
+
         sendTelegramNotification($msg);
     }
 
