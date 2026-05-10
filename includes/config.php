@@ -4,7 +4,9 @@
  * JZStore - Mobile Legends Product System
  */
 
-// 1. LOAD ENVIRONMENT VARIABLES
+// 1. LOAD ENVIRONMENT VARIABLES & SYSTEM SETUP
+date_default_timezone_set('Asia/Kolkata');
+
 function loadEnv($path) {
     if (!file_exists($path)) return false;
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);

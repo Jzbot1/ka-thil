@@ -50,7 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $is_banner_on = isset($_POST['is_banner_on']) ? 1 : 0;
         $is_maintenance = isset($_POST['is_maintenance']) ? 1 : 0;
-        $flash_sale_end = !empty($_POST['flash_sale_end']) ? $_POST['flash_sale_end'] : null;
+        
+        // Clean datetime-local format (YYYY-MM-DDTHH:MM) for MySQL (YYYY-MM-DD HH:MM:SS)
+        $flash_sale_end = !empty($_POST['flash_sale_end']) ? str_replace('T', ' ', $_POST['flash_sale_end']) . ':00' : null;
 
         $stmt = $conn->prepare("UPDATE fav_setting SET store_name=?, store_logo=?, fav_icon=?, description=?, keywords=?, facebook=?, instagram=?, whatsapp=?, whatsapp_group=?, is_banner_on=?, is_maintenance=?, flash_sale_end=? WHERE id=1");
         
