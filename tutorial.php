@@ -24,24 +24,30 @@ if ($check_setting && $check_setting->num_rows > 0) {
             theme: {
                 extend: {
                     colors: {
-                        jollyRed: '#ff4d4f',
-                        darkBlue: '#0e1539',
+                        jollyRed: '#80bf15',
+                        darkBlue: '#ffffff',
                     }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'Roboto', sans-serif; background: linear-gradient(177deg, #fbc2eb, #a6c1ee, hsl(86.7, 80.67784736040353%, 41.709338428627014%)); background-attachment: fixed; color: #0f172a; }
+        body { font-family: 'Roboto', sans-serif; 
+            background: hsla(213, 77%, 14%, 1);
+            background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#08203E", endColorstr="#557C93", GradientType=1 );
+            background-attachment: fixed; color: #ffffff; }
         .tab-btn { padding: 10px; font-weight: bold; border-radius: 12px; transition: 0.3s; flex: 1; text-align: center; font-size: 12px; text-transform: uppercase; }
-        .tab-btn.active { background: #0f172a; color: white; border: none; }
-        .tab-btn.inactive { background: rgba(255,255,255,0.3); color: #0f172a; border: 1px solid rgba(255,255,255,0.2); }
+        .tab-btn.active { background: #ffffff; color: #0f172a; border: none; }
+        .tab-btn.inactive { background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); }
         
         .lang-btn { padding: 6px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; transition: 0.3s; border: none; cursor: pointer; }
-        .lang-btn.active { background: #0f172a; color: white; }
-        .lang-btn.inactive { background: transparent; border: 1px solid rgba(15, 23, 42, 0.2); color: #0f172a; }
+        .lang-btn.active { background: #ffffff; color: #0f172a; }
+        .lang-btn.inactive { background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: #ffffff; }
 
-        .content-card { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); border-radius: 24px; color: #0f172a; border: 1px solid rgba(255, 255, 255, 0.3); }
+        .content-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); border-radius: 24px; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.1); }
         .hidden { display: none; }
     </style>
 </head>
@@ -49,12 +55,12 @@ if ($check_setting && $check_setting->num_rows > 0) {
 
     <div class="flex items-center justify-between mb-6">
         <div class="flex items-center gap-4">
-            <a href="javascript:history.back()" class="w-10 h-10 flex items-center justify-center bg-white/40 rounded-full border border-white/30">
-                <i class="fa-solid fa-chevron-left text-themeDark"></i>
+            <a href="javascript:history.back()" class="w-10 h-10 flex items-center justify-center bg-white/10 rounded-full border border-white/10">
+                <i class="fa-solid fa-chevron-left text-white"></i>
             </a>
-            <h1 class="text-xl font-black italic uppercase text-themeDark">Tutorial <span class="text-themeDark/60">Center</span></h1>
+            <h1 class="text-xl font-black italic uppercase text-white">Tutorial <span class="text-white/60">Center</span></h1>
         </div>
-        <div class="flex bg-white/40 p-1 rounded-full border border-white/30">
+        <div class="flex bg-white/10 p-1 rounded-full border border-white/10">
             <button onclick="switchLang('mizo')" id="langMizo" class="lang-btn active">MIZO</button>
             <button onclick="switchLang('eng')" id="langEng" class="lang-btn inactive">ENG</button>
         </div>
@@ -73,10 +79,10 @@ if ($check_setting && $check_setting->num_rows > 0) {
                 <iframe id="videoRecharge" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
             </div>
             <div class="content-card p-5 border border-white/30 shadow-sm">
-                <h3 id="titleRecharge" class="font-bold text-lg mb-3 flex items-center gap-2 text-themeDark">
-                    <i class="fa-solid fa-bolt text-themeDark"></i> <span>Recharge Dan</span>
+                <h3 id="titleRecharge" class="font-bold text-lg mb-3 flex items-center gap-2 text-white">
+                    <i class="fa-solid fa-bolt text-white"></i> <span>Recharge Dan</span>
                 </h3>
-                <ul id="listRecharge" class="space-y-3 text-sm text-themeDark/60"></ul>
+                <ul id="listRecharge" class="space-y-3 text-sm text-white/60"></ul>
             </div>
         </div>
 
@@ -85,10 +91,10 @@ if ($check_setting && $check_setting->num_rows > 0) {
                 <iframe id="videoWallet" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
             </div>
             <div class="content-card p-5 border border-white/30 shadow-sm">
-                <h3 id="titleWallet" class="font-bold text-lg mb-3 flex items-center gap-2 text-themeDark">
-                    <i class="fa-solid fa-wallet text-themeDark"></i> <span>Wallet Hman Dan</span>
+                <h3 id="titleWallet" class="font-bold text-lg mb-3 flex items-center gap-2 text-white">
+                    <i class="fa-solid fa-wallet text-white"></i> <span>Wallet Hman Dan</span>
                 </h3>
-                <ul id="listWallet" class="space-y-3 text-sm text-themeDark/60"></ul>
+                <ul id="listWallet" class="space-y-3 text-sm text-white/60"></ul>
             </div>
         </div>
 
@@ -97,18 +103,18 @@ if ($check_setting && $check_setting->num_rows > 0) {
                 <iframe id="videoRegister" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
             </div>
             <div class="content-card p-5 border border-white/30 shadow-sm">
-                <h3 id="titleRegister" class="font-bold text-lg mb-3 flex items-center gap-2 text-themeDark">
-                    <i class="fa-solid fa-user-plus text-themeDark"></i> <span>Account Siam Dan</span>
+                <h3 id="titleRegister" class="font-bold text-lg mb-3 flex items-center gap-2 text-white">
+                    <i class="fa-solid fa-user-plus text-white"></i> <span>Account Siam Dan</span>
                 </h3>
-                <ul id="listRegister" class="space-y-3 text-sm text-themeDark/60"></ul>
+                <ul id="listRegister" class="space-y-3 text-sm text-white/60"></ul>
             </div>
         </div>
 
     </div>
 
     <div class="mt-8 text-center">
-        <p class="text-xs text-themeDark/40 mb-4 italic">Still need help? Contact our support via WhatsApp.</p>
-        <a href="https://wa.me/<?= htmlspecialchars($setting['whatsapp']); ?>" class="bg-themeDark text-white px-8 py-3 rounded-xl font-bold text-sm inline-flex items-center gap-2 shadow-lg shadow-themeDark/20">
+        <p class="text-xs text-white/40 mb-4 italic">Still need help? Contact our support via WhatsApp.</p>
+        <a href="https://wa.me/<?= htmlspecialchars($setting['whatsapp']); ?>" class="bg-white text-black px-8 py-3 rounded-xl font-bold text-sm inline-flex items-center gap-2 shadow-lg shadow-white/5">
             <i class="fa-brands fa-whatsapp text-lg"></i> WHATSAPP SUPPORT
         </a>
     </div>

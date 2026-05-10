@@ -102,7 +102,7 @@ if (!empty($data['msg'])) {
                  <div class='absolute top-0 right-0 p-2 opacity-5 text-themeDark'>
                     <svg class='w-24 h-24' fill='currentColor' viewBox='0 0 20 20'><path d='M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z'></path><path fill-rule='evenodd' d='M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z' clip-rule='evenodd'></path></svg>
                  </div>
-                 <div class='bg-themeDark p-4 text-white relative z-10'>
+                 <div class='bg-[#08203E] p-4 text-white relative z-10'>
                      <p class='text-xs text-white/60 uppercase font-bold tracking-wider mb-1'>Available Balance</p>
                      <p class='text-3xl font-black'>{$balance} <span class='text-sm font-normal text-white/40'>Coins</span></p>
                  </div>
@@ -360,13 +360,17 @@ if (!empty($data['msg'])) {
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#fbc2eb] via-[#a6c1ee] to-[#80bf15] text-[#0f172a] p-4">
+<body class="flex items-center justify-center min-h-screen text-white p-4" 
+    style="background: hsla(213, 77%, 14%, 1);
+           background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+           background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+           background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);">
 
-    <div class="relative w-full h-dvh sm:h-[85vh] sm:max-w-[400px] bg-white/40 backdrop-blur-2xl sm:rounded-[40px] sm:shadow-2xl shadow-indigo-200/50 flex flex-col overflow-hidden sm:border border-white/40">
+    <div class="relative w-full h-dvh sm:h-[85vh] sm:max-w-[400px] bg-white/10 backdrop-blur-2xl sm:rounded-[40px] sm:shadow-2xl shadow-black/20 flex flex-col overflow-hidden sm:border border-white/10">
         
         <div class="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
 
-        <header class="absolute top-0 w-full z-20 bg-white/30 backdrop-blur-xl border-b border-white/30 px-4 py-4 flex items-center justify-between shadow-sm">
+        <header class="absolute top-0 w-full z-20 bg-black/20 backdrop-blur-xl border-b border-white/10 px-4 py-4 flex items-center justify-between shadow-sm">
             <div class="flex items-center gap-3">
                 <div class="relative w-10 h-10 flex items-center justify-center">
                     <div class="absolute inset-0 bg-indigo-400 rounded-full blur opacity-20 bot-glow"></div>
@@ -392,8 +396,8 @@ if (!empty($data['msg'])) {
                 </div>
                 
                 <div class="flex flex-col">
-                    <h1 class="font-bold text-themeDark text-sm leading-tight">JZ Assistant</h1>
-                    <span class="text-[10px] font-medium text-themeDark bg-white/40 px-1.5 py-0.5 rounded-full w-fit border border-white/30">Active Now</span>
+                    <h1 class="font-bold text-white text-sm leading-tight">JZ Assistant</h1>
+                    <span class="text-[10px] font-medium text-white bg-white/10 px-1.5 py-0.5 rounded-full w-fit border border-white/10">Active Now</span>
                 </div>
             </div>
             
@@ -409,21 +413,21 @@ if (!empty($data['msg'])) {
                     <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 </div>
                 <div class="space-y-1">
-                    <span class="text-[10px] text-themeDark/40 ml-1">JZ Assistant</span>
-                    <div class="bg-white/40 backdrop-blur-md border border-white/30 p-4 rounded-2xl rounded-tl-none text-themeDark text-sm shadow-glass">
+                    <span class="text-[10px] text-white/40 ml-1">JZ Assistant</span>
+                    <div class="bg-white/10 backdrop-blur-md border border-white/10 p-4 rounded-2xl rounded-tl-none text-white text-sm shadow-glass">
                         <p class="mb-3">Hello! 👋 I can help you check your <b>Order Status</b> or <b>Wallet Balance</b>.</p>
                         
                         <div class="grid grid-cols-1 gap-2">
-                            <button onclick="sendMessage('check_order_req')" class="text-left w-full p-2.5 bg-white/40 hover:bg-white/50 rounded-xl text-xs font-bold text-themeDark transition flex items-center gap-2 border border-white/30">
-                                <span class="bg-white/40 p-1 rounded-md shadow-sm border border-white/30">📦</span> Check Order Status
+                            <button onclick="sendMessage('check_order_req')" class="text-left w-full p-2.5 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-bold text-white transition flex items-center gap-2 border border-white/10">
+                                <span class="bg-white/10 p-1 rounded-md shadow-sm border border-white/10">📦</span> Check Order Status
                             </button>
                             
-                            <button onclick="sendMessage('check_wallet_req')" class="text-left w-full p-2.5 bg-white/40 hover:bg-white/50 rounded-xl text-xs font-bold text-themeDark transition flex items-center gap-2 border border-white/30">
-                                <span class="bg-white/40 p-1 rounded-md shadow-sm border border-white/30">💳</span> Check Wallet Balance
+                            <button onclick="sendMessage('check_wallet_req')" class="text-left w-full p-2.5 bg-white/5 hover:bg-white/10 rounded-xl text-xs font-bold text-white transition flex items-center gap-2 border border-white/5">
+                                <span class="bg-white/5 p-1 rounded-md shadow-sm border border-white/5">💳</span> Check Wallet Balance
                             </button>
 
-                            <a href="https://wa.me/918730063275?text=Hello%20Admin,%20I%20need%20help" target="_blank" class="text-left w-full p-2.5 bg-white/40 hover:bg-white/50 rounded-xl text-xs font-bold text-themeDark transition flex items-center gap-2 border border-white/30">
-                                <span class="bg-white/40 p-1 rounded-md shadow-sm border border-white/30 text-green-600">
+                            <a href="https://wa.me/918730063275?text=Hello%20Admin,%20I%20need%20help" target="_blank" class="text-left w-full p-2.5 bg-white/5 hover:bg-white/10 rounded-xl text-xs font-bold text-white transition flex items-center gap-2 border border-white/5">
+                                <span class="bg-white/5 p-1 rounded-md shadow-sm border border-white/5 text-green-400">
                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                                     </span> Contact Admin
                             </a>
@@ -434,20 +438,20 @@ if (!empty($data['msg'])) {
 
         </div>
 
-        <div id="typing" class="hidden absolute bottom-20 left-4 z-10 bg-white/40 backdrop-blur-md px-4 py-3 rounded-2xl rounded-bl-none shadow-lg border border-white/30 items-center gap-1.5 msg-enter">
-             <div class="w-1.5 h-1.5 bg-themeDark/40 rounded-full typing-dot"></div>
-             <div class="w-1.5 h-1.5 bg-themeDark/40 rounded-full typing-dot"></div>
-             <div class="w-1.5 h-1.5 bg-themeDark/40 rounded-full typing-dot"></div>
+        <div id="typing" class="hidden absolute bottom-20 left-4 z-10 bg-white/10 backdrop-blur-md px-4 py-3 rounded-2xl rounded-bl-none shadow-lg border border-white/10 items-center gap-1.5 msg-enter">
+             <div class="w-1.5 h-1.5 bg-white/40 rounded-full typing-dot"></div>
+             <div class="w-1.5 h-1.5 bg-white/40 rounded-full typing-dot"></div>
+             <div class="w-1.5 h-1.5 bg-white/40 rounded-full typing-dot"></div>
         </div>
 
-        <div class="absolute bottom-0 w-full p-4 pb-2 bg-gradient-to-t from-white/40 via-white/20 to-transparent z-20 flex flex-col gap-2 backdrop-blur-sm">
-            <div class="bg-white/40 backdrop-blur-xl p-1.5 rounded-[20px] shadow-[0_0_20px_rgba(0,0,0,0.05)] border border-white/30 flex items-center gap-2 focus-within:ring-2 focus-within:ring-themeDark/10 focus-within:border-themeDark/30 transition-all">
+        <div class="absolute bottom-0 w-full p-4 pb-2 bg-gradient-to-t from-black/40 via-transparent to-transparent z-20 flex flex-col gap-2 backdrop-blur-sm">
+            <div class="bg-white/5 backdrop-blur-xl p-1.5 rounded-[20px] shadow-[0_0_20px_rgba(0,0,0,0.1)] border border-white/10 flex items-center gap-2 focus-within:ring-2 focus-within:ring-white/10 focus-within:border-white/20 transition-all">
                 <input id="msg-input" type="text" 
-                    class="flex-1 bg-transparent border-none focus:ring-0 text-sm px-4 py-3 text-themeDark placeholder-themeDark/30" 
+                    class="flex-1 bg-transparent border-none focus:ring-0 text-sm px-4 py-3 text-white placeholder-white/30" 
                     placeholder="Enter Order ID or Username..." 
                     autocomplete="off">
                 
-                <button onclick="handleUserSend()" class="p-3 bg-themeDark text-white rounded-2xl shadow-lg shadow-themeDark/20 hover:scale-105 active:scale-95 transition-all duration-200">
+                <button onclick="handleUserSend()" class="p-3 bg-white text-indigo-900 rounded-2xl shadow-lg shadow-white/5 hover:scale-105 active:scale-95 transition-all duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform rotate-90" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                     </svg>
@@ -455,7 +459,7 @@ if (!empty($data['msg'])) {
             </div>
             
             <div class="text-center">
-                <span class="text-[10px] text-gray-300 font-bold tracking-widest uppercase hover:text-indigo-400 transition-colors cursor-default">
+                <span class="text-[10px] text-white/30 font-bold tracking-widest uppercase cursor-default">
                     Powered by JZSTORE
                 </span>
             </div>
@@ -482,19 +486,19 @@ if (!empty($data['msg'])) {
             
             if (role === 'bot') {
                 wrapper.innerHTML = `
-                    <div class="flex-shrink-0 h-8 w-8 rounded-full bg-themeDark flex items-center justify-center mt-auto shadow-md">
-                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <div class="flex-shrink-0 h-8 w-8 rounded-full bg-white/10 border border-white/10 flex items-center justify-center mt-auto shadow-md">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'></path></svg>
                     </div>
                     <div class="space-y-1 w-full">
-                        <span class="text-[10px] text-themeDark/40 ml-1">JZ Assistant</span>
-                        <div class="bg-white/40 backdrop-blur-md border border-white/30 p-3.5 rounded-2xl rounded-tl-none text-themeDark text-sm shadow-glass leading-relaxed w-full overflow-hidden">
+                        <span class="text-[10px] text-white/40 ml-1">JZ Assistant</span>
+                        <div class="bg-white/10 backdrop-blur-md border border-white/10 p-3.5 rounded-2xl rounded-tl-none text-white text-sm shadow-glass leading-relaxed w-full overflow-hidden">
                             ${html}
                         </div>
                     </div>
                 `;
             } else {
                 wrapper.innerHTML = `
-                    <div class="bg-themeDark p-3 px-5 rounded-2xl rounded-br-none text-white text-sm shadow-lg shadow-themeDark/20">
+                    <div class="bg-white p-3 px-5 rounded-2xl rounded-br-none text-black shadow-lg shadow-white/5">
                         ${html}
                     </div>
                 `;

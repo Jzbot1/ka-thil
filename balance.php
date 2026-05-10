@@ -47,14 +47,17 @@ $balancePH     = $data['ph_balance'] ?? null;
     <title>SmileOne Dashboard</title>
     <style>
         :root {
-            --primary: #f39c12;
-            --brl-green: #27ae60;
-            --ph-blue: #0038a8;
-            --dark: #2d3436;
+            --primary: #557C93;
+            --brl-green: #4ade80;
+            --ph-blue: #60a5fa;
+            --dark: #ffffff;
         }
         body {
             font-family: 'Segoe UI', Roboto, sans-serif;
-            background: #f0f2f5;
+            background: hsla(213, 77%, 14%, 1);
+            background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -66,24 +69,27 @@ $balancePH     = $data['ph_balance'] ?? null;
             max-width: 400px;
         }
         .card {
-            background: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-radius: 24px;
             padding: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
         }
         .header {
             text-align: center;
             margin-bottom: 25px;
         }
         .logo { width: 50px; margin-bottom: 10px; }
-        .header h2 { margin: 0; color: var(--dark); font-size: 20px; }
+        .header h2 { margin: 0; color: #ffffff; font-size: 20px; }
 
         .wallet-box {
-            background: #f8f9fa;
+            background: rgba(255,255,255,0.08);
             border-radius: 16px;
             padding: 15px;
             margin-bottom: 15px;
-            border-left: 5px solid #ddd;
+            border-left: 5px solid rgba(255,255,255,0.2);
             transition: transform 0.2s;
         }
         .wallet-box:hover { transform: scale(1.02); }
@@ -95,7 +101,7 @@ $balancePH     = $data['ph_balance'] ?? null;
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: #636e72;
+            color: rgba(255,255,255,0.5);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -103,13 +109,13 @@ $balancePH     = $data['ph_balance'] ?? null;
         .wallet-val {
             font-size: 28px;
             font-weight: 800;
-            color: var(--dark);
+            color: #ffffff;
             margin-top: 5px;
         }
         .currency-tag {
             font-size: 14px;
             font-weight: normal;
-            color: #b2bec3;
+            color: rgba(255,255,255,0.4);
         }
 
         .refresh-btn {
@@ -117,7 +123,7 @@ $balancePH     = $data['ph_balance'] ?? null;
             padding: 15px;
             border: none;
             border-radius: 12px;
-            background: var(--dark);
+            background: rgba(255,255,255,0.15);
             color: white;
             font-weight: 600;
             cursor: pointer;
@@ -126,16 +132,17 @@ $balancePH     = $data['ph_balance'] ?? null;
             align-items: center;
             gap: 10px;
             margin-top: 10px;
+            border: 1px solid rgba(255,255,255,0.15);
         }
-        .refresh-btn:hover { opacity: 0.9; }
+        .refresh-btn:hover { background: rgba(255,255,255,0.2); }
         
         .footer-info {
             text-align: center;
             font-size: 11px;
-            color: #95a5a6;
+            color: rgba(255,255,255,0.4);
             margin-top: 15px;
         }
-        .error { color: #d63031; font-size: 12px; font-weight: bold; }
+        .error { color: #f87171; font-size: 12px; font-weight: bold; }
     </style>
 </head>
 <body>

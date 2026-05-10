@@ -50,7 +50,7 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
     theme: {
       extend: {
         colors: {
-          themeDark: '#0f172a', themeBlue: '#a6c1ee', themeGreen: '#80bf15', themePink: '#fbc2eb'
+          themeDark: '#ffffff', themeBlue: '#557C93', themeGreen: '#80bf15', themePink: '#08203E'
         },
         fontFamily: { poppins: ['Poppins','sans-serif'], dynapuff: ['DynaPuff','cursive'] }
       }
@@ -58,35 +58,40 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
   }
 </script>
 <style>
-  :root{--theme-dark:#0f172a}
-  body{font-family:'Poppins',sans-serif;background:linear-gradient(177deg,#fbc2eb,#a6c1ee,#80bf15);background-attachment:fixed;color:var(--theme-dark);overflow-x:hidden}
-  .glass-panel{background:rgba(255,255,255,.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.3)}
+  :root{--theme-dark:#ffffff}
+  body{font-family:'Poppins',sans-serif;
+    background:hsla(213,77%,14%,1);
+    background:linear-gradient(90deg,hsla(213,77%,14%,1) 0%,hsla(202,27%,45%,1) 100%);
+    background:-moz-linear-gradient(90deg,hsla(213,77%,14%,1) 0%,hsla(202,27%,45%,1) 100%);
+    background:-webkit-linear-gradient(90deg,hsla(213,77%,14%,1) 0%,hsla(202,27%,45%,1) 100%);
+    background-attachment:fixed;color:#ffffff;overflow-x:hidden}
+  .glass-panel{background:rgba(255,255,255,.1);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1)}
   .game-card:active{transform:scale(.95)}
 
   /* Category pill tabs */
   .cat-scroll{display:flex;gap:8px;padding:0 16px 4px;overflow-x:auto;scrollbar-width:none}
   .cat-scroll::-webkit-scrollbar{display:none}
-  .cat-pill{white-space:nowrap;padding:7px 16px;border-radius:99px;font-size:11px;font-weight:700;border:1.5px solid rgba(255,255,255,.4);background:rgba(255,255,255,.3);backdrop-filter:blur(8px);color:#0f172a;cursor:pointer;transition:all .2s;font-family:'Poppins',sans-serif}
-  .cat-pill.active{background:#0f172a;color:#fff;border-color:#0f172a;box-shadow:0 4px 14px rgba(15,23,42,.3)}
+  .cat-pill{white-space:nowrap;padding:7px 16px;border-radius:99px;font-size:11px;font-weight:700;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);backdrop-filter:blur(8px);color:#ffffff;cursor:pointer;transition:all .2s;font-family:'Poppins',sans-serif}
+  .cat-pill.active{background:#ffffff;color:#08203E;border-color:#ffffff;box-shadow:0 4px 14px rgba(255,255,255,.15)}
 
   /* Service card */
-  .svc-card{background:rgba(255,255,255,.4);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px}
-  .svc-card:active{transform:scale(.98);background:rgba(255,255,255,.6)}
+  .svc-card{background:rgba(255,255,255,.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px}
+  .svc-card:active{transform:scale(.98);background:rgba(255,255,255,.15)}
 
   /* Bottom sheet modal */
-  .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.5);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
   .modal-overlay.show{opacity:1;pointer-events:all}
-  .modal-box{background:linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.98));border-radius:32px 32px 0 0;padding:24px 20px 40px;width:100%;max-width:480px;transform:translateY(100%);transition:transform .35s cubic-bezier(.175,.885,.32,1.1);border-top:1px solid rgba(255,255,255,.6)}
+  .modal-box{background:linear-gradient(180deg,rgba(8,32,62,.97),rgba(5,20,40,.99));border-radius:32px 32px 0 0;padding:24px 20px 40px;width:100%;max-width:480px;transform:translateY(100%);transition:transform .35s cubic-bezier(.175,.885,.32,1.1);border-top:1px solid rgba(255,255,255,.1)}
   .modal-overlay.show .modal-box{transform:translateY(0)}
-  .modal-pill{width:40px;height:4px;background:rgba(15,23,42,.12);border-radius:99px;margin:0 auto 20px}
+  .modal-pill{width:40px;height:4px;background:rgba(255,255,255,.15);border-radius:99px;margin:0 auto 20px}
 
   /* Pay tab */
-  .pay-tab{padding:12px 10px;border-radius:16px;border:2px solid rgba(255,255,255,.5);background:rgba(255,255,255,.4);font-size:11px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;font-family:'Poppins',sans-serif;color:#0f172a}
-  .pay-tab.sel{border-color:#0f172a;background:rgba(15,23,42,.08)}
+  .pay-tab{padding:12px 10px;border-radius:16px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.08);font-size:11px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;font-family:'Poppins',sans-serif;color:#ffffff}
+  .pay-tab.sel{border-color:#ffffff;background:rgba(255,255,255,.15)}
 
   /* Input */
-  .svc-input{background:rgba(255,255,255,.6);border:1.5px solid rgba(255,255,255,.5);border-radius:14px;padding:12px 14px;width:100%;font-size:14px;font-family:'Poppins',sans-serif;color:#0f172a;outline:none;transition:border .2s}
-  .svc-input:focus{border-color:#0f172a;background:rgba(255,255,255,.9)}
+  .svc-input{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:12px 14px;width:100%;font-size:14px;font-family:'Poppins',sans-serif;color:#ffffff;outline:none;transition:border .2s}
+  .svc-input:focus{border-color:#ffffff;background:rgba(255,255,255,.12)}
 
   /* Scrollbar hidden */
   .no-scrollbar::-webkit-scrollbar{display:none}
@@ -104,12 +109,12 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
 <!-- ═══ HEADER (matches index.php exactly) ═══════════════════════════════════ -->
 <header class="fixed top-0 w-full z-40 glass-panel h-16">
   <div class="max-w-md mx-auto px-4 h-full flex items-center justify-between">
-    <a href="index" class="w-9 h-9 rounded-full bg-white/40 flex items-center justify-center border border-white/30">
-      <i class="fa-solid fa-arrow-left text-themeDark text-xs"></i>
+    <a href="index" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
+      <i class="fa-solid fa-arrow-left text-white text-xs"></i>
     </a>
-    <div class="font-bold text-lg text-themeDark font-dynapuff tracking-wider">SMM Services</div>
-    <a href="notifications" class="w-9 h-9 rounded-full bg-white/40 flex items-center justify-center border border-white/30">
-      <i class="fa-solid fa-bell text-themeDark text-sm"></i>
+    <div class="font-bold text-lg text-white font-dynapuff tracking-wider">SMM Services</div>
+    <a href="notifications" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
+      <i class="fa-solid fa-bell text-white text-sm"></i>
     </a>
   </div>
 </header>
@@ -117,10 +122,10 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
 <main class="max-w-md mx-auto pt-20 px-3">
 
   <!-- Scrolling announcement bar -->
-  <div class="mb-5 bg-white/40 backdrop-blur-md border border-white/30 rounded-xl py-2.5 px-3 flex items-center gap-3 overflow-hidden shadow-sm">
-    <i class="fa-solid fa-rocket text-themeDark text-xs flex-shrink-0"></i>
+  <div class="mb-5 bg-white/10 backdrop-blur-md border border-white/10 rounded-xl py-2.5 px-3 flex items-center gap-3 overflow-hidden shadow-sm">
+    <i class="fa-solid fa-rocket text-white text-xs flex-shrink-0"></i>
     <div class="overflow-hidden w-full relative h-5">
-      <p class="animate-scroll-text whitespace-nowrap absolute text-[11px] text-themeDark/60 font-bold top-0">
+      <p class="animate-scroll-text whitespace-nowrap absolute text-[11px] text-white/60 font-bold top-0">
         🚀 Boost Instagram, YouTube, TikTok &amp; more! ⚡ Instant delivery · 24/7 Support · <?=$total_svc?>+ Services available!
       </p>
     </div>
@@ -129,24 +134,24 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
   <!-- Hero stats strip -->
   <div class="glass-panel rounded-2xl p-4 mb-5 flex items-center justify-around text-center">
     <div>
-      <div class="text-base font-black text-themeDark font-dynapuff"><?=$total_svc?>+</div>
-      <div class="text-[9px] text-themeDark/50 font-bold uppercase tracking-wider">Services</div>
+      <div class="text-base font-black text-white font-dynapuff"><?=$total_svc?>+</div>
+      <div class="text-[9px] text-white/50 font-bold uppercase tracking-wider">Services</div>
     </div>
-    <div class="w-px h-8 bg-themeDark/10"></div>
+    <div class="w-px h-8 bg-white/10"></div>
     <div>
-      <div class="text-base font-black text-themeDark font-dynapuff">⚡ Fast</div>
-      <div class="text-[9px] text-themeDark/50 font-bold uppercase tracking-wider">Delivery</div>
+      <div class="text-base font-black text-white font-dynapuff">⚡ Fast</div>
+      <div class="text-[9px] text-white/50 font-bold uppercase tracking-wider">Delivery</div>
     </div>
-    <div class="w-px h-8 bg-themeDark/10"></div>
+    <div class="w-px h-8 bg-white/10"></div>
     <div>
-      <div class="text-base font-black text-themeDark font-dynapuff">24/7</div>
-      <div class="text-[9px] text-themeDark/50 font-bold uppercase tracking-wider">Support</div>
+      <div class="text-base font-black text-white font-dynapuff">24/7</div>
+      <div class="text-[9px] text-white/50 font-bold uppercase tracking-wider">Support</div>
     </div>
     <?php if($user_id): ?>
-    <div class="w-px h-8 bg-themeDark/10"></div>
+    <div class="w-px h-8 bg-white/10"></div>
     <div>
-      <div class="text-base font-black text-themeDark font-dynapuff">₹<?=number_format($wallet,0)?></div>
-      <div class="text-[9px] text-themeDark/50 font-bold uppercase tracking-wider">Wallet</div>
+      <div class="text-base font-black text-white font-dynapuff">₹<?=number_format($wallet,0)?></div>
+      <div class="text-[9px] text-white/50 font-bold uppercase tracking-wider">Wallet</div>
     </div>
     <?php endif; ?>
   </div>
@@ -154,16 +159,16 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
   <!-- Quick action row -->
   <div class="grid grid-cols-3 gap-2 mb-6">
     <a href="smm_orders" class="flex flex-col items-center gap-2 p-3 glass-panel rounded-2xl text-center">
-      <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center"><i class="fa-solid fa-receipt text-themeDark text-sm"></i></div>
-      <span class="text-[10px] text-themeDark/60 font-bold">My Orders</span>
+      <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center"><i class="fa-solid fa-receipt text-white text-sm"></i></div>
+      <span class="text-[10px] text-white/60 font-bold">My Orders</span>
     </a>
     <a href="wallet" class="flex flex-col items-center gap-2 p-3 glass-panel rounded-2xl text-center">
-      <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center"><i class="fa-solid fa-wallet text-themeDark text-sm"></i></div>
-      <span class="text-[10px] text-themeDark/60 font-bold">Add Funds</span>
+      <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center"><i class="fa-solid fa-wallet text-white text-sm"></i></div>
+      <span class="text-[10px] text-white/60 font-bold">Add Funds</span>
     </a>
     <a href="support" class="flex flex-col items-center gap-2 p-3 glass-panel rounded-2xl text-center">
-      <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center"><i class="fa-solid fa-headset text-themeDark text-sm"></i></div>
-      <span class="text-[10px] text-themeDark/60 font-bold">Support</span>
+      <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center"><i class="fa-solid fa-headset text-white text-sm"></i></div>
+      <span class="text-[10px] text-white/60 font-bold">Support</span>
     </a>
   </div>
 
@@ -210,10 +215,10 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
     $colors=['bg-blue-500','bg-purple-500','bg-pink-500','bg-orange-500','bg-teal-500','bg-indigo-500','bg-red-500'];
   ?>
   <div class="cat-section" data-cat="<?=htmlspecialchars($cat)?>">
-    <h3 class="text-sm font-bold text-themeDark flex items-center gap-2 mb-3 px-1">
+    <h3 class="text-sm font-bold text-white flex items-center gap-2 mb-3 px-1">
       <span class="w-1 h-4 <?=$colors[array_search($cat,$cats)%count($colors)]?> rounded-full"></span>
       <?=$ico?> <?=htmlspecialchars($cat)?>
-      <span class="ml-auto text-[10px] text-themeDark/40 font-bold"><?=count($svcs)?> services</span>
+      <span class="ml-auto text-[10px] text-white/40 font-bold"><?=count($svcs)?> services</span>
     </h3>
     <div class="space-y-2">
     <?php foreach($svcs as $svc):
@@ -222,12 +227,12 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
     <div class="svc-card" onclick="openOrder(<?=json_encode(['id'=>$svc['id'],'provider_id'=>$svc['provider_id'],'name'=>$svc['display_name'],'price'=>$svc['sell_price'],'min'=>$svc['min_order'],'max'=>$svc['max_order'],'type'=>$svc['type'],'cat'=>$cat])?>)">
       <div class="w-10 h-10 rounded-2xl <?=$col?>/20 flex items-center justify-center text-lg flex-shrink-0"><?=$ico?></div>
       <div class="flex-1 min-w-0">
-        <div class="text-[13px] font-bold text-themeDark leading-snug line-clamp-2"><?=htmlspecialchars($svc['display_name'])?></div>
-        <div class="text-[10px] text-themeDark/50 font-medium mt-0.5">Min <?=number_format($svc['min_order'])?> · Max <?=number_format($svc['max_order'])?> · <?=htmlspecialchars($svc['type'])?></div>
+        <div class="text-[13px] font-bold text-white leading-snug line-clamp-2"><?=htmlspecialchars($svc['display_name'])?></div>
+        <div class="text-[10px] text-white/50 font-medium mt-0.5">Min <?=number_format($svc['min_order'])?> · Max <?=number_format($svc['max_order'])?> · <?=htmlspecialchars($svc['type'])?></div>
       </div>
       <div class="text-right flex-shrink-0">
-        <div class="text-[15px] font-black text-themeDark">₹<?=number_format($svc['sell_price'],2)?></div>
-        <div class="text-[9px] text-themeDark/40 font-bold uppercase tracking-wider">per 1000</div>
+        <div class="text-[15px] font-black text-white">₹<?=number_format($svc['sell_price'],2)?></div>
+        <div class="text-[9px] text-white/40 font-bold uppercase tracking-wider">per 1000</div>
       </div>
     </div>
     <?php endforeach; ?>
@@ -247,43 +252,43 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
 
     <!-- Service header -->
     <div class="flex items-center gap-3 mb-5">
-      <div id="m_icon" class="w-12 h-12 rounded-2xl bg-themeDark/10 flex items-center justify-center text-2xl flex-shrink-0">⭐</div>
+      <div id="m_icon" class="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-2xl flex-shrink-0">⭐</div>
       <div class="flex-1 min-w-0">
-        <div id="m_name" class="text-[14px] font-black text-themeDark line-clamp-2 leading-tight"></div>
-        <div id="m_range" class="text-[10px] text-themeDark/50 font-bold mt-1"></div>
+        <div id="m_name" class="text-[14px] font-black text-white line-clamp-2 leading-tight"></div>
+        <div id="m_range" class="text-[10px] text-white/50 font-bold mt-1"></div>
       </div>
     </div>
 
     <!-- Target link -->
     <div class="mb-3">
-      <label class="text-[10px] font-bold text-themeDark/50 uppercase tracking-wider block mb-1.5">Target Link</label>
+      <label class="text-[10px] font-bold text-white/50 uppercase tracking-wider block mb-1.5">Target Link</label>
       <input class="svc-input" id="m_link" type="url" placeholder="https://instagram.com/p/...">
     </div>
 
     <!-- Quantity -->
     <div class="mb-4">
-      <label class="text-[10px] font-bold text-themeDark/50 uppercase tracking-wider block mb-1.5">Quantity</label>
+      <label class="text-[10px] font-bold text-white/50 uppercase tracking-wider block mb-1.5">Quantity</label>
       <input class="svc-input" id="m_qty" type="number" placeholder="Enter quantity" oninput="calcTotal()">
     </div>
 
     <!-- Total -->
-    <div class="bg-themeDark/5 border border-themeDark/10 rounded-2xl px-4 py-3 flex items-center justify-between mb-4">
-      <span class="text-[12px] text-themeDark/60 font-bold">Total Amount</span>
-      <span id="m_total" class="text-[20px] font-black text-themeDark">₹0.00</span>
+    <div class="bg-white/10 border border-white/10 rounded-2xl px-4 py-3 flex items-center justify-between mb-4">
+      <span class="text-[12px] text-white/60 font-bold">Total Amount</span>
+      <span id="m_total" class="text-[20px] font-black text-white">₹0.00</span>
     </div>
 
     <!-- Payment method -->
-    <div class="text-[10px] font-bold text-themeDark/50 uppercase tracking-wider mb-2">Payment Method</div>
+    <div class="text-[10px] font-bold text-white/50 uppercase tracking-wider mb-2">Payment Method</div>
     <div class="grid grid-cols-2 gap-2 mb-4" id="payTabs">
       <div class="pay-tab sel" data-method="wallet" onclick="selPay(this)">
         <div class="text-xl mb-1">💰</div>
-        <div class="font-black text-themeDark text-[12px]">J-Coin Wallet</div>
-        <div class="text-[10px] text-themeDark/40 font-bold mt-0.5">Bal: ₹<?=number_format($wallet,2)?></div>
+        <div class="font-black text-white text-[12px]">J-Coin Wallet</div>
+        <div class="text-[10px] text-white/40 font-bold mt-0.5">Bal: ₹<?=number_format($wallet,2)?></div>
       </div>
       <div class="pay-tab" data-method="gateway" onclick="selPay(this)">
         <div class="text-xl mb-1">💳</div>
-        <div class="font-black text-themeDark text-[12px]">Pay Gateway</div>
-        <div class="text-[10px] text-themeDark/40 font-bold mt-0.5">UPI / Card</div>
+        <div class="font-black text-white text-[12px]">Pay Gateway</div>
+        <div class="text-[10px] text-white/40 font-bold mt-0.5">UPI / Card</div>
       </div>
     </div>
 
@@ -296,7 +301,7 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
     <?php endif; ?>
 
     <button id="m_btn" onclick="submitOrder()"
-      class="w-full py-4 rounded-2xl bg-themeDark text-white font-black text-[14px] shadow-xl shadow-themeDark/20 active:scale-95 transition-all flex items-center justify-center gap-2
+      class="w-full py-4 rounded-2xl bg-white text-[#08203E] font-black text-[14px] shadow-xl shadow-white/10 active:scale-95 transition-all flex items-center justify-center gap-2
       <?=!$user_id?'opacity-50 cursor-not-allowed':''?>"
       <?=!$user_id?'disabled':''?>>
       <i class="fa-solid fa-paper-plane"></i> Place Order
@@ -306,7 +311,7 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
 
 <!-- Toast -->
 <div id="toast">
-  <div id="toast-in" class="glass-panel px-5 py-3 rounded-2xl text-[13px] font-bold text-themeDark flex items-center gap-2 shadow-lg"></div>
+  <div id="toast-in" class="glass-panel px-5 py-3 rounded-2xl text-[13px] font-bold text-white flex items-center gap-2 shadow-lg"></div>
 </div>
 
 <script>

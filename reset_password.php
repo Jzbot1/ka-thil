@@ -119,23 +119,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         body { 
             font-family: 'Poppins', sans-serif; 
-            background: linear-gradient(177deg, #fbc2eb, #a6c1ee, #80bf15); 
+            background: hsla(213, 77%, 14%, 1);
+            background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
             background-attachment: fixed;
-            color: #0f172a;
+            color: #ffffff;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent; 
         }
         .glass-panel { 
-            background: rgba(255, 255, 255, 0.4); 
+            background: rgba(255, 255, 255, 0.1); 
             backdrop-filter: blur(16px); 
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
         }
         .input-field {
-            background: rgba(255, 255, 255, 0.3) !important;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: #0f172a !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff !important;
             backdrop-filter: blur(4px);
             width: 100%;
             padding: 1rem 1.25rem;
@@ -146,15 +149,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             transition: all 0.3s;
         }
         .input-field:focus {
-            background: rgba(255, 255, 255, 0.5) !important;
-            border-color: #0f172a;
-            box-shadow: 0 0 0 4px rgba(15, 23, 42, 0.05);
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
         }
         .bg-blob { 
             position: absolute; 
             width: 400px; 
             height: 400px; 
-            background: linear-gradient(135deg, rgba(251, 194, 235, 0.5) 0%, rgba(166, 193, 238, 0.5) 100%); 
+            background: linear-gradient(135deg, rgba(8, 32, 62, 0.5) 0%, rgba(85, 124, 147, 0.5) 100%); 
             filter: blur(80px); 
             border-radius: 50%; 
             z-index: -1;
@@ -166,8 +169,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         .btn-theme {
             width: 100%;
-            background: #0f172a;
-            color: white;
+            background: #ffffff;
+            color: #0f172a;
             padding: 1.125rem;
             border-radius: 1.25rem;
             font-weight: 900;
@@ -176,7 +179,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             letter-spacing: 0.05em;
             transition: all 0.3s;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
         .btn-theme:active { transform: scale(0.97); }
     </style>
@@ -187,10 +190,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <header class="fixed top-0 w-full z-40 glass-panel h-16 border-b-0">
         <div class="max-w-md mx-auto px-4 h-full flex items-center justify-between">
-            <a href="auth/login.php" class="w-10 h-10 rounded-2xl bg-white/40 flex items-center justify-center border border-white/30 transition active:scale-90">
-                <i class="fa-solid fa-arrow-left text-themeDark text-sm"></i>
+            <a href="auth/login.php" class="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center border border-white/10 transition active:scale-90">
+                <i class="fa-solid fa-arrow-left text-white text-sm"></i>
             </a>
-            <div class="font-bold text-lg text-themeDark font-dynapuff tracking-wider">Reset Pass</div>
+            <div class="font-bold text-lg text-white font-dynapuff tracking-wider">Reset Pass</div>
             <div class="w-10"></div> 
         </div>
     </header>
@@ -200,8 +203,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="w-24 h-24 rounded-[2rem] overflow-hidden border-2 border-white/50 shadow-2xl mb-6 bg-white/40 p-1">
                 <img src="https://jzstore.in/logo/jzstorelogo.jpg" alt="Logo" class="w-full h-full object-cover rounded-[1.8rem]">
             </div>
-            <h1 class="text-3xl font-black text-themeDark font-dynapuff tracking-tight">Security First</h1>
-            <p class="text-[11px] font-bold text-themeDark/40 mt-2 uppercase tracking-[0.2em]">Recover your account access</p>
+            <h1 class="text-3xl font-black text-white font-dynapuff tracking-tight">Security First</h1>
+            <p class="text-[11px] font-bold text-white/40 mt-2 uppercase tracking-[0.2em]">Recover your account access</p>
         </div>
 
         <?php if (!empty($message)): ?>
@@ -213,12 +216,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="glass-panel rounded-[2.5rem] p-8 mb-8">
             <?php if (!isset($_SESSION['otp_form_visible'])): ?>
-                <h2 class="text-lg font-black text-themeDark mb-2">Forgot Password?</h2>
-                <p class="text-[11px] font-bold text-themeDark/50 mb-8 leading-relaxed uppercase tracking-wider">Enter your registered email address to receive a 6-digit OTP.</p>
+                <h2 class="text-lg font-black text-white mb-2">Forgot Password?</h2>
+                <p class="text-[11px] font-bold text-white/50 mb-8 leading-relaxed uppercase tracking-wider">Enter your registered email address to receive a 6-digit OTP.</p>
                 
                 <form method="POST" action="reset_password.php" class="space-y-6">
                     <div>
-                        <label class="text-[10px] uppercase font-black text-themeDark/40 ml-2 mb-2 block tracking-widest">Email Address</label>
+                        <label class="text-[10px] uppercase font-black text-white/40 ml-2 mb-2 block tracking-widest">Email Address</label>
                         <input type="email" name="email" required class="input-field" placeholder="your@email.com">
                     </div>
                     <button type="submit" name="send_otp" class="btn-theme flex items-center justify-center gap-3">
@@ -227,16 +230,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </button>
                 </form>
             <?php else: ?>
-                <h2 class="text-lg font-black text-themeDark mb-2">Verify OTP</h2>
-                <p class="text-[11px] font-bold text-themeDark/50 mb-8 leading-relaxed uppercase tracking-wider">An OTP has been sent to your email. Enter it below to reset.</p>
+                <h2 class="text-lg font-black text-white mb-2">Verify OTP</h2>
+                <p class="text-[11px] font-bold text-white/50 mb-8 leading-relaxed uppercase tracking-wider">An OTP has been sent to your email. Enter it below to reset.</p>
                 
                 <form method="POST" action="reset_password.php" class="space-y-6">
                     <div>
-                        <label class="text-[10px] uppercase font-black text-themeDark/40 ml-2 mb-2 block tracking-widest">Verification Code</label>
+                        <label class="text-[10px] uppercase font-black text-white/40 ml-2 mb-2 block tracking-widest">Verification Code</label>
                         <input type="text" name="otp" required class="input-field text-center text-lg tracking-[0.5em]" placeholder="000000" maxlength="6">
                     </div>
                     <div>
-                        <label class="text-[10px] uppercase font-black text-themeDark/40 ml-2 mb-2 block tracking-widest">New Password</label>
+                        <label class="text-[10px] uppercase font-black text-white/40 ml-2 mb-2 block tracking-widest">New Password</label>
                         <input type="password" name="new_password" required class="input-field" placeholder="••••••••">
                     </div>
                     <button type="submit" name="reset_password" class="btn-theme flex items-center justify-center gap-3">
@@ -246,8 +249,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </form>
             <?php endif; ?>
 
-            <div class="mt-8 text-center border-t border-themeDark/5 pt-8">
-                <a href="auth/login.php" class="text-sm font-black text-themeDark flex items-center justify-center gap-2 transition hover:scale-105 active:scale-95">
+            <div class="mt-8 text-center border-t border-white/10 pt-8">
+                <a href="auth/login.php" class="text-sm font-black text-white flex items-center justify-center gap-2 transition hover:scale-105 active:scale-95">
                     <i class="fa-solid fa-arrow-left text-xs"></i>
                     <span>BACK TO LOGIN</span>
                 </a>
@@ -256,24 +259,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </main>
 
     <nav class="fixed bottom-0 w-full glass-panel z-50 h-16 flex justify-around items-center max-w-md left-1/2 -translate-x-1/2 border-t-0 shadow-[0_-8px_30px_rgba(0,0,0,0.04)]">
-        <a href="https://wa.me/918730063275" class="flex flex-col items-center text-themeDark/40 hover:text-themeDark transition">
+        <a href="https://wa.me/918730063275" class="flex flex-col items-center text-white/40 hover:text-white transition">
             <i class="fa-brands fa-whatsapp text-lg"></i>
             <span class="text-[9px] font-black uppercase tracking-tighter mt-1">Support</span>
         </a>
-        <a href="smm_orders" class="flex flex-col items-center text-themeDark/40 hover:text-themeDark transition">
+        <a href="smm_orders" class="flex flex-col items-center text-white/40 hover:text-white transition">
             <i class="fa-solid fa-receipt text-lg"></i>
             <span class="text-[9px] font-black uppercase tracking-tighter mt-1">Orders</span>
         </a>
         <div class="relative -top-4">
-            <a href="index.php" class="w-12 h-12 bg-themeDark rounded-full flex items-center justify-center shadow-xl shadow-themeDark/20 text-white border-4 border-white transition active:scale-90">
+            <a href="index.php" class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-xl shadow-white/5 text-black border-4 border-[#08203E] transition active:scale-90">
                 <i class="fa-solid fa-house text-sm"></i>
             </a>
         </div>
-        <a href="wallet" class="flex flex-col items-center text-themeDark/40 hover:text-themeDark transition">
+        <a href="wallet" class="flex flex-col items-center text-white/40 hover:text-white transition">
             <i class="fa-solid fa-wallet text-lg"></i>
             <span class="text-[9px] font-black uppercase tracking-tighter mt-1">Wallet</span>
         </a>
-        <a href="auth/login.php" class="flex flex-col items-center text-themeDark">
+        <a href="auth/login.php" class="flex flex-col items-center text-white">
             <i class="fa-solid fa-circle-user text-lg"></i>
             <span class="text-[9px] font-black uppercase tracking-tighter mt-1">Login</span>
         </a>

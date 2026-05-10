@@ -225,11 +225,11 @@ try {
             theme: {
                 extend: {
                     colors: { 
-                        themePink: '#fbc2eb',
-                        themeBlue: '#a6c1ee',
+                        themePink: '#08203E',
+                        themeBlue: '#557C93',
                         themeGreen: '#80bf15',
-                        themeDark: '#0f172a',
-                        brand: { 500: '#8b5cf6', 600: '#7c3aed' } 
+                        themeDark: '#ffffff',
+                        brand: { 500: '#ffffff', 600: '#f8fafc' } 
                     },
                     fontFamily: { poppins: ['Poppins', 'sans-serif'] },
                     animation: { 'slide-up': 'slideUp 0.3s ease-out forwards' },
@@ -240,10 +240,16 @@ try {
     </script>
 
     <style>
-        body { font-family: 'Poppins', sans-serif; background: linear-gradient(177deg, #fbc2eb, #a6c1ee, hsl(86.7, 80.67784736040353%, 41.709338428627014%)); background-attachment: fixed; color: #0f172a; -webkit-tap-highlight-color: transparent; }
-        .glass-panel { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.2); }
-        .glass-nav { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.2); }
-        .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #0f172a; animation: spin 0.8s linear infinite; }
+        body { font-family: 'Poppins', sans-serif; 
+            background: hsla(213, 77%, 14%, 1);
+            background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#08203E", endColorstr="#557C93", GradientType=1 );
+            background-attachment: fixed; color: #ffffff; -webkit-tap-highlight-color: transparent; }
+        .glass-panel { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .glass-nav { background: rgba(8, 32, 62, 0.8); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1); }
+        .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: #ffffff; animation: spin 0.8s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         body.modal-open { overflow: hidden; }
         .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
@@ -251,35 +257,35 @@ try {
 </head>
 <body class="text-slate-800 pb-32 antialiased">
 
-    <header class="fixed top-0 w-full z-40 bg-white/40 backdrop-blur-xl h-16 border-b border-white/30 shadow-sm">
+    <header class="fixed top-0 w-full z-40 bg-black/20 backdrop-blur-xl h-16 border-b border-white/10 shadow-sm">
         <div class="max-w-md mx-auto px-4 h-full flex items-center justify-between">
-            <a href="index.php" class="w-10 h-10 rounded-full bg-white/40 flex items-center justify-center border border-white/30 hover:bg-white/50 transition">
+            <a href="index.php" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/10 hover:bg-white/20 transition">
                 <i class="fa-solid fa-arrow-left text-themeDark"></i>
             </a>
-            <div class="font-bold text-lg text-themeDark">Redeem Code</div>
+            <div class="font-bold text-lg text-white">Redeem Code</div>
             <div class="w-10"></div> </div>
     </header>
 
     <main class="max-w-md mx-auto pt-20 px-4 min-h-screen">
 
         <div class="flex flex-col items-center justify-center mb-6 mt-2">
-            <div class="w-16 h-16 bg-white/40 rounded-full flex items-center justify-center text-themeDark mb-2 shadow-sm border border-white/50">
+            <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center text-white mb-2 shadow-sm border border-white/10">
                 <i class="fa-solid fa-gift text-2xl"></i>
             </div>
-            <h2 class="font-bold text-themeDark">Voucher Redemption</h2>
-            <p class="text-xs text-themeDark/60">Enter your code to claim rewards</p>
+            <h2 class="font-bold text-white">Voucher Redemption</h2>
+            <p class="text-xs text-white/60">Enter your code to claim rewards</p>
         </div>
 
         <div class="bg-white/40 backdrop-blur-md rounded-2xl p-5 shadow-sm border border-white/50 mb-6">
             <form id="redeemForm" method="POST" action="">
                 
                 <div class="mb-4 relative">
-                    <label class="text-[10px] uppercase font-bold text-themeDark/60 ml-1 mb-1 block">Voucher Code</label>
+                    <label class="text-[10px] uppercase font-bold text-white/60 ml-1 mb-1 block">Voucher Code</label>
                     <div class="relative">
                         <input type="password" id="redeem_code" name="redeem_code" 
-                            class="w-full bg-white/40 border border-white/50 rounded-xl px-4 py-3 text-sm font-semibold text-themeDark focus:outline-none focus:border-themeDark transition pr-10 placeholder:text-themeDark/20" 
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-semibold text-white focus:outline-none focus:border-white transition pr-10 placeholder:text-white/20" 
                             placeholder="XXXX-XXXX-XXXX" required>
-                        <button type="button" id="togglePassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-themeDark/40 hover:text-themeDark transition p-1">
+                        <button type="button" id="togglePassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition p-1">
                             <i class="fa-regular fa-eye"></i>
                         </button>
                     </div>
@@ -287,38 +293,38 @@ try {
 
                 <div class="grid grid-cols-3 gap-3 mb-6">
                     <div class="col-span-2">
-                        <label class="text-[10px] uppercase font-bold text-themeDark/60 ml-1 mb-1 block">User ID</label>
+                        <label class="text-[10px] uppercase font-bold text-white/60 ml-1 mb-1 block">User ID</label>
                         <input type="number" id="user_id" name="user_id" 
-                            class="w-full bg-white/40 border border-white/50 rounded-xl px-4 py-3 text-sm font-semibold text-themeDark focus:outline-none focus:border-themeDark transition placeholder:text-themeDark/20" 
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-semibold text-white focus:outline-none focus:border-white transition placeholder:text-white/20" 
                             placeholder="12345678" required>
                     </div>
                     <div>
-                        <label class="text-[10px] uppercase font-bold text-themeDark/60 ml-1 mb-1 block">Zone ID</label>
+                        <label class="text-[10px] uppercase font-bold text-white/60 ml-1 mb-1 block">Zone ID</label>
                         <input type="number" id="zone_id" name="zone_id" 
-                            class="w-full bg-white/40 border border-white/50 rounded-xl px-4 py-3 text-sm font-semibold text-themeDark focus:outline-none focus:border-themeDark transition placeholder:text-themeDark/20" 
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm font-semibold text-white focus:outline-none focus:border-white transition placeholder:text-white/20" 
                             placeholder="1234" required>
                     </div>
                 </div>
 
-                <button type="submit" id="redeemButton" class="w-full bg-themeDark text-white py-3.5 rounded-xl font-bold shadow-lg shadow-themeDark/20 active:scale-[0.98] transition flex items-center justify-center gap-2">
+                <button type="submit" id="redeemButton" class="w-full bg-white text-black py-3.5 rounded-xl font-bold shadow-lg shadow-white/5 active:scale-[0.98] transition flex items-center justify-center gap-2">
                     Redeem Now
                 </button>
             </form>
         </div>
 
-        <div class="bg-white/40 backdrop-blur-md rounded-2xl p-5 shadow-sm border border-white/50 mb-6">
-            <h3 class="font-bold text-themeDark mb-3 text-sm">How to Redeem</h3>
-            <div class="text-xs text-themeDark/60 leading-6 space-y-2">
+        <div class="bg-white/10 backdrop-blur-md rounded-2xl p-5 shadow-sm border border-white/10 mb-6">
+            <h3 class="font-bold text-white mb-3 text-sm">How to Redeem</h3>
+            <div class="text-xs text-white/60 leading-6 space-y-2">
                 <div class="flex gap-2">
-                    <span class="w-5 h-5 rounded-full bg-white/40 text-themeDark flex items-center justify-center text-[10px] font-bold shrink-0 border border-white/50">1</span>
+                    <span class="w-5 h-5 rounded-full bg-white/10 text-white flex items-center justify-center text-[10px] font-bold shrink-0 border border-white/10">1</span>
                     <p>Enter your purchased <b>Redeem Code</b> above.</p>
                 </div>
                 <div class="flex gap-2">
-                    <span class="w-5 h-5 rounded-full bg-white/40 text-themeDark flex items-center justify-center text-[10px] font-bold shrink-0 border border-white/50">2</span>
+                    <span class="w-5 h-5 rounded-full bg-white/10 text-white flex items-center justify-center text-[10px] font-bold shrink-0 border border-white/10">2</span>
                     <p>Input your Mobile Legends <b>User ID</b> and <b>Zone ID</b>.</p>
                 </div>
                 <div class="flex gap-2">
-                    <span class="w-5 h-5 rounded-full bg-white/40 text-themeDark flex items-center justify-center text-[10px] font-bold shrink-0 border border-white/50">3</span>
+                    <span class="w-5 h-5 rounded-full bg-white/10 text-white flex items-center justify-center text-[10px] font-bold shrink-0 border border-white/10">3</span>
                     <p>Click "Redeem Now", verify your username, and confirm.</p>
                 </div>
                 <div class="flex gap-2">
@@ -328,8 +334,8 @@ try {
             </div>
         </div>
 
-            <h3 class="font-bold text-themeDark mb-3 px-1 flex items-center gap-2 text-sm">
-                <span class="w-1 h-4 bg-themeDark rounded-full"></span> Recent Redemptions
+            <h3 class="font-bold text-white mb-3 px-1 flex items-center gap-2 text-sm">
+                <span class="w-1 h-4 bg-white rounded-full"></span> Recent Redemptions
             </h3>
             
             <div class="flex flex-col gap-3">
@@ -340,18 +346,18 @@ try {
                     </div>
                 <?php else: ?>
                     <?php foreach ($history_items as $item): ?>
-                        <div class="bg-white/40 backdrop-blur-sm rounded-xl p-3 shadow-sm border border-white/50 flex items-center justify-between">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-3 shadow-sm border border-white/10 flex items-center justify-between">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center text-green-600">
+                                <div class="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400">
                                     <i class="fa-solid fa-check-double"></i>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-bold text-themeDark"><?php echo htmlspecialchars($item['product_name']); ?></p>
-                                    <p class="text-[10px] text-themeDark/40">ID: <?php echo htmlspecialchars(substr($item['userid'], 0, 4) . '****'); ?></p>
+                                    <p class="text-xs font-bold text-white"><?php echo htmlspecialchars($item['product_name']); ?></p>
+                                    <p class="text-[10px] text-white/40">ID: <?php echo htmlspecialchars(substr($item['userid'], 0, 4) . '****'); ?></p>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <p class="text-[10px] font-medium text-themeDark/40"><?php echo date('d M, h:i A', strtotime($item['created_at'])); ?></p>
+                                <p class="text-[10px] font-medium text-white/40"><?php echo date('d M, h:i A', strtotime($item['created_at'])); ?></p>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -361,57 +367,57 @@ try {
 
     </main>
 
-    <nav id="bottom-nav" class="fixed bottom-0 w-full bg-white/60 backdrop-blur-xl z-40 pb-safe transition-transform duration-300 border-t border-white/30">
+    <nav id="bottom-nav" class="fixed bottom-0 w-full bg-[#08203E]/80 backdrop-blur-xl z-40 pb-safe transition-transform duration-300 border-t border-white/10">
         <div class="max-w-md mx-auto h-16 flex justify-around items-center px-2">
-            <a href="https://wa.me/918730063275" target="_blank" class="nav-item flex flex-col items-center justify-center w-14 text-themeDark/40 hover:text-themeDark transition">
+            <a href="https://wa.me/918730063275" target="_blank" class="nav-item flex flex-col items-center justify-center w-14 text-white/40 hover:text-white transition">
                 <i class="fa-brands fa-whatsapp text-xl mb-1"></i>
                 <span class="text-[9px] font-medium">Help</span>
             </a>
-            <a href="orders.php" class="nav-item flex flex-col items-center justify-center w-14 text-themeDark/40 hover:text-themeDark transition">
+            <a href="orders.php" class="nav-item flex flex-col items-center justify-center w-14 text-white/40 hover:text-white transition">
                 <i class="fa-solid fa-clock-rotate-left text-xl mb-1"></i>
                 <span class="text-[9px] font-medium">Orders</span>
             </a>
-            <a href="index.php" class="w-12 h-12 bg-themeDark rounded-full flex items-center justify-center text-white shadow-lg shadow-themeDark/20 relative -top-5 border-4 border-white transition hover:scale-105 active:scale-95">
+            <a href="index.php" class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-black shadow-lg shadow-white/5 relative -top-5 border-4 border-[#08203E] transition hover:scale-105 active:scale-95">
                 <i class="fa-solid fa-house text-lg"></i>
             </a>
-            <a href="wallet_topup.php" class="nav-item flex flex-col items-center justify-center w-14 text-themeDark/40 hover:text-themeDark transition">
+            <a href="wallet_topup.php" class="nav-item flex flex-col items-center justify-center w-14 text-white/40 hover:text-white transition">
                 <i class="fa-solid fa-wallet text-xl mb-1"></i>
                 <span class="text-[9px] font-medium">Wallet</span>
             </a>
-            <a href="profile.php" class="nav-item flex flex-col items-center justify-center w-14 text-themeDark/40 hover:text-themeDark transition">
+            <a href="profile.php" class="nav-item flex flex-col items-center justify-center w-14 text-white/40 hover:text-white transition">
                 <i class="fa-solid fa-user text-xl mb-1"></i>
                 <span class="text-[9px] font-medium">Account</span>
             </a>
         </div>
     </nav>
 
-    <div id="confirmationModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] hidden flex items-end sm:items-center justify-center sm:p-4">
-        <div class="bg-white w-full max-w-sm rounded-t-2xl sm:rounded-2xl overflow-hidden shadow-2xl animate-slide-up">
-            <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <h3 class="font-bold text-slate-900">Confirm Account</h3>
-                <button id="cancelModalBtn" class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-300 transition">
+    <div id="confirmationModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] hidden flex items-end sm:items-center justify-center sm:p-4">
+        <div class="bg-[#08203E] w-full max-w-sm rounded-t-2xl sm:rounded-2xl overflow-hidden shadow-2xl animate-slide-up border border-white/10">
+            <div class="p-5 border-b border-white/10 flex justify-between items-center bg-white/5">
+                <h3 class="font-bold text-white">Confirm Account</h3>
+                <button id="cancelModalBtn" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/60 hover:bg-white/20 transition">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             <div class="p-6 space-y-4">
                 <div class="text-center mb-4">
-                    <div class="w-16 h-16 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold uppercase" id="modalInitials">?</div>
-                    <p class="text-lg font-bold text-slate-800" id="modalPlayerName">Loading...</p>
-                    <p class="text-xs text-slate-400">Is this you?</p>
+                    <div class="w-16 h-16 bg-white/10 text-white rounded-full flex items-center justify-center mx-auto mb-2 text-2xl font-bold uppercase" id="modalInitials">?</div>
+                    <p class="text-lg font-bold text-white" id="modalPlayerName">Loading...</p>
+                    <p class="text-xs text-white/40">Is this you?</p>
                 </div>
 
-                <div class="space-y-3 text-sm text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                    <div class="flex justify-between border-b border-slate-100 pb-2">
+                <div class="space-y-3 text-sm text-white/70 bg-white/5 p-4 rounded-xl border border-white/10">
+                    <div class="flex justify-between border-b border-white/10 pb-2">
                         <span>User ID</span>
-                        <strong class="text-slate-900" id="modalUserId">...</strong>
+                        <strong class="text-white" id="modalUserId">...</strong>
                     </div>
                     <div class="flex justify-between">
                         <span>Zone ID</span>
-                        <strong class="text-slate-900" id="modalZoneId">...</strong>
+                        <strong class="text-white" id="modalZoneId">...</strong>
                     </div>
                 </div>
 
-                <button id="confirmRedeemBtn" class="w-full bg-purple-600 text-white py-3.5 rounded-xl font-bold shadow-lg shadow-purple-200 active:scale-[0.98] transition">
+                <button id="confirmRedeemBtn" class="w-full bg-white text-black py-3.5 rounded-xl font-bold shadow-lg shadow-white/5 active:scale-[0.98] transition">
                     Yes, Redeem Now
                 </button>
             </div>

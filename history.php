@@ -57,10 +57,10 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
             theme: {
                 extend: {
                     colors: {
-                        themePink: '#fbc2eb',
-                        themeBlue: '#a6c1ee',
+                        themePink: '#08203E',
+                        themeBlue: '#557C93',
                         themeGreen: '#80bf15',
-                        themeDark: '#0f172a',
+                        themeDark: '#ffffff',
                     }
                 }
             }
@@ -68,10 +68,16 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
     </script>
 
     <style>
-        body { font-family: 'Outfit', sans-serif; background: linear-gradient(177deg, #fbc2eb, #a6c1ee, hsl(86.7, 80.67784736040353%, 41.709338428627014%)); background-attachment: fixed; color: #0f172a; overflow-x: hidden; }
-        .glass-panel { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
-        .order-card { transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.2); background: rgba(255, 255, 255, 0.3); }
-        .order-card:hover { background: rgba(255, 255, 255, 0.5); border-color: #0f172a; }
+        body { font-family: 'Outfit', sans-serif; 
+            background: hsla(213, 77%, 14%, 1);
+            background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#08203E", endColorstr="#557C93", GradientType=1 );
+            background-attachment: fixed; color: #ffffff; overflow-x: hidden; }
+        .glass-panel { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .order-card { transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.1); background: rgba(255, 255, 255, 0.1); }
+        .order-card:hover { background: rgba(255, 255, 255, 0.15); border-color: #ffffff; }
         .status-badge { @apply px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-widest; }
         @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .animate-slide { animation: slideIn 0.5s ease forwards; }
@@ -80,9 +86,9 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
 <body class="pb-24">
 
     <!-- HEADER -->
-    <header class="fixed top-0 w-full z-50 bg-white/20 backdrop-blur-xl h-16 border-b border-white/20">
+    <header class="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-xl h-16 border-b border-white/10">
         <div class="max-w-md mx-auto px-5 h-full flex items-center justify-between">
-            <a href="index" class="w-10 h-10 rounded-xl bg-white/40 flex items-center justify-center border border-white/30"><i class="fa-solid fa-arrow-left text-themeDark text-sm"></i></a>
+            <a href="index" class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/10"><i class="fa-solid fa-arrow-left text-themeDark text-sm"></i></a>
             <div class="font-bold text-lg text-themeDark">Order History</div>
             <div class="w-10"></div>
         </div>
@@ -99,8 +105,8 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
                                 <img src="<?= (strpos($order['game_image'] ?? '', 'http') === 0) ? $order['game_image'] : BASE_URL . '/' . ltrim($order['game_image'] ?? '', '/'); ?>" class="w-full h-full object-cover">
                             </div>
                             <div>
-                                <h3 class="text-xs font-black text-themeDark"><?= htmlspecialchars($order['game_name'] ?? 'Game') ?></h3>
-                                <p class="text-[10px] text-themeDark/60 font-bold"><?= htmlspecialchars($order['product_name']) ?></p>
+                                <h3 class="text-xs font-black text-white"><?= htmlspecialchars($order['game_name'] ?? 'Game') ?></h3>
+                                <p class="text-[10px] text-white/60 font-bold"><?= htmlspecialchars($order['product_name']) ?></p>
                             </div>
                         </div>
                         <?php 
@@ -117,23 +123,23 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
 
                     <div class="grid grid-cols-2 gap-4 border-t border-white/30 pt-4">
                         <div>
-                            <p class="text-[9px] text-themeDark/40 font-bold uppercase tracking-widest mb-1">Account ID</p>
-                            <p class="text-[11px] font-black text-themeDark truncate"><?= htmlspecialchars($order['game_user_id']) ?></p>
+                            <p class="text-[9px] text-white/40 font-bold uppercase tracking-widest mb-1">Account ID</p>
+                            <p class="text-[11px] font-black text-white truncate"><?= htmlspecialchars($order['game_user_id']) ?></p>
                         </div>
                         <div class="text-right">
-                            <p class="text-[9px] text-themeDark/40 font-bold uppercase tracking-widest mb-1">Amount</p>
-                            <p class="text-sm font-black text-themeDark">₹<?= number_format($order['price'], 0) ?></p>
+                            <p class="text-[9px] text-white/40 font-bold uppercase tracking-widest mb-1">Amount</p>
+                            <p class="text-sm font-black text-white">₹<?= number_format($order['price'], 0) ?></p>
                         </div>
                     </div>
 
                     <div class="mt-4 flex items-center justify-between gap-3">
-                        <p class="text-[10px] text-themeDark/60 font-medium"><?= date("d M Y, h:i A", strtotime($order['created_at'])) ?></p>
+                        <p class="text-[10px] text-white/60 font-medium"><?= date("d M Y, h:i A", strtotime($order['created_at'])) ?></p>
                         
                         <div class="flex gap-2">
-                            <a href="<?= BASE_URL ?>/payment/receipt/<?= $order['order_id'] ?>" class="px-4 py-1.5 bg-white/40 hover:bg-white/50 text-themeDark text-[9px] font-black uppercase rounded-lg border border-white/30 transition-all">Receipt</a>
+                            <a href="<?= BASE_URL ?>/payment/receipt/<?= $order['order_id'] ?>" class="px-4 py-1.5 bg-white/10 hover:bg-white/20 text-white text-[9px] font-black uppercase rounded-lg border border-white/10 transition-all">Receipt</a>
                             
                             <?php if ($status !== 'completed' && $status !== 'success'): ?>
-                                <button onclick="verifyOrder('<?= $order['order_id'] ?>', this)" class="px-4 py-1.5 bg-themeDark hover:bg-black text-white text-[9px] font-black uppercase rounded-lg shadow-lg shadow-themeDark/20 transition-all">Verify</button>
+                                <button onclick="verifyOrder('<?= $order['order_id'] ?>', this)" class="px-4 py-1.5 bg-white text-black text-[9px] font-black uppercase rounded-lg shadow-lg shadow-white/5 transition-all">Verify</button>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -141,12 +147,12 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
             <?php $delay += 0.05; endwhile; ?>
         <?php else: ?>
             <div class="text-center py-20 animate-fade">
-                <div class="w-20 h-20 bg-white/40 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/50">
-                    <i class="fa-solid fa-receipt text-themeDark/40 text-2xl"></i>
+                <div class="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-white/10">
+                    <i class="fa-solid fa-receipt text-white/40 text-2xl"></i>
                 </div>
-                <h3 class="text-base font-black text-themeDark">No Orders Found</h3>
-                <p class="text-xs text-themeDark/60 mt-1">You haven't made any purchases yet.</p>
-                <a href="index" class="mt-6 inline-block px-8 py-3 bg-themeDark text-white rounded-2xl font-black text-xs">Start Shopping</a>
+                <h3 class="text-base font-black text-white">No Orders Found</h3>
+                <p class="text-xs text-white/60 mt-1">You haven't made any purchases yet.</p>
+                <a href="index" class="mt-6 inline-block px-8 py-3 bg-white text-black rounded-2xl font-black text-xs">Start Shopping</a>
             </div>
         <?php endif; ?>
 

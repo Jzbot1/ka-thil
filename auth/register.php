@@ -147,14 +147,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             theme: {
                 extend: {
                     colors: { 
-                        themePink: '#fbc2eb',
-                        themeBlue: '#a6c1ee',
+                        themePink: '#08203E',
+                        themeBlue: '#557C93',
                         themeGreen: '#80bf15',
-                        themeDark: '#0f172a',
-                        midnight: '#0B1635', 
-                        card: 'rgba(255, 255, 255, 0.4)', 
-                        accent: '#0f172a', 
-                        gold: '#0f172a' 
+                        themeDark: '#ffffff',
+                        midnight: '#08203E', 
+                        card: 'rgba(255, 255, 255, 0.1)', 
+                        accent: '#ffffff', 
+                        gold: '#ffffff' 
                     },
                     fontFamily: { 
                         poppins: ['Poppins', 'sans-serif'], 
@@ -170,35 +170,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         body { 
             font-family: 'Poppins', sans-serif; 
-            background: linear-gradient(177deg, #fbc2eb, #a6c1ee, #80bf15); 
+            background: hsla(213, 77%, 14%, 1);
+            background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#08203E", endColorstr="#557C93", GradientType=1 );
             background-attachment: fixed;
-            color: #0f172a;
+            color: #ffffff;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent; 
         }
         .glass-panel { 
-            background: rgba(255, 255, 255, 0.4); 
+            background: rgba(255, 255, 255, 0.1); 
             backdrop-filter: blur(16px); 
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
         }
         .input-field {
-            background: rgba(255, 255, 255, 0.3) !important;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: #0f172a !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff !important;
             backdrop-filter: blur(4px);
         }
         .input-field:focus {
-            background: rgba(255, 255, 255, 0.5) !important;
-            border-color: #0f172a;
-            box-shadow: 0 0 0 4px rgba(15, 23, 42, 0.05);
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
         }
         .bg-blob { 
             position: absolute; 
             width: 400px; 
             height: 400px; 
-            background: linear-gradient(135deg, rgba(251, 194, 235, 0.5) 0%, rgba(166, 193, 238, 0.5) 100%); 
+            background: linear-gradient(135deg, rgba(8, 32, 62, 0.5) 0%, rgba(85, 124, 147, 0.5) 100%); 
             filter: blur(80px); 
             border-radius: 50%; 
             z-index: -1;

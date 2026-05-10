@@ -53,10 +53,10 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
             theme: {
                 extend: {
                     colors: {
-                        themePink: '#fbc2eb',
-                        themeBlue: '#a6c1ee',
+                        themePink: '#08203E',
+                        themeBlue: '#557C93',
                         themeGreen: '#80bf15',
-                        themeDark: '#0f172a',
+                        themeDark: '#ffffff',
                     }
                 }
             }
@@ -64,10 +64,16 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
     </script>
 
     <style>
-        body { font-family: 'Outfit', sans-serif; background: linear-gradient(177deg, #fbc2eb, #a6c1ee, hsl(86.7, 80.67784736040353%, 41.709338428627014%)); background-attachment: fixed; color: #0f172a; overflow-x: hidden; }
-        .glass-panel { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
-        .amount-card { transition: all 0.2s ease; border: 1px solid rgba(255,255,255,0.2); cursor: pointer; background: rgba(255, 255, 255, 0.3); }
-        .amount-card.selected { background: rgba(255, 255, 255, 0.5); border-color: #0f172a; box-shadow: 0 0 15px rgba(15, 23, 42, 0.1); }
+        body { font-family: 'Outfit', sans-serif; 
+            background: hsla(213, 77%, 14%, 1);
+            background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#08203E", endColorstr="#557C93", GradientType=1 );
+            background-attachment: fixed; color: #ffffff; overflow-x: hidden; }
+        .glass-panel { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .amount-card { transition: all 0.2s ease; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; background: rgba(255, 255, 255, 0.1); }
+        .amount-card.selected { background: rgba(255, 255, 255, 0.2); border-color: #ffffff; box-shadow: 0 0 15px rgba(255, 255, 255, 0.1); }
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
         .animate-float { animation: float 4s ease-in-out infinite; }
     </style>
@@ -75,9 +81,9 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
 <body class="pb-24">
 
     <!-- HEADER -->
-    <header class="fixed top-0 w-full z-50 bg-white/20 backdrop-blur-xl h-16 border-b border-white/20">
+    <header class="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-xl h-16 border-b border-white/10">
         <div class="max-w-md mx-auto px-5 h-full flex items-center justify-between">
-            <a href="index" class="w-10 h-10 rounded-xl bg-white/40 flex items-center justify-center border border-white/30"><i class="fa-solid fa-arrow-left text-themeDark text-sm"></i></a>
+            <a href="index" class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/10"><i class="fa-solid fa-arrow-left text-themeDark text-sm"></i></a>
             <div class="font-bold text-lg text-themeDark">My Wallet</div>
             <div class="w-10"></div>
         </div>
@@ -91,9 +97,9 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
                 <i class="fa-solid fa-wallet text-8xl -rotate-12"></i>
             </div>
             
-            <p class="text-[10px] text-themeDark/50 font-black uppercase tracking-[3px] mb-2">Available Balance</p>
-            <h1 class="text-5xl font-black text-themeDark mb-2">₹<?= number_format($balance, 2) ?></h1>
-            <p class="text-xs text-themeDark/60 font-bold">Hello, <?= htmlspecialchars($username) ?>!</p>
+            <p class="text-[10px] text-white/50 font-black uppercase tracking-[3px] mb-2">Available Balance</p>
+            <h1 class="text-5xl font-black text-white mb-2">₹<?= number_format($balance, 2) ?></h1>
+            <p class="text-xs text-white/60 font-bold">Hello, <?= htmlspecialchars($username) ?>!</p>
             
             <div class="mt-6 flex justify-center gap-2">
                 <?php if ($is_approved): ?>
@@ -108,8 +114,8 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
         <!-- ADD FUNDS SECTION -->
         <div class="space-y-6">
             <div class="flex items-center justify-between px-1">
-                <h3 class="text-sm font-black text-themeDark">Add Funds</h3>
-                <span class="text-[10px] text-themeDark/50 font-bold uppercase">Select Amount</span>
+                <h3 class="text-sm font-black text-white">Add Funds</h3>
+                <span class="text-[10px] text-white/50 font-bold uppercase">Select Amount</span>
             </div>
 
             <div class="grid grid-cols-3 gap-3">
@@ -118,21 +124,21 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
                 foreach($amounts as $amt): 
                 ?>
                 <div onclick="selectAmount(<?= $amt ?>, this)" class="amount-card glass-panel rounded-2xl p-4 text-center">
-                    <p class="text-[10px] text-themeDark/40 font-bold mb-1">Add</p>
-                    <p class="text-lg font-black text-themeDark">₹<?= $amt ?></p>
+                    <p class="text-[10px] text-white/40 font-bold mb-1">Add</p>
+                    <p class="text-lg font-black text-white">₹<?= $amt ?></p>
                 </div>
                 <?php endforeach; ?>
             </div>
 
-            <div class="glass-panel rounded-3xl p-4 border border-white/30">
-                <p class="text-[10px] text-themeDark/40 font-bold uppercase mb-3 ml-1">Custom Amount</p>
+            <div class="glass-panel rounded-3xl p-4 border border-white/10">
+                <p class="text-[10px] text-white/40 font-bold uppercase mb-3 ml-1">Custom Amount</p>
                 <div class="relative">
-                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-black text-themeDark/30">₹</span>
-                    <input type="number" id="custom-amount" placeholder="Enter amount" class="w-full bg-white/40 border border-white/50 rounded-2xl py-4 pl-10 pr-4 text-themeDark font-black text-lg focus:outline-none focus:border-themeDark transition-all placeholder:text-themeDark/20">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-black text-white/30">₹</span>
+                    <input type="number" id="custom-amount" placeholder="Enter amount" class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-10 pr-4 text-white font-black text-lg focus:outline-none focus:border-white transition-all placeholder:text-white/20">
                 </div>
             </div>
 
-            <button onclick="handleAddFunds()" class="w-full py-5 bg-themeDark hover:bg-black text-white rounded-[24px] font-black text-sm shadow-xl shadow-themeDark/20 transition-all flex items-center justify-center gap-3">
+            <button onclick="handleAddFunds()" class="w-full py-5 bg-white hover:bg-white/90 text-black rounded-[24px] font-black text-sm shadow-xl shadow-white/5 transition-all flex items-center justify-center gap-3">
                 <i class="fa-solid fa-plus-circle"></i>
                 Add Funds Now
             </button>
@@ -141,7 +147,7 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
         <!-- TRANSACTION HISTORY -->
         <div class="mt-12 space-y-4">
             <div class="flex items-center justify-between px-1">
-                <h3 class="text-sm font-black text-themeDark">Recent Activity</h3>
+                <h3 class="text-sm font-black text-white">Recent Activity</h3>
                 <a href="history" class="text-[9px] text-blue-600 font-bold uppercase tracking-widest">View All</a>
             </div>
 
@@ -164,11 +170,11 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
                         <i class="fa-solid <?= $is_topup ? 'fa-arrow-down-long' : 'fa-cart-shopping' ?>"></i>
                     </div>
                     <div class="flex-1">
-                        <h4 class="text-xs font-black text-themeDark line-clamp-1"><?= htmlspecialchars($act['product_name']) ?></h4>
-                        <p class="text-[9px] font-bold text-themeDark/40 uppercase tracking-tighter"><?= date('d M, h:i A', strtotime($act['created_at'])) ?></p>
+                        <h4 class="text-xs font-black text-white line-clamp-1"><?= htmlspecialchars($act['product_name']) ?></h4>
+                        <p class="text-[9px] font-bold text-white/40 uppercase tracking-tighter"><?= date('d M, h:i A', strtotime($act['created_at'])) ?></p>
                     </div>
                     <div class="text-right">
-                        <p class="text-sm font-black <?= $is_topup ? 'text-green-600' : 'text-themeDark' ?>">
+                        <p class="text-sm font-black <?= $is_topup ? 'text-green-400' : 'text-white' ?>">
                             <?= $is_topup ? '+' : '-' ?>₹<?= number_format($act['price'], 2) ?>
                         </p>
                         <p class="text-[8px] font-black uppercase <?= $status_color ?>"><?= $act['status'] ?></p>
@@ -178,15 +184,15 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
                     endwhile;
                 else:
                 ?>
-                <div class="py-10 text-center glass-panel rounded-3xl border border-white/20">
-                    <i class="fa-solid fa-clock-rotate-left text-3xl text-themeDark/10 mb-2"></i>
-                    <p class="text-[10px] font-bold text-themeDark/30 uppercase tracking-widest">No recent transactions</p>
+                <div class="py-10 text-center glass-panel rounded-3xl border border-white/10">
+                    <i class="fa-solid fa-clock-rotate-left text-3xl text-white/10 mb-2"></i>
+                    <p class="text-[10px] font-bold text-white/30 uppercase tracking-widest">No recent transactions</p>
                 </div>
                 <?php endif; $activity_stmt->close(); ?>
             </div>
         </div>
 
-        <p class="text-[10px] text-center text-themeDark/60 font-medium px-4 mt-8">By adding funds, you agree to our terms. Funds added to the wallet are non-refundable and can only be used for game topups.</p>
+        <p class="text-[10px] text-center text-white/60 font-medium px-4 mt-8">By adding funds, you agree to our terms. Funds added to the wallet are non-refundable and can only be used for game topups.</p>
 
     </main>
 

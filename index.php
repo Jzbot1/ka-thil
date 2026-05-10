@@ -161,14 +161,20 @@ ob_end_flush();
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=DynaPuff:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-deep: #fbc2eb; --theme-pink: #fbc2eb; --theme-blue: #a6c1ee; --theme-green: #80bf15; --theme-dark: #0f172a; --accent-blue: #3b82f6; --accent-purple: #8b5cf6; }
-        body { font-family: 'Poppins', sans-serif; background: linear-gradient(177deg, #fbc2eb, #a6c1ee, hsl(86.7, 80.67784736040353%, 41.709338428627014%)); background-attachment: fixed; color: var(--theme-dark); overflow-x: hidden; }
-        .bg-blob { position: absolute; width: 500px; height: 500px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%); filter: blur(80px); border-radius: 50%; animation: move 20s infinite alternate; }
+        :root { --bg-deep: #08203E; --theme-pink: #08203E; --theme-blue: #557C93; --theme-green: #80bf15; --theme-dark: #ffffff; --accent-blue: #3b82f6; --accent-purple: #8b5cf6; }
+        body { font-family: 'Poppins', sans-serif; 
+            background: hsla(213, 77%, 14%, 1);
+            background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#08203E", endColorstr="#557C93", GradientType=1 );
+            background-attachment: fixed; color: #ffffff; overflow-x: hidden; }
+        .bg-blob { position: absolute; width: 500px; height: 500px; background: linear-gradient(135deg, rgba(8, 32, 62, 0.2) 0%, rgba(85, 124, 147, 0.2) 100%); filter: blur(80px); border-radius: 50%; animation: move 20s infinite alternate; }
         @keyframes move { from { transform: translate(-10%, -10%) scale(1); } to { transform: translate(20%, 20%) scale(1.2); } }
-        .glass-panel { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+        .glass-panel { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
         .game-card:active { transform: scale(0.95); }
-        .feature-card { background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255, 255, 255, 0.3); transition: all 0.3s ease; backdrop-filter: blur(8px); }
-        .payment-chip { background: rgba(255, 255, 255, 0.4); border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(8px); }
+        .feature-card { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; backdrop-filter: blur(8px); }
+        .payment-chip { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); }
         .font-dynapuff { font-family: 'DynaPuff', cursive; }
         @keyframes scrollText { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
         .animate-scroll-text { animation: scrollText 12s linear infinite; }
@@ -187,7 +193,7 @@ ob_end_flush();
         <div class="max-w-md mx-auto px-4 h-full flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="profile" class="w-9 h-9 rounded-full bg-white/40 flex items-center justify-center border border-white/30">
+                    <a href="profile" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
                         <i class="fa-solid fa-user text-themeDark text-xs"></i>
                     </a>
                 <?php else: ?>
@@ -199,8 +205,8 @@ ob_end_flush();
                 <button id="pwa-install-btn" class="hidden w-9 h-9 rounded-full bg-themeDark text-white flex items-center justify-center border border-white/30 shadow-lg animate-bounce">
                     <i class="fa-solid fa-download text-xs"></i>
                 </button>
-                <a href="notifications" class="w-9 h-9 rounded-full bg-white/40 flex items-center justify-center border border-white/30">
-                    <i class="fa-solid fa-bell text-themeDark text-sm"></i>
+                <a href="notifications" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
+                        <i class="fa-solid fa-bell text-themeDark text-sm"></i>
                 </a>
             </div>
         </div>
@@ -237,7 +243,7 @@ ob_end_flush();
                 <i class="fa-solid fa-magnifying-glass text-sm"></i>
             </div>
             <input type="text" id="gameSearch" 
-                class="w-full bg-white/40 backdrop-blur-xl border border-white/40 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold text-themeDark placeholder:text-themeDark/30 focus:bg-white/60 focus:border-themeDark/20 focus:ring-4 focus:ring-themeDark/5 transition-all outline-none shadow-xl shadow-themeDark/5" 
+                class="w-full bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-sm font-bold text-themeDark placeholder:text-themeDark/40 focus:bg-white/20 focus:border-themeDark/20 focus:ring-4 focus:ring-themeDark/5 transition-all outline-none shadow-xl shadow-themeDark/5" 
                 placeholder="Search games or services...">
             <div id="searchBadge" class="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-1 bg-themeDark/10 rounded-lg text-[8px] font-black uppercase text-themeDark/40 tracking-tighter opacity-0 transition-opacity">
                 Press Enter
@@ -245,10 +251,10 @@ ob_end_flush();
         </div>
         <?php endif; ?>
 
-        <div class="mb-6 bg-white/40 backdrop-blur-md border border-white/30 rounded-xl py-2.5 px-3 flex items-center gap-3 overflow-hidden shadow-sm">
+        <div class="mb-6 bg-white/10 backdrop-blur-md border border-white/10 rounded-xl py-2.5 px-3 flex items-center gap-3 overflow-hidden shadow-sm">
             <i class="fa-solid fa-bullhorn text-themeDark text-xs"></i>
             <div class="overflow-hidden w-full relative h-5">
-                <p class="animate-scroll-text whitespace-nowrap absolute text-[11px] text-themeDark/60 font-bold top-0">
+                <p class="animate-scroll-text whitespace-nowrap absolute text-[11px] text-themeDark/80 font-bold top-0">
                     Welcome to <?= htmlspecialchars($setting['store_name']); ?> - Instant Topup, 100% Secure! ⚡ Best Prices Guaranteed!
                 </p>
             </div>
@@ -265,10 +271,10 @@ ob_end_flush();
                 foreach($links as $link): 
             ?>
             <a href="<?= $link['url'] ?>" class="flex flex-col items-center gap-2">
-                <div class="w-12 h-12 rounded-2xl bg-white/40 border border-white/30 flex items-center justify-center shadow-lg transition hover:bg-white/50">
+                <div class="w-12 h-12 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center shadow-lg transition hover:bg-white/20">
                     <i class="fa-solid <?= $link['icon'] ?> <?= $link['color'] ?> text-lg"></i>
                 </div>
-                <span class="text-[10px] text-themeDark/60 font-bold"><?= $link['label'] ?></span>
+                <span class="text-[10px] text-themeDark/80 font-bold"><?= $link['label'] ?></span>
             </a>
             <?php endforeach; ?>
         </div>
@@ -316,7 +322,7 @@ ob_end_flush();
                         <i class="fa-solid fa-bolt-lightning text-orange-500 text-sm animate-bounce"></i>
                     </span>
                 </div>
-                <div id="flash-sale-timer" class="flex items-center gap-1 bg-white/40 border border-white/30 px-2 py-0.5 rounded-lg shadow-sm">
+                <div id="flash-sale-timer" class="flex items-center gap-1 bg-white/10 border border-white/10 px-2 py-0.5 rounded-lg shadow-sm">
                     <i class="fa-solid fa-clock text-orange-500 text-[9px] animate-pulse"></i>
                     <span class="text-[9px] font-black text-themeDark font-mono tracking-wider">00:00:00</span>
                 </div>
@@ -341,7 +347,7 @@ ob_end_flush();
                                 }
                             ?>
                             
-                            <div class="w-14 h-14 rounded-xl bg-white/40 overflow-hidden shadow-lg border border-white/30 relative">
+                            <div class="w-14 h-14 rounded-xl bg-white/10 overflow-hidden shadow-lg border border-white/10 relative">
                                 <?php if($discount > 0): ?>
                                 <div class="absolute top-0 right-0 z-20 bg-themeDark text-white text-[6px] font-black px-1 py-0.5 rounded-bl-md uppercase tracking-tighter">
                                     -<?= $discount ?>%
@@ -391,7 +397,7 @@ ob_end_flush();
                 <a href="<?= $is_out_of_stock ? 'javascript:void(0)' : $clean_url ?>" 
                    class="game-card flex flex-col items-center gap-2 transition duration-300 <?= $is_out_of_stock ? 'opacity-50 grayscale' : '' ?>"
                    data-title="<?= strtolower(htmlspecialchars($item['title'])) ?>">
-                    <div class="w-14 h-14 rounded-xl bg-white/40 overflow-hidden shadow-lg border border-white/30 relative">
+                    <div class="w-14 h-14 rounded-xl bg-white/10 overflow-hidden shadow-lg border border-white/10 relative">
                         <?php 
                             $g_img = $item['image'];
                             if (strpos($g_img, 'http') !== 0) {

@@ -14,67 +14,67 @@ if (!isset($setting)) {
                 Information & Help
             </h3>
             <div class="grid grid-cols-2 gap-3">
-                <a href="<?= BASE_URL ?>/faq" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/50 transition">
-                    <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center text-themeDark">
+                <a href="<?= BASE_URL ?>/faq" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/10 transition">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white">
                         <i class="fa-solid fa-circle-question"></i>
                     </div>
                     <div>
-                        <p class="text-[11px] font-bold text-themeDark">FAQ</p>
-                        <p class="text-[9px] text-themeDark/60">Common questions</p>
+                        <p class="text-[11px] font-bold text-white">FAQ</p>
+                        <p class="text-[9px] text-white/60">Common questions</p>
                     </div>
                 </a>
-                <a href="<?= BASE_URL ?>/blog" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/50 transition">
-                    <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center text-themeDark">
+                <a href="<?= BASE_URL ?>/blog" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/10 transition">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white">
                         <i class="fa-solid fa-newspaper"></i>
                     </div>
                     <div>
-                        <p class="text-[11px] font-bold text-themeDark">Blog</p>
-                        <p class="text-[9px] text-themeDark/60">News & Tutorials</p>
+                        <p class="text-[11px] font-bold text-white">Blog</p>
+                        <p class="text-[9px] text-white/60">News & Tutorials</p>
                     </div>
                 </a>
-                <a href="<?= BASE_URL ?>/leaderboard" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/50 transition">
-                    <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center text-themeDark">
+                <a href="<?= BASE_URL ?>/leaderboard" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/10 transition">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white">
                         <i class="fa-solid fa-trophy"></i>
                     </div>
                     <div>
-                        <p class="text-[11px] font-bold text-themeDark">Ranking</p>
-                        <p class="text-[9px] text-themeDark/60">Top Spenders</p>
+                        <p class="text-[11px] font-bold text-white">Ranking</p>
+                        <p class="text-[9px] text-white/60">Top Spenders</p>
                     </div>
                 </a>
-                <a href="<?= BASE_URL ?>/terms" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/50 transition">
-                    <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center text-themeDark">
+                <a href="<?= BASE_URL ?>/terms" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/10 transition">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white">
                         <i class="fa-solid fa-file-contract"></i>
                     </div>
                     <div>
-                        <p class="text-[11px] font-bold text-themeDark">Terms</p>
-                        <p class="text-[9px] text-themeDark/60">Our policies</p>
+                        <p class="text-[11px] font-bold text-white">Terms</p>
+                        <p class="text-[9px] text-white/60">Our policies</p>
                     </div>
                 </a>
-                <a href="<?= htmlspecialchars($setting['whatsapp']); ?>" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/50 transition">
-                    <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center text-themeDark">
+                <a href="<?= htmlspecialchars($setting['whatsapp']); ?>" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/10 transition">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white">
                         <i class="fa-solid fa-headset"></i>
                     </div>
                     <div>
-                        <p class="text-[11px] font-bold text-themeDark">Support</p>
-                        <p class="text-[9px] text-themeDark/60">Get instant help</p>
+                        <p class="text-[11px] font-bold text-white">Support</p>
+                        <p class="text-[9px] text-white/60">Get instant help</p>
                     </div>
                 </a>
-                <a href="<?= BASE_URL ?>/apidocs" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/50 transition">
-                    <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-600">
+                <a href="<?= BASE_URL ?>/apidocs" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/10 transition">
+                    <div class="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400">
                         <i class="fa-solid fa-code"></i>
                     </div>
                     <div>
-                        <p class="text-[11px] font-bold text-themeDark">API Docs</p>
-                        <p class="text-[9px] text-themeDark/60">Developer portal</p>
+                        <p class="text-[11px] font-bold text-white">API Docs</p>
+                        <p class="text-[9px] text-white/60">Developer portal</p>
                     </div>
                 </a>
-                <a href="<?= BASE_URL ?>/smm" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/50 transition col-span-2" style="background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(99,102,241,.08));border:1px solid rgba(139,92,246,.25)">
-                    <div class="w-10 h-10 rounded-xl bg-purple-500/15 flex items-center justify-center text-purple-600 flex-shrink-0">
+                <a href="<?= BASE_URL ?>/smm" class="flex items-center gap-3 p-3 glass-panel rounded-2xl hover:bg-white/10 transition col-span-2" style="background:linear-gradient(135deg,rgba(139,92,246,.12),rgba(99,102,241,.08));border:1px solid rgba(139,92,246,.25)">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/15 flex items-center justify-center text-purple-400 flex-shrink-0">
                         <i class="fa-solid fa-rocket"></i>
                     </div>
                     <div class="flex-1">
-                        <p class="text-[11px] font-bold text-themeDark">Social Boosting 🚀</p>
-                        <p class="text-[9px] text-themeDark/60">Followers, likes, views & more</p>
+                        <p class="text-[11px] font-bold text-white">Social Boosting 🚀</p>
+                        <p class="text-[9px] text-white/60">Followers, likes, views & more</p>
                     </div>
                     <i class="fa-solid fa-chevron-right text-purple-400 text-xs"></i>
                 </a>
@@ -88,18 +88,18 @@ if (!isset($setting)) {
             </h3>
             <div class="grid grid-cols-2 gap-3">
                 <div class="glass-panel p-4 rounded-2xl flex flex-col items-center gap-2">
-                    <div class="w-11 h-11 rounded-full bg-themeDark/10 flex items-center justify-center">
-                        <i class="fa-solid fa-bolt text-themeDark text-lg"></i>
+                    <div class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center">
+                        <i class="fa-solid fa-bolt text-white text-lg"></i>
                     </div>
-                    <h4 class="text-[11px] font-semibold text-themeDark">Fast Recharge</h4>
-                    <p class="text-[9px] text-themeDark/60">Instant delivery!</p>
+                    <h4 class="text-[11px] font-semibold text-white">Fast Recharge</h4>
+                    <p class="text-[9px] text-white/60">Instant delivery!</p>
                 </div>
                 <div class="glass-panel p-4 rounded-2xl flex flex-col items-center gap-2">
-                    <div class="w-11 h-11 rounded-full bg-themeDark/10 flex items-center justify-center">
-                        <i class="fa-solid fa-clock text-themeDark text-lg"></i>
+                    <div class="w-11 h-11 rounded-full bg-white/5 flex items-center justify-center">
+                        <i class="fa-solid fa-clock text-white text-lg"></i>
                     </div>
-                    <h4 class="text-[11px] font-semibold text-themeDark">24x7 Support</h4>
-                    <p class="text-[9px] text-themeDark/60">Anytime, anywhere!</p>
+                    <h4 class="text-[11px] font-semibold text-white">24x7 Support</h4>
+                    <p class="text-[9px] text-white/60">Anytime, anywhere!</p>
                 </div>
             </div>
         </div>
@@ -123,35 +123,35 @@ if (!isset($setting)) {
         </div>
 
         <footer class="mt-12 mb-8 text-center px-4">
-            <div class="flex justify-center gap-5 mb-6 opacity-60">
-                <a href="<?= htmlspecialchars($setting['facebook'] ?? '#'); ?>" class="hover:text-themeDark transition"><i class="fab fa-facebook text-xl"></i></a>
-                <a href="<?= htmlspecialchars($setting['whatsapp'] ?? '#'); ?>" class="hover:text-themeDark transition"><i class="fab fa-whatsapp text-xl"></i></a>
-                <a href="<?= htmlspecialchars($setting['instagram'] ?? '#'); ?>" class="hover:text-themeDark transition"><i class="fab fa-instagram text-xl"></i></a>
+            <div class="flex justify-center gap-5 mb-6 opacity-60 text-white">
+                <a href="<?= htmlspecialchars($setting['facebook'] ?? '#'); ?>" class="hover:text-white transition"><i class="fab fa-facebook text-xl"></i></a>
+                <a href="<?= htmlspecialchars($setting['whatsapp'] ?? '#'); ?>" class="hover:text-white transition"><i class="fab fa-whatsapp text-xl"></i></a>
+                <a href="<?= htmlspecialchars($setting['instagram'] ?? '#'); ?>" class="hover:text-white transition"><i class="fab fa-instagram text-xl"></i></a>
             </div>
-            <p class="text-[10px] text-themeDark/60">© <?= date('Y'); ?> <?= htmlspecialchars($setting['store_name']); ?>. All Rights Reserved.</p>
-            <p class="text-[10px] text-themeDark/60 mt-1">Designed & Developed by <a href="https://wa.me/918730063275" target="_blank" class="text-themeDark font-bold hover:underline">Zomunaa Sailo</a></p>
+            <p class="text-[10px] text-white/60">© <?= date('Y'); ?> <?= htmlspecialchars($setting['store_name']); ?>. All Rights Reserved.</p>
+            <p class="text-[10px] text-white/60 mt-1">Designed & Developed by <a href="https://wa.me/918730063275" target="_blank" class="text-white font-bold hover:underline">Zomunaa Sailo</a></p>
         </footer>
     </main>
 
-    <nav class="fixed bottom-0 w-full bg-white/60 backdrop-blur-xl z-50 h-16 flex justify-around items-center max-w-md left-1/2 -translate-x-1/2 border-t border-white/30">
-        <a href="<?= htmlspecialchars($setting['whatsapp']); ?>" class="flex flex-col items-center text-themeDark/40 hover:text-themeDark transition">
+    <nav class="fixed bottom-0 w-full bg-black/40 backdrop-blur-xl z-50 h-16 flex justify-around items-center max-w-md left-1/2 -translate-x-1/2 border-t border-white/10">
+        <a href="<?= htmlspecialchars($setting['whatsapp']); ?>" class="flex flex-col items-center text-white/40 hover:text-white transition">
             <i class="fa-brands fa-whatsapp text-lg"></i>
             <span class="text-[9px] font-medium">Support</span>
         </a>
-        <a href="<?= BASE_URL ?>/history" class="flex flex-col items-center text-themeDark/40 hover:text-themeDark transition">
+        <a href="<?= BASE_URL ?>/history" class="flex flex-col items-center text-white/40 hover:text-white transition">
             <i class="fa-solid fa-clock-rotate-left text-lg"></i>
             <span class="text-[9px] font-medium">History</span>
         </a>
         <div class="relative -top-4">
-            <a href="<?= BASE_URL ?>/index" class="w-12 h-12 bg-themeDark rounded-full flex items-center justify-center shadow-lg shadow-themeDark/20 text-white border-4 border-white transition hover:scale-105 active:scale-95">
+            <a href="<?= BASE_URL ?>/index" class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shadow-lg shadow-black/20 text-white border-4 border-black/20 transition hover:scale-105 active:scale-95">
                 <i class="fa-solid fa-house"></i>
             </a>
         </div>
-        <a href="<?= BASE_URL ?>/wallet" class="flex flex-col items-center text-themeDark/40 hover:text-themeDark transition">
+        <a href="<?= BASE_URL ?>/wallet" class="flex flex-col items-center text-white/40 hover:text-white transition">
             <i class="fa-solid fa-wallet text-lg"></i>
             <span class="text-[9px] font-medium">Wallet</span>
         </a>
-        <a href="<?= BASE_URL ?>/profile" class="flex flex-col items-center text-themeDark/40 hover:text-themeDark transition">
+        <a href="<?= BASE_URL ?>/profile" class="flex flex-col items-center text-white/40 hover:text-white transition">
             <i class="fa-solid fa-user-gear text-lg"></i>
             <span class="text-[9px] font-medium">Account</span>
         </a>

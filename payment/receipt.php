@@ -74,16 +74,20 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
     <style>
         body {
             font-family: 'Outfit', sans-serif;
-            background: linear-gradient(177deg, #fbc2eb, #a6c1ee, hsl(86.7, 80.67784736040353%, 41.709338428627014%));
+            background: hsla(213, 77%, 14%, 1);
+            background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#08203E",endColorstr="#557C93",GradientType=1);
             background-attachment: fixed;
-            color: #0f172a;
+            color: #ffffff;
             overflow-x: hidden;
         }
 
         .glass-panel {
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .status-badge {
@@ -121,7 +125,7 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
             <div class="h-32 relative overflow-hidden">
                 <img src="<?= (strpos($game_image, 'http') === 0) ? $game_image : BASE_URL . '/' . ltrim($game_image, '/') ?>"
                     class="w-full h-full object-cover opacity-30 blur-sm scale-110">
-                <div class="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
                 <div class="absolute inset-0 flex flex-col items-center justify-center pt-4">
                     <?php if ($is_success): ?>
                         <div
@@ -148,45 +152,45 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
             <div class="p-8 pt-4 space-y-6">
                 <!-- ORDER INFO -->
                 <div class="text-center">
-                    <p class="text-[10px] text-[#0f172a]/60 uppercase font-bold tracking-[0.2em] mb-1">Transaction
+                    <p class="text-[10px] text-white/60 uppercase font-bold tracking-[0.2em] mb-1">Transaction
                         Amount</p>
-                    <h2 class="text-4xl font-black text-[#0f172a]">₹<?= number_format($order['price'], 0) ?></h2>
+                    <h2 class="text-4xl font-black text-white">₹<?= number_format($order['price'], 0) ?></h2>
                 </div>
 
-                <div class="space-y-3 bg-white/20 rounded-3xl p-5 border border-white/30">
+                <div class="space-y-3 bg-white/10 rounded-3xl p-5 border border-white/10">
                     <div class="flex justify-between items-center">
-                        <span class="text-[10px] text-[#0f172a]/60 uppercase font-bold tracking-wider">Order ID</span>
+                        <span class="text-[10px] text-white/60 uppercase font-bold tracking-wider">Order ID</span>
                         <span
-                            class="text-xs font-bold text-[#0f172a]">#<?= htmlspecialchars($order['order_id']) ?></span>
+                            class="text-xs font-bold text-white">#<?= htmlspecialchars($order['order_id']) ?></span>
                     </div>
-                    <div class="flex justify-between items-center border-t border-[#0f172a]/10 pt-3">
-                        <span class="text-[10px] text-[#0f172a]/60 uppercase font-bold tracking-wider">Game</span>
+                    <div class="flex justify-between items-center border-t border-white/10 pt-3">
+                        <span class="text-[10px] text-white/60 uppercase font-bold tracking-wider">Game</span>
                         <div class="flex items-center gap-2">
                             <img src="<?= (strpos($game_image, 'http') === 0) ? $game_image : BASE_URL . '/' . ltrim($game_image, '/') ?>"
                                 class="w-5 h-5 rounded-md object-cover">
-                            <span class="text-xs font-bold text-black"><?= htmlspecialchars($game_name) ?></span>
+                            <span class="text-xs font-bold text-white"><?= htmlspecialchars($game_name) ?></span>
                         </div>
                     </div>
-                    <div class="flex justify-between items-center border-t border-[#0f172a]/10 pt-3">
-                        <span class="text-[10px] text-[#0f172a]/60 uppercase font-bold tracking-wider">Product</span>
+                    <div class="flex justify-between items-center border-t border-white/10 pt-3">
+                        <span class="text-[10px] text-white/60 uppercase font-bold tracking-wider">Product</span>
                         <div class="flex items-center gap-2">
                             <?php if (!empty($product_image)): ?>
                                 <img src="<?= (strpos($product_image, 'http') === 0) ? $product_image : BASE_URL . '/' . ltrim($product_image, '/') ?>"
                                     class="w-5 h-5 object-contain">
                             <?php endif; ?>
                             <span
-                                class="text-xs font-bold text-[#0f172a]"><?= htmlspecialchars($order['product_name']) ?></span>
+                                class="text-xs font-bold text-white"><?= htmlspecialchars($order['product_name']) ?></span>
                         </div>
                     </div>
-                    <div class="flex justify-between items-center border-t border-[#0f172a]/10 pt-3">
-                        <span class="text-[10px] text-[#0f172a]/60 uppercase font-bold tracking-wider">Player ID</span>
+                    <div class="flex justify-between items-center border-t border-white/10 pt-3">
+                        <span class="text-[10px] text-white/60 uppercase font-bold tracking-wider">Player ID</span>
                         <span
-                            class="text-xs font-bold text-[#0f172a]"><?= htmlspecialchars($order['game_user_id']) ?><?= ($order['game_zone_id'] !== 'none' && !empty($order['game_zone_id'])) ? " ({$order['game_zone_id']})" : "" ?></span>
+                            class="text-xs font-bold text-white"><?= htmlspecialchars($order['game_user_id']) ?><?= ($order['game_zone_id'] !== 'none' && !empty($order['game_zone_id'])) ? " ({$order['game_zone_id']})" : "" ?></span>
                     </div>
-                    <div class="flex justify-between items-center border-t border-[#0f172a]/10 pt-3">
-                        <span class="text-[10px] text-[#0f172a]/60 uppercase font-bold tracking-wider">Date</span>
+                    <div class="flex justify-between items-center border-t border-white/10 pt-3">
+                        <span class="text-[10px] text-white/60 uppercase font-bold tracking-wider">Date</span>
                         <span
-                            class="text-xs font-bold text-[#0f172a]"><?= date("d M Y, h:i A", strtotime($order['created_at'])) ?></span>
+                            class="text-xs font-bold text-white"><?= date("d M Y, h:i A", strtotime($order['created_at'])) ?></span>
                     </div>
                 </div>
 
@@ -207,7 +211,7 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
 
             <!-- FOOTER -->
             <div class="bg-white/10 p-4 text-center">
-                <p class="text-[9px] text-[#0f172a]/40 font-bold uppercase tracking-widest">Thank you for shopping at
+                <p class="text-[9px] text-white/40 font-bold uppercase tracking-widest">Thank you for shopping at
                     <?= htmlspecialchars($setting['store_name']) ?></p>
             </div>
         </div>
@@ -215,12 +219,12 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
 
     <div class="w-full max-w-md mt-6 grid grid-cols-2 gap-3 px-2">
         <button onclick="downloadReceipt()"
-            class="bg-white/40 hover:bg-white/50 text-[#0f172a] py-4 rounded-2xl font-bold text-xs border border-white/30 transition-all flex items-center justify-center gap-2">
-            <i class="fa-solid fa-download text-[#0f172a]"></i>
+            class="bg-white/10 hover:bg-white/20 text-white py-4 rounded-2xl font-bold text-xs border border-white/10 transition-all flex items-center justify-center gap-2">
+            <i class="fa-solid fa-download text-white"></i>
             Save Image
         </button>
         <a href="<?= BASE_URL ?>/index"
-            class="bg-[#0f172a] hover:bg-black text-white py-4 rounded-2xl font-bold text-xs text-center shadow-lg shadow-black/10 transition-all flex items-center justify-center gap-2">
+            class="bg-white hover:bg-white/90 text-[#08203E] py-4 rounded-2xl font-bold text-xs text-center shadow-lg shadow-black/20 transition-all flex items-center justify-center gap-2">
             <i class="fa-solid fa-house"></i>
             Home
         </a>

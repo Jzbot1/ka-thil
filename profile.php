@@ -112,10 +112,10 @@ $stmt->close();
             theme: {
                 extend: {
                     colors: {
-                        themePink: '#fbc2eb',
-                        themeBlue: '#a6c1ee',
+                        themePink: '#08203E',
+                        themeBlue: '#557C93',
                         themeGreen: '#80bf15',
-                        themeDark: '#0f172a',
+                        themeDark: '#ffffff',
                     }
                 }
             }
@@ -123,19 +123,25 @@ $stmt->close();
     </script>
 
     <style>
-        body { font-family: 'Outfit', sans-serif; background: linear-gradient(177deg, #fbc2eb, #a6c1ee, hsl(86.7, 80.67784736040353%, 41.709338428627014%)); background-attachment: fixed; color: #0f172a; overflow-x: hidden; }
-        .glass-panel { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
-        .admin-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2)); border: 1px solid rgba(255, 255, 255, 0.3); }
+        body { font-family: 'Outfit', sans-serif; 
+            background: hsla(213, 77%, 14%, 1);
+            background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#08203E", endColorstr="#557C93", GradientType=1 );
+            background-attachment: fixed; color: #ffffff; overflow-x: hidden; }
+        .glass-panel { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .admin-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
 <body class="pb-24">
 
     <!-- HEADER -->
-    <header class="fixed top-0 w-full z-50 bg-white/20 backdrop-blur-xl h-16 border-b border-white/20">
+    <header class="fixed top-0 w-full z-50 bg-[#1e293b]/80 backdrop-blur-xl h-16 border-b border-[#334155]">
         <div class="max-w-md mx-auto px-5 h-full flex items-center justify-between">
-            <a href="index" class="w-10 h-10 rounded-xl bg-white/40 flex items-center justify-center border border-white/30"><i class="fa-solid fa-arrow-left text-themeDark text-sm"></i></a>
+                <a href="index" class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/10"><i class="fa-solid fa-arrow-left text-themeDark text-sm"></i></a>
             <div class="font-bold text-lg text-themeDark">Account</div>
-            <div class="w-10 h-10 rounded-xl bg-white/40 flex items-center justify-center border border-white/30 text-rose-600">
+            <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/10 text-rose-400">
                 <a href="auth/logout"><i class="fa-solid fa-right-from-bracket"></i></a>
             </div>
         </div>
@@ -153,15 +159,15 @@ $stmt->close();
                 <div class="absolute -bottom-1 -right-1 bg-blue-600 text-white text-[10px] font-black px-2 py-0.5 rounded-lg border-2 border-navyDark uppercase tracking-tighter">Admin</div>
                 <?php endif; ?>
             </div>
-            <h2 class="text-xl font-black text-themeDark"><?= htmlspecialchars($username) ?></h2>
-            <p class="text-xs text-themeDark/50 font-medium">Member since <?= date('M Y', strtotime($userData['created_at'] ?? 'now')) ?></p>
+            <h2 class="text-xl font-black text-white"><?= htmlspecialchars($username) ?></h2>
+            <p class="text-xs text-white/50 font-medium">Member since <?= date('M Y', strtotime($userData['created_at'] ?? 'now')) ?></p>
         </div>
 
         <!-- USER STATS GRID -->
         <div class="grid grid-cols-4 gap-2 mb-6">
             <div class="glass-panel rounded-2xl p-3 flex flex-col items-center justify-center text-center">
-                <span class="text-[14px] font-black text-themeDark"><?= $userStats['total'] ?></span>
-                <span class="text-[7px] font-bold text-themeDark/40 uppercase tracking-tighter">Total</span>
+                <span class="text-[14px] font-black text-white"><?= $userStats['total'] ?></span>
+                <span class="text-[7px] font-bold text-white/40 uppercase tracking-tighter">Total</span>
             </div>
             <div class="glass-panel rounded-2xl p-3 flex flex-col items-center justify-center text-center">
                 <span class="text-[14px] font-black text-emerald-600"><?= $userStats['success'] ?></span>
@@ -178,22 +184,22 @@ $stmt->close();
         </div>
 
         <!-- WALLET CARD -->
-        <div class="glass-panel rounded-[32px] p-6 mb-8 relative overflow-hidden group border border-white/30">
+        <div class="glass-panel rounded-[32px] p-6 mb-8 relative overflow-hidden group border border-white/10">
             <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                 <i class="fa-solid fa-wallet text-7xl -rotate-12"></i>
             </div>
             <div class="flex justify-between items-center mb-4">
                 <div>
-                    <p class="text-[10px] text-themeDark/50 font-black uppercase tracking-widest">Wallet Balance</p>
-                    <h3 class="text-3xl font-black text-themeDark">₹<?= number_format($balance, 2) ?></h3>
+                    <p class="text-[10px] text-white/50 font-black uppercase tracking-widest">Wallet Balance</p>
+                    <h3 class="text-3xl font-black text-white">₹<?= number_format($balance, 2) ?></h3>
                 </div>
-                <a href="wallet" class="w-12 h-12 rounded-2xl bg-themeDark flex items-center justify-center shadow-lg shadow-themeDark/20 text-white hover:scale-105 transition-transform">
+                <a href="wallet" class="w-12 h-12 rounded-2xl bg-white text-black flex items-center justify-center shadow-lg shadow-white/5 hover:scale-105 transition-transform">
                     <i class="fa-solid fa-plus"></i>
                 </a>
             </div>
             <div class="flex gap-3">
-                <a href="history" class="flex-1 py-2 rounded-xl bg-white/40 border border-white/30 text-center text-[10px] font-black text-themeDark/60 uppercase tracking-tighter hover:bg-white/50 transition">Order History</a>
-                <a href="wallet" class="flex-1 py-2 rounded-xl bg-white/40 border border-white/30 text-center text-[10px] font-black text-themeDark/60 uppercase tracking-tighter hover:bg-white/50 transition">Wallet Logs</a>
+                <a href="history" class="flex-1 py-2 rounded-xl bg-white/5 border border-white/10 text-center text-[10px] font-black text-white/60 uppercase tracking-tighter hover:bg-white/10 transition">Order History</a>
+                <a href="wallet" class="flex-1 py-2 rounded-xl bg-white/5 border border-white/10 text-center text-[10px] font-black text-white/60 uppercase tracking-tighter hover:bg-white/10 transition">Wallet Logs</a>
             </div>
         </div>
 
@@ -201,61 +207,61 @@ $stmt->close();
         <?php if($role === 'admin'): ?>
         <div class="mb-8">
             <div class="flex items-center justify-between px-2 mb-4">
-                <h4 class="text-xs font-black text-themeDark uppercase tracking-widest">Admin Dashboard</h4>
-                <span class="text-[10px] text-themeDark/60 font-bold">Real-time Stats</span>
+                <h4 class="text-xs font-black text-white uppercase tracking-widest">Admin Dashboard</h4>
+                <span class="text-[10px] text-white/60 font-bold">Real-time Stats</span>
             </div>
             
             <div class="grid grid-cols-2 gap-3 mb-4">
                 <div class="glass-panel admin-card rounded-2xl p-4">
-                    <p class="text-[10px] text-themeDark/60 font-bold uppercase mb-1">Today (<?= date('l') ?>)</p>
-                    <p class="text-lg font-black text-rose-600"><?= number_format($stats['today_orders']) ?> Orders</p>
-                    <p class="text-[9px] font-bold text-themeDark/40">₹<?= number_format($stats['today_sales'], 0) ?> Revenue</p>
+                    <p class="text-[10px] text-white/60 font-bold uppercase mb-1">Today (<?= date('l') ?>)</p>
+                    <p class="text-lg font-black text-rose-400"><?= number_format($stats['today_orders']) ?> Orders</p>
+                    <p class="text-[9px] font-bold text-white/40">₹<?= number_format($stats['today_sales'], 0) ?> Revenue</p>
                 </div>
                 <div class="glass-panel admin-card rounded-2xl p-4">
-                    <p class="text-[10px] text-themeDark/60 font-bold uppercase mb-1">Pending Orders</p>
-                    <p class="text-lg font-black text-amber-600"><?= number_format($stats['pending_orders']) ?></p>
-                    <p class="text-[9px] font-bold text-themeDark/40">Action Needed</p>
+                    <p class="text-[10px] text-white/60 font-bold uppercase mb-1">Pending Orders</p>
+                    <p class="text-lg font-black text-amber-400"><?= number_format($stats['pending_orders']) ?></p>
+                    <p class="text-[9px] font-bold text-white/40">Action Needed</p>
                 </div>
                 <div class="glass-panel admin-card rounded-2xl p-4">
-                    <p class="text-[10px] text-themeDark/60 font-bold uppercase mb-1">Successful Orders</p>
-                    <p class="text-lg font-black text-emerald-600"><?= number_format($stats['success_orders']) ?></p>
-                    <p class="text-[9px] font-bold text-themeDark/40">Lifetime Success</p>
+                    <p class="text-[10px] text-white/60 font-bold uppercase mb-1">Successful Orders</p>
+                    <p class="text-lg font-black text-emerald-400"><?= number_format($stats['success_orders']) ?></p>
+                    <p class="text-[9px] font-bold text-white/40">Lifetime Success</p>
                 </div>
                 <div class="glass-panel admin-card rounded-2xl p-4">
-                    <p class="text-[10px] text-themeDark/60 font-bold uppercase mb-1">Total Sales</p>
-                    <p class="text-lg font-black text-themeDark">₹<?= number_format($stats['total_sales'], 0) ?></p>
-                    <p class="text-[9px] font-bold text-themeDark/40">Total Volume</p>
+                    <p class="text-[10px] text-white/60 font-bold uppercase mb-1">Total Sales</p>
+                    <p class="text-lg font-black text-white">₹<?= number_format($stats['total_sales'], 0) ?></p>
+                    <p class="text-[9px] font-bold text-white/40">Total Volume</p>
                 </div>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
-                <a href="admin/admin_product" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/50 transition border border-white/30">
-                    <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center text-themeDark"><i class="fa-solid fa-box-open"></i></div>
-                    <span class="text-[10px] font-black uppercase text-themeDark">Products</span>
+                <a href="admin/admin_product" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/10 transition border border-white/10">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white"><i class="fa-solid fa-box-open"></i></div>
+                    <span class="text-[10px] font-black uppercase text-white">Products</span>
                 </a>
-                <a href="admin/admin_blog" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/50 transition border border-white/30">
-                    <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center text-themeDark"><i class="fa-solid fa-newspaper"></i></div>
-                    <span class="text-[10px] font-black uppercase text-themeDark">Blogs</span>
+                <a href="admin/admin_blog" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/10 transition border border-white/10">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white"><i class="fa-solid fa-newspaper"></i></div>
+                    <span class="text-[10px] font-black uppercase text-white">Blogs</span>
                 </a>
-                <a href="admin/admin_game" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/50 transition border border-white/30">
-                    <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center text-themeDark"><i class="fa-solid fa-gamepad"></i></div>
-                    <span class="text-[10px] font-black uppercase text-themeDark">Games</span>
+                <a href="admin/admin_game" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/10 transition border border-white/10">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white"><i class="fa-solid fa-gamepad"></i></div>
+                    <span class="text-[10px] font-black uppercase text-white">Games</span>
                 </a>
-                <a href="admin/admin_order" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/50 transition border border-white/30">
-                    <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center text-themeDark"><i class="fa-solid fa-cart-shopping"></i></div>
-                    <span class="text-[10px] font-black uppercase text-themeDark">Orders</span>
+                <a href="admin/admin_order" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/10 transition border border-white/10">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white"><i class="fa-solid fa-cart-shopping"></i></div>
+                    <span class="text-[10px] font-black uppercase text-white">Orders</span>
                 </a>
-                <a href="admin/adminuser" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/50 transition border border-white/30">
-                    <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center text-themeDark"><i class="fa-solid fa-users-gear"></i></div>
-                    <span class="text-[10px] font-black uppercase text-themeDark">Users</span>
+                <a href="admin/adminuser" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/10 transition border border-white/10">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white"><i class="fa-solid fa-users-gear"></i></div>
+                    <span class="text-[10px] font-black uppercase text-white">Users</span>
                 </a>
-                <a href="admin/admin_notification" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/50 transition border border-white/30">
-                    <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center text-themeDark"><i class="fa-solid fa-bullhorn"></i></div>
-                    <span class="text-[10px] font-black uppercase text-themeDark">Notify</span>
+                <a href="admin/admin_notification" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/10 transition border border-white/10">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white"><i class="fa-solid fa-bullhorn"></i></div>
+                    <span class="text-[10px] font-black uppercase text-white">Notify</span>
                 </a>
-                <a href="admin/settings" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/50 transition border border-white/30">
-                    <div class="w-10 h-10 rounded-xl bg-themeDark/10 flex items-center justify-center text-themeDark"><i class="fa-solid fa-sliders"></i></div>
-                    <span class="text-[10px] font-black uppercase text-themeDark">Settings</span>
+                <a href="admin/settings" class="glass-panel rounded-2xl p-4 flex items-center gap-3 hover:bg-white/10 transition border border-white/10">
+                    <div class="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-white"><i class="fa-solid fa-sliders"></i></div>
+                    <span class="text-[10px] font-black uppercase text-white">Settings</span>
                 </a>
             </div>
         </div>
@@ -263,38 +269,38 @@ $stmt->close();
 
         <!-- ACCOUNT SETTINGS -->
         <div class="mb-8">
-            <h4 class="text-xs font-black text-themeDark/60 uppercase tracking-widest px-2 mb-4">Account Settings</h4>
-            <div class="glass-panel rounded-[24px] overflow-hidden border border-white/30">
-                <div class="p-4 border-b border-white/30 flex items-center justify-between group">
+            <h4 class="text-xs font-black text-white/60 uppercase tracking-widest px-2 mb-4">Account Settings</h4>
+            <div class="glass-panel rounded-[24px] overflow-hidden border border-white/10">
+                <div class="p-4 border-b border-white/10 flex items-center justify-between group">
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-themeDark/10 flex items-center justify-center text-themeDark/60"><i class="fa-solid fa-phone"></i></div>
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-white/60"><i class="fa-solid fa-phone"></i></div>
                         <div>
-                            <p class="text-[10px] text-themeDark/50 font-bold uppercase tracking-tighter">Mobile Number</p>
-                            <p class="text-sm font-bold text-themeDark"><?= htmlspecialchars($mobile) ?></p>
+                            <p class="text-[10px] text-white/50 font-bold uppercase tracking-tighter">Mobile Number</p>
+                            <p class="text-sm font-bold text-white"><?= htmlspecialchars($mobile) ?></p>
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-right text-[10px] text-themeDark/40 group-hover:translate-x-1 transition-transform"></i>
                 </div>
 
-                <a href="auth/change_password" class="p-4 border-b border-white/30 flex items-center justify-between group hover:bg-white/40 transition">
+                <a href="auth/change_password" class="p-4 border-b border-white/10 flex items-center justify-between group hover:bg-white/10 transition">
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-themeDark/10 flex items-center justify-center text-themeDark"><i class="fa-solid fa-lock"></i></div>
-                        <span class="text-[10px] font-black uppercase text-themeDark tracking-widest">Change Password</span>
+                        <div class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-white"><i class="fa-solid fa-lock"></i></div>
+                        <span class="text-[10px] font-black uppercase text-white tracking-widest">Change Password</span>
                     </div>
-                    <i class="fa-solid fa-chevron-right text-[10px] text-themeDark/40 group-hover:translate-x-1 transition-transform"></i>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-white/40 group-hover:translate-x-1 transition-transform"></i>
                 </a>
 
-                <a href="auth/logout" class="p-4 flex items-center justify-between group hover:bg-white/40 transition">
+                <a href="auth/logout" class="p-4 flex items-center justify-between group hover:bg-white/10 transition">
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-600"><i class="fa-solid fa-power-off"></i></div>
-                        <span class="text-[10px] font-black uppercase text-rose-600 tracking-widest">Logout Account</span>
+                        <div class="w-8 h-8 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400"><i class="fa-solid fa-power-off"></i></div>
+                        <span class="text-[10px] font-black uppercase text-rose-400 tracking-widest">Logout Account</span>
                     </div>
                     <i class="fa-solid fa-chevron-right text-[10px] text-rose-300 group-hover:translate-x-1 transition-transform"></i>
                 </a>
             </div>
         </div>
 
-        <p class="text-center text-[10px] text-themeDark/50 font-medium px-8">Your account is secured with 256-bit encryption. Always logout from shared devices.</p>
+        <p class="text-center text-[10px] text-white/50 font-medium px-8">Your account is secured with 256-bit encryption. Always logout from shared devices.</p>
 
     </main>
 

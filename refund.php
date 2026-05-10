@@ -21,16 +21,18 @@ $whatsapp_link = $settings['whatsapp'] ?? 'https://wa.me/918730063275';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #0f172a; 
-            --bg-gradient: linear-gradient(177deg, #fbc2eb, #a6c1ee, hsl(86.7, 80.67784736040353%, 41.709338428627014%));
-            --card-bg: rgba(255, 255, 255, 0.4);
-            --text-main: #0f172a;
-            --text-muted: rgba(15, 23, 42, 0.7);
+            --primary-color: #ffffff; 
+            --bg-gradient: hsla(213, 77%, 14%, 1);
+            --linear-gradient: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
         }
 
         body {
             font-family: 'Segoe UI', sans-serif;
             background: var(--bg-gradient);
+            background: var(--linear-gradient);
             background-attachment: fixed;
             margin: 0;
             padding: 15px;
@@ -45,12 +47,12 @@ $whatsapp_link = $settings['whatsapp'] ?? 'https://wa.me/918730063275';
             backdrop-filter: blur(12px);
             padding: 30px;
             border-radius: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         .header {
-            border-bottom: 1px solid rgba(15, 23, 42, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding-bottom: 15px;
             margin-bottom: 25px;
         }
@@ -86,7 +88,7 @@ $whatsapp_link = $settings['whatsapp'] ?? 'https://wa.me/918730063275';
         }
 
         .highlight-box {
-            background: rgba(15, 23, 42, 0.05);
+            background: rgba(255, 255, 255, 0.05);
             border-left: 4px solid var(--primary-color);
             padding: 15px;
             margin: 15px 0;
@@ -103,8 +105,8 @@ $whatsapp_link = $settings['whatsapp'] ?? 'https://wa.me/918730063275';
         .support-btn {
             display: block;
             width: fit-content;
-            background: #0f172a;
-            color: white;
+            background: #ffffff;
+            color: #0f172a;
             padding: 12px 25px;
             border-radius: 30px;
             text-decoration: none;

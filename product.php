@@ -104,10 +104,10 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
             theme: {
                 extend: {
                     colors: {
-                        themePink: '#fbc2eb',
-                        themeBlue: '#a6c1ee',
+                        themePink: '#08203E',
+                        themeBlue: '#557C93',
                         themeGreen: '#80bf15',
-                        themeDark: '#0f172a',
+                        themeDark: '#ffffff',
                     },
                     animation: {
                         'shimmer': 'shimmer 1.5s infinite linear',
@@ -118,15 +118,21 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
     </script>
 
     <style>
-        body { font-family: 'Outfit', sans-serif; background: linear-gradient(177deg, #fbc2eb, #a6c1ee, hsl(86.7, 80.67784736040353%, 41.709338428627014%)); background-attachment: fixed; color: #0f172a; overflow-x: hidden; }
+        body { font-family: 'Outfit', sans-serif; 
+            background: hsla(213, 77%, 14%, 1);
+            background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#08203E", endColorstr="#557C93", GradientType=1 );
+            background-attachment: fixed; color: #ffffff; overflow-x: hidden; }
         @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
         .skeleton { background: linear-gradient(90deg, rgba(15, 23, 42, 0.1) 25%, rgba(15, 23, 42, 0.2) 50%, rgba(15, 23, 42, 0.1) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite linear; }
-        .glass-panel { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .glass-panel { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .header-banner { height: 140px; position: relative; overflow: hidden; border-radius: 0 0 2rem 2rem; }
         .header-img { position: absolute; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8) blur(1px); transform: scale(1.1); }
-        .item-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(255, 255, 255, 0.3); border: 1px solid rgba(255,255,255,0.2); }
+        .item-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.1); }
         .item-card.selected { border: 2px solid #3b82f6; background: rgba(59, 130, 246, 0.2); box-shadow: 0 0 25px rgba(59, 130, 246, 0.2); }
-        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.2); padding: 12px 20px env(safe-area-inset-bottom); transform: translateY(100%); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; background: rgba(8, 32, 62, 0.8); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1); padding: 12px 20px env(safe-area-inset-bottom); transform: translateY(100%); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .bottom-bar.show { transform: translateY(0); }
         .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.3s ease; }
         .faq-item.active .faq-answer { max-height: 500px; padding-top: 1rem; }
@@ -135,7 +141,7 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-5px); } }
         .animate-float { animation: float 3s ease-in-out infinite; }
         .feature-icon-glow { filter: drop-shadow(0 0 12px currentColor); }
-        .modern-glass { background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .modern-glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
     <script>
         const BASE_URL = '<?= BASE_URL ?>';
@@ -148,9 +154,9 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
     </div>
 
     <div id="main-content" class="opacity-0 transition-opacity duration-500">
-        <header class="fixed top-0 w-full z-50 bg-white/40 backdrop-blur-xl h-16 border-b border-white/30">
+        <header class="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-xl h-16 border-b border-white/10">
             <div class="max-w-md mx-auto px-5 h-full flex items-center justify-between">
-                <a href="<?= BASE_URL ?>" class="w-10 h-10 rounded-xl bg-white/40 flex items-center justify-center border border-white/30"><i class="fa-solid fa-arrow-left text-themeDark text-sm"></i></a>
+                <a href="<?= BASE_URL ?>" class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/10"><i class="fa-solid fa-arrow-left text-themeDark text-sm"></i></a>
                 <div class="font-bold text-lg text-themeDark font-dynapuff"><?= htmlspecialchars($setting['store_name']); ?></div>
                 <div class="w-10"></div>
             </div>
@@ -169,7 +175,7 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
 
         <div class="header-banner">
             <img src="<?= $final_game_img ?>" class="header-img">
-            <div class="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
         </div>
 
         <div class="max-w-md mx-auto px-4 -mt-8 relative z-10">
@@ -187,29 +193,29 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
 
         <div class="max-w-md mx-auto px-2 mt-4">
             <div class="grid grid-cols-4 gap-2">
-                <div class="modern-glass rounded-2xl py-3 flex flex-col items-center justify-center gap-2 group hover:bg-white/40 transition-all duration-500 animate-float">
-                    <div class="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-600 feature-icon-glow">
+                <div class="modern-glass rounded-2xl py-3 flex flex-col items-center justify-center gap-2 group hover:bg-white/20 transition-all duration-500 animate-float">
+                    <div class="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-400 feature-icon-glow">
                         <i class="fa-solid fa-bolt text-xs"></i>
                     </div>
-                    <span class="text-[8px] font-black text-themeDark/70 uppercase tracking-tighter">Instant</span>
+                    <span class="text-[8px] font-black text-white/70 uppercase tracking-tighter">Instant</span>
                 </div>
-                <div class="modern-glass rounded-2xl py-3 flex flex-col items-center justify-center gap-2 group hover:bg-white/40 transition-all duration-500 animate-float" style="animation-delay: 0.2s;">
-                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-600 feature-icon-glow">
+                <div class="modern-glass rounded-2xl py-3 flex flex-col items-center justify-center gap-2 group hover:bg-white/20 transition-all duration-500 animate-float" style="animation-delay: 0.2s;">
+                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 feature-icon-glow">
                         <i class="fa-solid fa-shield-halved text-xs"></i>
                     </div>
-                    <span class="text-[8px] font-black text-themeDark/70 uppercase tracking-tighter">Official</span>
+                    <span class="text-[8px] font-black text-white/70 uppercase tracking-tighter">Official</span>
                 </div>
-                <div class="modern-glass rounded-2xl py-3 flex flex-col items-center justify-center gap-2 group hover:bg-white/40 transition-all duration-500 animate-float" style="animation-delay: 0.4s;">
-                    <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-600 feature-icon-glow">
+                <div class="modern-glass rounded-2xl py-3 flex flex-col items-center justify-center gap-2 group hover:bg-white/20 transition-all duration-500 animate-float" style="animation-delay: 0.4s;">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 feature-icon-glow">
                         <i class="fa-solid fa-headset text-xs"></i>
                     </div>
-                    <span class="text-[8px] font-black text-themeDark/70 uppercase tracking-tighter">Support</span>
+                    <span class="text-[8px] font-black text-white/70 uppercase tracking-tighter">Support</span>
                 </div>
-                <div class="modern-glass rounded-2xl py-3 flex flex-col items-center justify-center gap-2 group hover:bg-white/40 transition-all duration-500 animate-float" style="animation-delay: 0.6s;">
-                    <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-600 feature-icon-glow">
+                <div class="modern-glass rounded-2xl py-3 flex flex-col items-center justify-center gap-2 group hover:bg-white/20 transition-all duration-500 animate-float" style="animation-delay: 0.6s;">
+                    <div class="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 feature-icon-glow">
                         <i class="fa-solid fa-lock text-xs"></i>
                     </div>
-                    <span class="text-[8px] font-black text-themeDark/70 uppercase tracking-tighter">Secure</span>
+                    <span class="text-[8px] font-black text-white/70 uppercase tracking-tighter">Secure</span>
                 </div>
             </div>
         </div>
@@ -218,16 +224,16 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
             <section class="glass-panel rounded-[2rem] p-5">
                 <div class="flex items-center gap-3 mb-5">
                     <div class="w-8 h-8 bg-rose-600 rounded-lg flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-rose-600/20">1</div>
-                    <h2 class="text-sm font-bold text-themeDark uppercase tracking-wider">Account Details</h2>
+                    <h2 class="text-sm font-bold text-white uppercase tracking-wider">Account Details</h2>
                 </div>
                 <form id="checkUserForm" onsubmit="handleVerify(event)" class="space-y-4">
                     <div class="grid grid-cols-3 gap-3">
                         <div class="relative <?= ($id_system === 'user_only') ? 'col-span-3' : 'col-span-2' ?>">
                             <i class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-themeDark/60 text-xs"></i>
-                            <input type="text" id="user_id" name="user_id" placeholder="User ID" class="w-full bg-white/40 border border-white/50 focus:border-themeDark focus:ring-4 focus:ring-themeDark/10 transition-all rounded-xl p-3.5 pl-10 text-sm text-themeDark outline-none placeholder:text-themeDark/30" required>
+                            <input type="text" id="user_id" name="user_id" placeholder="User ID" class="w-full bg-white/5 border border-white/10 focus:border-white focus:ring-4 focus:ring-white/10 transition-all rounded-xl p-3.5 pl-10 text-sm text-white outline-none placeholder:text-white/30" required>
                         </div>
                         <?php if ($id_system === 'user_zone_input'): ?>
-                            <input type="number" id="zone_id" name="zone_id" placeholder="Zone" class="col-span-1 bg-white/40 border border-white/50 focus:border-themeDark transition-all rounded-xl p-3.5 text-sm text-themeDark text-center outline-none placeholder:text-themeDark/30" required>
+                            <input type="number" id="zone_id" name="zone_id" placeholder="Zone" class="col-span-1 bg-white/5 border border-white/10 focus:border-white transition-all rounded-xl p-3.5 text-sm text-white text-center outline-none placeholder:text-white/30" required>
                         <?php endif; ?>
                     </div>
                     <?php if ($game_provider === 'smileone'): ?>
@@ -240,7 +246,7 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
             <section class="glass-panel rounded-[2rem] p-5">
                 <div class="flex items-center gap-3 mb-5">
                     <div class="w-8 h-8 bg-rose-600 rounded-lg flex items-center justify-center text-white text-sm font-bold shadow-lg shadow-rose-600/20">2</div>
-                    <h2 class="text-sm font-bold text-themeDark uppercase tracking-wider">Select Amount</h2>
+                    <h2 class="text-sm font-bold text-white uppercase tracking-wider">Select Amount</h2>
                 </div>
                 <div class="grid grid-cols-3 gap-3">
                     <?php foreach ($diamonds as $row): 
@@ -260,8 +266,8 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
                             ?>
                                 <img src="<?= $d_img ?>" class="w-10 h-10 object-contain mb-2">
                             <?php endif; ?>
-                            <div class="text-[9px] text-themeDark/60 font-bold uppercase mb-1"><?= htmlspecialchars($row['spu']) ?></div>
-                            <div class="text-[12px] font-extrabold text-themeDark">
+                            <div class="text-[9px] text-white/60 font-bold uppercase mb-1"><?= htmlspecialchars($row['spu']) ?></div>
+                            <div class="text-[12px] font-extrabold text-white">
                                 <?php if ($isReseller && !empty($row['reseller_price'])): ?>
                                     <span class="text-[8px] text-gray-400 line-through mr-1">₹<?= number_format($row['price'], 0) ?></span>
                                     <span class="text-rose-600">₹<?= number_format($row['reseller_price'], 0) ?></span>
@@ -282,15 +288,15 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
                 <?php endif; ?>
                 
                 <?php if (!empty($game['description_body'])): ?>
-                    <div class="text-[11px] text-themeDark/60 leading-relaxed">
+                    <div class="text-[11px] text-white/60 leading-relaxed">
                         <?= nl2br(htmlspecialchars($game['description_body'])) ?>
                     </div>
                 <?php endif; ?>
 
                 <?php if (!empty($game['external_url'])): ?>
                     <div class="pt-2">
-                        <a href="<?= htmlspecialchars($game['external_url']) ?>" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-white/40 border border-white/50 rounded-xl text-[10px] font-bold text-themeDark hover:bg-white/50 transition-all">
-                            <i class="fa-solid fa-arrow-up-right-from-square text-themeDark"></i>
+                        <a href="<?= htmlspecialchars($game['external_url']) ?>" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-xl text-[10px] font-bold text-white hover:bg-white/10 transition-all">
+                            <i class="fa-solid fa-arrow-up-right-from-square text-white/70"></i>
                             Official Website
                         </a>
                     </div>
@@ -300,21 +306,21 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
 
             <section class="glass-panel rounded-[2rem] p-5 space-y-4 mb-10">
                 <div class="flex items-center gap-3 mb-2">
-                    <i class="fa-solid fa-circle-question text-themeDark"></i>
-                    <h2 class="text-xs font-black text-themeDark uppercase tracking-widest">Questions & Help</h2>
+                    <i class="fa-solid fa-circle-question text-white"></i>
+                    <h2 class="text-xs font-black text-white uppercase tracking-widest">Questions & Help</h2>
                 </div>
                 
                 <div class="space-y-3">
                     <?php if(empty($faqs)): ?>
-                        <p class="text-[10px] text-themeDark/40 text-center py-4 italic">No FAQs available.</p>
+                        <p class="text-[10px] text-white/40 text-center py-4 italic">No FAQs available.</p>
                     <?php else: ?>
                         <?php foreach($faqs as $faq): ?>
-                            <div class="faq-item bg-white/30 border border-white/50 rounded-2xl overflow-hidden">
+                            <div class="faq-item bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
                                 <button onclick="toggleFaq(this)" class="w-full flex items-center justify-between p-4 text-left">
-                                    <span class="text-[11px] font-bold text-themeDark/80"><?= htmlspecialchars($faq['question']) ?></span>
-                                    <i class="faq-icon fa-solid fa-chevron-down text-[10px] text-themeDark/40 transition-transform"></i>
+                                    <span class="text-[11px] font-bold text-white/80"><?= htmlspecialchars($faq['question']) ?></span>
+                                    <i class="faq-icon fa-solid fa-chevron-down text-[10px] text-white/40 transition-transform"></i>
                                 </button>
-                                <div class="faq-answer px-4 pb-0 text-[10px] text-themeDark/60 leading-relaxed border-t border-white/30">
+                                <div class="faq-answer px-4 pb-0 text-[10px] text-white/60 leading-relaxed border-t border-white/10">
                                     <?= nl2br(htmlspecialchars($faq['answer'])) ?>
                                     <div class="h-4"></div>
                                 </div>
@@ -329,7 +335,7 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
 
         <div id="stickyBar" class="bottom-bar">
             <div class="max-w-md mx-auto flex items-center justify-between gap-4">
-                <div><p class="text-[9px] text-themeDark/60 uppercase font-bold">Price</p><p id="bar_price" class="text-xl font-black text-rose-600">₹0</p></div>
+                <div><p class="text-[9px] text-white/60 uppercase font-bold">Price</p><p id="bar_price" class="text-xl font-black text-rose-600">₹0</p></div>
                 <button onclick="handleCheckout()" class="flex-1 bg-rose-600 text-white h-12 rounded-xl font-bold text-sm shadow-xl shadow-rose-600/20">Checkout</button>
             </div>
         </div>

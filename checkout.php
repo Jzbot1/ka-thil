@@ -89,10 +89,10 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
             theme: {
                 extend: {
                     colors: {
-                        themePink: '#fbc2eb',
-                        themeBlue: '#a6c1ee',
+                        themePink: '#08203E',
+                        themeBlue: '#557C93',
                         themeGreen: '#80bf15',
-                        themeDark: '#0f172a',
+                        themeDark: '#ffffff',
                     }
                 }
             }
@@ -100,21 +100,27 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
     </script>
 
     <style>
-        body { font-family: 'Outfit', sans-serif; background: linear-gradient(177deg, #fbc2eb, #a6c1ee, hsl(86.7, 80.67784736040353%, 41.709338428627014%)); background-attachment: fixed; color: #0f172a; overflow-x: hidden; }
-        .glass-panel { background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
-        .payment-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: rgba(255, 255, 255, 0.3); border: 1px solid rgba(255,255,255,0.2); }
-        .payment-card.selected { border: 2px solid #0f172a; background: rgba(255, 255, 255, 0.5); box-shadow: 0 0 20px rgba(15, 23, 42, 0.1); }
-        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.2); padding: 16px 20px env(safe-area-inset-bottom); }
+        body { font-family: 'Outfit', sans-serif;
+            background: hsla(213, 77%, 14%, 1);
+            background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -moz-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            background: -webkit-linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#08203E",endColorstr="#557C93",GradientType=1);
+            background-attachment: fixed; color: #ffffff; overflow-x: hidden; }
+        .glass-panel { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .payment-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.1); }
+        .payment-card.selected { border: 2px solid #ffffff; background: rgba(255, 255, 255, 0.15); box-shadow: 0 0 20px rgba(255, 255, 255, 0.1); }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; background: rgba(8, 32, 62, 0.85); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1); padding: 16px 20px env(safe-area-inset-bottom); }
         @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .animate-slide { animation: slideIn 0.5s ease forwards; }
     </style>
 </head>
 <body class="pb-32">
 
-    <header class="fixed top-0 w-full z-50 bg-white/20 backdrop-blur-xl h-16 border-b border-white/20">
+    <header class="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-xl h-16 border-b border-white/10">
         <div class="max-w-md mx-auto px-5 h-full flex items-center justify-between">
-            <a href="<?= BASE_URL ?>/product/<?= $game_slug ?>" class="w-10 h-10 rounded-xl bg-white/40 flex items-center justify-center border border-white/30"><i class="fa-solid fa-arrow-left text-themeDark text-sm"></i></a>
-            <div class="font-bold text-lg text-themeDark">Checkout</div>
+            <a href="<?= BASE_URL ?>/product/<?= $game_slug ?>" class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/10"><i class="fa-solid fa-arrow-left text-white text-sm"></i></a>
+            <div class="font-bold text-lg text-white">Checkout</div>
             <div class="w-10"></div>
         </div>
     </header>
@@ -124,23 +130,23 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
         <!-- SECTION 1: ORDER SUMMARY -->
         <section class="animate-slide">
             <div class="flex items-center gap-3 mb-4">
-                <div class="w-6 h-6 bg-themeBlue rounded-md flex items-center justify-center text-[10px] font-bold shadow-lg shadow-themeBlue/30 text-themeDark">1</div>
-                <h2 class="text-xs font-bold text-themeDark uppercase tracking-widest">Order Summary</h2>
+                <div class="w-6 h-6 bg-themeBlue rounded-md flex items-center justify-center text-[10px] font-bold shadow-lg shadow-themeBlue/30 text-white">1</div>
+                <h2 class="text-xs font-bold text-white uppercase tracking-widest">Order Summary</h2>
             </div>
             
             <div class="glass-panel rounded-[2rem] overflow-hidden">
                 <div class="p-6 flex items-center gap-4 border-b border-white/5">
                     <img src="<?= (strpos($game_image, 'http') === 0) ? $game_image : BASE_URL . '/' . ltrim($game_image, '/') ?>" class="w-16 h-16 rounded-2xl object-cover border border-white/10">
                     <div>
-                    <h3 class="text-base font-black text-themeDark"><?= htmlspecialchars($game_name) ?></h3>
+                    <h3 class="text-base font-black text-white"><?= htmlspecialchars($game_name) ?></h3>
                         <div class="flex items-center gap-2 mt-1">
                             <?php 
                                 $isManual = (strtolower($provider) === 'manual');
                                 $display_text = $isManual ? 'Manual Delivery' : 'Instant Delivery';
-                                $badge_style = $isManual ? 'bg-orange-500/10 text-orange-600' : 'bg-rose-500/10 text-rose-600';
+                                $badge_style = $isManual ? 'bg-orange-500/10 text-orange-400' : 'bg-rose-500/10 text-rose-400';
                             ?>
                             <span class="px-2 py-0.5 <?= $badge_style ?> text-[8px] font-bold rounded-full uppercase"><?= $display_text ?></span>
-                            <span class="text-[10px] text-gray-500">Official Recharge</span>
+                            <span class="text-[10px] text-white/50">Official Recharge</span>
                         </div>
                     </div>
                 </div>
@@ -148,28 +154,28 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
                 <div class="p-6 space-y-4">
                     <div class="flex justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/5">
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-navyDark rounded-xl flex items-center justify-center">
+                            <div class="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
                                 <img src="<?= (strpos($product_image, 'http') === 0) ? $product_image : BASE_URL . '/' . ltrim($product_image, '/') ?>" class="w-7 h-7 object-contain">
                             </div>
                                 <div>
-                                    <p class="text-[10px] text-themeDark/60 font-bold uppercase tracking-wider">Product</p>
-                                    <p class="text-xs font-bold text-themeDark"><?= htmlspecialchars($product_name) ?></p>
+                                    <p class="text-[10px] text-white/60 font-bold uppercase tracking-wider">Product</p>
+                                    <p class="text-xs font-bold text-white"><?= htmlspecialchars($product_name) ?></p>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <p class="text-[10px] text-themeDark/60 font-bold uppercase tracking-wider">Price</p>
-                                <p class="text-base font-black text-rose-600">₹<?= number_format($product_price, 0) ?></p>
+                                <p class="text-[10px] text-white/60 font-bold uppercase tracking-wider">Price</p>
+                                <p class="text-base font-black text-rose-400">₹<?= number_format($product_price, 0) ?></p>
                             </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
                         <div class="bg-white/5 p-4 rounded-2xl border border-white/5">
-                            <p class="text-[9px] text-themeDark/60 font-bold uppercase tracking-widest mb-1">Username</p>
-                            <p class="text-xs font-black text-themeDark truncate"><?= htmlspecialchars($verified_username) ?></p>
+                            <p class="text-[9px] text-white/60 font-bold uppercase tracking-widest mb-1">Username</p>
+                            <p class="text-xs font-black text-white truncate"><?= htmlspecialchars($verified_username) ?></p>
                         </div>
                         <div class="bg-white/5 p-4 rounded-2xl border border-white/5">
-                            <p class="text-[9px] text-themeDark/60 font-bold uppercase tracking-widest mb-1">User ID</p>
-                            <p class="text-xs font-black text-themeDark"><?= htmlspecialchars($user_id) ?><?= ($zone_id !== 'none') ? " ($zone_id)" : "" ?></p>
+                            <p class="text-[9px] text-white/60 font-bold uppercase tracking-widest mb-1">User ID</p>
+                            <p class="text-xs font-black text-white"><?= htmlspecialchars($user_id) ?><?= ($zone_id !== 'none') ? " ($zone_id)" : "" ?></p>
                         </div>
                     </div>
                 </div>
@@ -180,7 +186,7 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
         <section class="animate-slide" style="animation-delay: 0.1s;">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-6 h-6 bg-rose-600 rounded-md flex items-center justify-center text-[10px] font-bold shadow-lg shadow-rose-600/30 text-white">2</div>
-                <h2 class="text-xs font-bold text-themeDark uppercase tracking-widest">Select Payment Method</h2>
+                <h2 class="text-xs font-bold text-white uppercase tracking-widest">Select Payment Method</h2>
             </div>
             
             <div class="space-y-2">
@@ -192,12 +198,12 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
                                     <img src="<?= (strpos($pm['image_url'] ?? '', 'http') === 0) ? ($pm['image_url'] ?? '') : BASE_URL . '/' . ltrim($pm['image_url'] ?? '', '/'); ?>" class="w-full h-full object-contain">
                                 </div>
                                 <div>
-                                    <p class="text-sm font-bold text-themeDark group-hover:text-rose-600 transition-colors"><?= htmlspecialchars($pm['method_name']) ?></p>
-                                    <p class="text-[10px] text-themeDark/60 uppercase font-bold tracking-tighter">
+                                    <p class="text-sm font-bold text-white group-hover:text-rose-400 transition-colors"><?= htmlspecialchars($pm['method_name']) ?></p>
+                                    <p class="text-[10px] text-white/60 uppercase font-bold tracking-tighter">
                                         <?php if ($pm['method_code'] == 'jcoin'): ?>
                                             Balance: ₹<?= number_format($user_balance, 2) ?>
                                             <?php if ($user_balance < $product_price): ?>
-                                                <span class="text-rose-500 ml-1">(Insufficient)</span>
+                                                <span class="text-rose-400 ml-1">(Insufficient)</span>
                                             <?php endif; ?>
                                         <?php else: ?>
                                             Instant UPI
@@ -205,19 +211,19 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
                                     </p>
                                 </div>
                             </div>
-                            <div class="w-6 h-6 rounded-full border-2 border-white/10 flex items-center justify-center transition-all duration-300">
-                                <div class="dot w-3 h-3 bg-rose-600 rounded-full scale-0 transition-transform duration-300"></div>
+                            <div class="w-6 h-6 rounded-full border-2 border-white/20 flex items-center justify-center transition-all duration-300">
+                                <div class="dot w-3 h-3 bg-rose-500 rounded-full scale-0 transition-transform duration-300"></div>
                             </div>
                         </div>
                     <?php endwhile; ?>
                 <?php else: ?>
-                    <p class="text-center text-xs text-gray-600 py-4">No payment methods available.</p>
+                    <p class="text-center text-xs text-white/50 py-4">No payment methods available.</p>
                 <?php endif; ?>
             </div>
         </section>
 
         <footer class="pb-10 pt-4 text-center">
-            <p class="text-[10px] text-gray-600 font-medium">By proceeding, you agree to our Terms of Service</p>
+            <p class="text-[10px] text-white/40 font-medium">By proceeding, you agree to our Terms of Service</p>
         </footer>
     </main>
 
@@ -225,8 +231,8 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
     <div class="bottom-bar">
         <div class="max-w-md mx-auto flex items-center justify-between gap-6">
             <div class="flex flex-col">
-                <p class="text-[10px] text-themeDark/60 font-bold uppercase tracking-wider leading-none mb-1">Total Pay</p>
-                <p class="text-2xl font-black text-themeDark leading-none">₹<?= number_format($product_price, 0) ?></p>
+                <p class="text-[10px] text-white/60 font-bold uppercase tracking-wider leading-none mb-1">Total Pay</p>
+                <p class="text-2xl font-black text-white leading-none">₹<?= number_format($product_price, 0) ?></p>
             </div>
             <button onclick="handlePay()" id="payBtn" class="flex-1 h-14 bg-rose-600 hover:bg-rose-500 text-white rounded-2xl font-black text-sm shadow-xl shadow-rose-600/30 transition-all active:scale-95 disabled:opacity-50 disabled:pointer-events-none">
                 Pay Now
