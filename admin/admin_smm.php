@@ -2,7 +2,7 @@
 require_once __DIR__ . '/strict_admin.php';
 // SmmPanelApi is now auto-loaded via config.php
 
-$s_res = $conn->query("SELECT smm_api_url,smm_api_key,smm_cron_token FROM fav_setting LIMIT 1");
+$s_res = $conn->query("SELECT smm_api_url,smm_api_key,smm_cron_token,smm_profit_margin FROM fav_setting LIMIT 1");
 $s = ($s_res ? $s_res->fetch_assoc() : []) ?? [];
 $api = new SmmPanelApi($s['smm_api_url']??'', $s['smm_api_key']??'');
 
@@ -14,8 +14,9 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
     // Save API settings
     if ($act==='save_api') {
         $url = trim($_POST['url']); $key = trim($_POST['key']); $tok = trim($_POST['tok'])?:bin2hex(random_bytes(16));
-        $st = $conn->prepare("UPDATE fav_setting SET smm_api_url=?,smm_api_key=?,smm_cron_token=? WHERE id=1");
-        $st->bind_param("sss",$url,$key,$tok); $st->execute(); $st->close();
+        $profit = (float)($_POST['profit']??5);
+        $st = $conn->prepare("UPDATE fav_setting SET smm_api_url=?,smm_api_key=?,smm_cron_token=?,smm_profit_margin=? WHERE id=1");
+        $st->bind_param("sssd",$url,$key,$tok,$profit); $st->execute(); $st->close();
         echo json_encode(['ok'=>true,'tok'=>$tok]); exit;
     }
 
@@ -50,31 +51,46 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
         exit;
     }
 
-    // Sync services from provider
-    if ($act==='sync') {
+    // Fetch services from API for selection
+    if ($act==='fetch_api_services') {
         $services = $api->services();
         if (!$services) { echo json_encode(['ok'=>false,'err'=>'API error']); exit; }
+        echo json_encode(['ok'=>true, 'services'=>$services]); exit;
+    }
+
+    // Sync selected services
+    if ($act==='sync_selected') {
+        $all_services = $api->services();
+        $selected_ids = json_decode($_POST['selected_ids'], true) ?? [];
+        if (!$all_services) { echo json_encode(['ok'=>false,'err'=>'API error']); exit; }
+        
+        $profit_margin = (float)($s['smm_profit_margin']??5) / 100;
         $inserted=0; $updated=0;
-        foreach ($services as $svc) {
-            $pid=(int)($svc->service??0); $cat=$conn->real_escape_string($svc->category??'General');
+        foreach ($all_services as $svc) {
+            $pid=(int)($svc->service??0);
+            if (!in_array($pid, $selected_ids)) continue;
+
+            $cat=$conn->real_escape_string($svc->category??'General');
             $name=$conn->real_escape_string($svc->name??'');
             $rate=(float)($svc->rate??0); 
-            
-            // Convert to INR if the provider uses USD (Standard for SMM)
             $rate_inr = $rate * USD_TO_INR;
             
             $mn=(int)($svc->min??10); $mx=(int)($svc->max??10000);
             $type=$conn->real_escape_string($svc->type??'Default');
+            
+            // Auto-calculate sell price with profit margin
+            $sell_price = round($rate_inr * (1 + $profit_margin), 2);
+
             $exists=$conn->query("SELECT id FROM smm_services WHERE provider_id=$pid")->fetch_assoc();
             if ($exists) {
                 $conn->query("UPDATE smm_services SET category='$cat',original_name='$name',original_rate=$rate_inr,min_order=$mn,max_order=$mx,type='$type',synced_at=NOW() WHERE provider_id=$pid");
                 $updated++;
             } else {
-                $conn->query("INSERT INTO smm_services (provider_id,category,original_name,original_rate,min_order,max_order,type,synced_at) VALUES ($pid,'$cat','$name',$rate_inr,$mn,$mx,'$type',NOW())");
+                $conn->query("INSERT INTO smm_services (provider_id,category,original_name,original_rate,custom_price,min_order,max_order,type,synced_at) VALUES ($pid,'$cat','$name',$rate_inr,$sell_price,$mn,$mx,'$type',NOW())");
                 $inserted++;
             }
         }
-        echo json_encode(['ok'=>true,'inserted'=>$inserted,'updated'=>$updated,'total'=>count($services)]); exit;
+        echo json_encode(['ok'=>true,'inserted'=>$inserted,'updated'=>$updated]); exit;
     }
 
     // Save service overrides (bulk)
@@ -93,9 +109,10 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
         $conn->query("UPDATE smm_services SET is_active=$v WHERE id=$id");
         echo json_encode(['ok'=>true]); exit;
     }
-    // Bulk update markup to 5%
+    // Bulk update markup based on settings
     if ($act==='bulk_markup') {
-        $conn->query("UPDATE smm_services SET custom_price = ROUND(original_rate * 1.05, 2)");
+        $profit_margin = (float)($s['smm_profit_margin']??5) / 100;
+        $conn->query("UPDATE smm_services SET custom_price = ROUND(original_rate * (1 + $profit_margin), 2)");
         echo json_encode(['ok'=>true]); exit;
     }
     exit;
@@ -120,6 +137,11 @@ if($has_svc){
 }
 if($has_ord){
     $r3=$conn->query("SELECT COUNT(*) c FROM smm_orders"); if($r3) $total_orders=(int)$r3->fetch_assoc()['c'];
+    
+    // Calculate total profit: SUM(price_paid - (charge * USD_TO_INR))
+    // We assume charge is in USD if original_rate sync is in USD. 
+    $r4=$conn->query("SELECT SUM(price_paid - (charge * " . USD_TO_INR . ")) as profit FROM smm_orders WHERE status='completed'");
+    $total_profit = (float)($r4->fetch_assoc()['profit'] ?? 0);
 }
 $base_url = (isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=='off'?'https':'http').'://'.$_SERVER['HTTP_HOST'];
 $cron_url = $base_url.'/mobile/cron/smm_sync.php?cron_token='.($s['smm_cron_token']??'');
@@ -168,7 +190,7 @@ body{font-family:'Inter',sans-serif;background:#080f1e;color:#e2e8f0}
     </div>
     <div class="glass rounded-xl px-3 py-2 text-center"><div class="font-black text-indigo-400"><?=$total_svc?></div><div class="text-slate-500">Services</div></div>
     <div class="glass rounded-xl px-3 py-2 text-center"><div class="font-black text-emerald-400"><?=$active_svc?></div><div class="text-slate-500">Active</div></div>
-    <div class="glass rounded-xl px-3 py-2 text-center"><div class="font-black text-amber-400"><?=$total_orders?></div><div class="text-slate-500">Orders</div></div>
+    <div class="glass rounded-xl px-3 py-2 text-center"><div class="font-black text-amber-400">₹<?=number_format($total_profit,0)?></div><div class="text-slate-500">Profit</div></div>
   </div>
 </nav>
 
@@ -182,6 +204,8 @@ body{font-family:'Inter',sans-serif;background:#080f1e;color:#e2e8f0}
         <input class="inp" id="api_url" value="<?=htmlspecialchars($s['smm_api_url']??'https://cheapestsmmpanels.com/api/v2')?>"></div>
       <div><label class="text-xs text-slate-400 font-bold block mb-1">API Key</label>
         <input class="inp" id="api_key" value="<?=htmlspecialchars($s['smm_api_key']??'')?>"></div>
+      <div><label class="text-xs text-slate-400 font-bold block mb-1">Profit Margin (%)</label>
+        <input class="inp" id="api_profit" type="number" step="0.1" value="<?=htmlspecialchars($s['smm_profit_margin']??'5.0')?>"></div>
     </div>
     <div class="mb-4">
       <label class="text-xs text-slate-400 font-bold block mb-1">Cron Token</label>
@@ -195,8 +219,8 @@ body{font-family:'Inter',sans-serif;background:#080f1e;color:#e2e8f0}
     <div class="flex flex-wrap gap-3">
       <button class="btn btn-p" onclick="saveApi()"><i class="fa-solid fa-floppy-disk"></i> Save</button>
       <button class="btn btn-g" onclick="testApi()"><i class="fa-solid fa-plug"></i> Test</button>
-      <button class="btn btn-o" id="syncBtn" onclick="syncServices()"><i class="fa-solid fa-rotate"></i> Sync Services</button>
-      <button class="btn glass text-indigo-400" onclick="bulkMarkup()"><i class="fa-solid fa-percent"></i> Apply 5% Markup to All</button>
+      <button class="btn btn-o" id="syncBtn" onclick="openSyncModal()"><i class="fa-solid fa-rotate"></i> Sync Selected Services</button>
+      <button class="btn glass text-indigo-400" onclick="bulkMarkup()"><i class="fa-solid fa-percent"></i> Apply Markup to All</button>
     </div>
   </div>
 
@@ -226,7 +250,7 @@ body{font-family:'Inter',sans-serif;background:#080f1e;color:#e2e8f0}
               <th class="pb-3 text-left pr-3">Category</th>
               <th class="pb-3 text-right pr-3">Min/Max</th>
               <th class="pb-3 text-right pr-3">Cost ₹</th>
-              <th class="pb-3 text-right pr-3">Your Price ₹ (5% Pro)</th>
+              <th class="pb-3 text-right pr-3">Your Price ₹ (<?=htmlspecialchars($s['smm_profit_margin']??'5')?>%)</th>
               <th class="pb-3 text-center">Active</th>
             </tr></thead>
             <tbody id="svcTable" class="divide-y divide-white/5">
@@ -348,6 +372,24 @@ body{font-family:'Inter',sans-serif;background:#080f1e;color:#e2e8f0}
 
 </div>
 
+<!-- SYNC MODAL -->
+<div id="syncModal" class="fixed inset-0 z-[100] hidden">
+    <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeSyncModal()"></div>
+    <div class="absolute inset-x-4 top-20 bottom-10 max-w-4xl mx-auto glass rounded-3xl overflow-hidden flex flex-col">
+        <div class="p-5 border-b border-white/10 flex justify-between items-center">
+            <h3 class="font-black text-lg">Select Services to Import</h3>
+            <div class="flex gap-2">
+                <button class="btn glass btn-sm" onclick="selectAllApi(true)">All</button>
+                <button class="btn glass btn-sm" onclick="selectAllApi(false)">None</button>
+                <button class="btn btn-p btn-sm" onclick="importSelected()"><i class="fa-solid fa-download"></i> Import Selected</button>
+            </div>
+        </div>
+        <div class="flex-1 overflow-y-auto p-4 space-y-4" id="apiSvcList">
+            <div class="text-center py-20 text-slate-500"><i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i><br>Fetching services...</div>
+        </div>
+    </div>
+</div>
+
 <div id="toast"><div id="toast-in" class="rounded-2xl px-5 py-3 text-sm font-bold flex items-center gap-3"></div></div>
 
 <style>
@@ -366,7 +408,7 @@ async function post(d){
   return(await fetch(location.href,{method:'POST',body:fd})).json();
 }
 async function saveApi(){
-  const r=await post({act:'save_api',url:document.getElementById('api_url').value,key:document.getElementById('api_key').value,tok:document.getElementById('cron_tok').value});
+  const r=await post({act:'save_api',url:document.getElementById('api_url').value,key:document.getElementById('api_key').value,tok:document.getElementById('cron_tok').value,profit:document.getElementById('api_profit').value});
   if(r.ok){document.getElementById('cron_tok').value=r.tok;updateCronUrl(r.tok);toast('Saved!');}else toast('Failed',false);
 }
 async function testApi(){
@@ -374,13 +416,40 @@ async function testApi(){
   const r=await post({act:'test',url:document.getElementById('api_url').value,key:document.getElementById('api_key').value});
   r.ok?toast(`Connected! Balance: ${r.cur} ${parseFloat(r.bal).toFixed(4)}`):toast('Failed: '+r.err,false);
 }
-async function syncServices(){
-  const b=document.getElementById('syncBtn');
-  b.innerHTML='<i class="fa-solid fa-circle-notch fa-spin"></i> Syncing…'; b.disabled=true;
-  const r=await post({act:'sync'});
-  b.innerHTML='<i class="fa-solid fa-rotate"></i> Sync Services from API'; b.disabled=false;
-  r.ok?toast(`Synced! +${r.inserted} new, ~${r.updated} updated (${r.total} total). Reloading…`):toast('Sync failed: '+r.err,false);
-  if(r.ok) setTimeout(()=>location.reload(),2000);
+async function openSyncModal() {
+  document.getElementById('syncModal').classList.remove('hidden');
+  const list = document.getElementById('apiSvcList');
+  list.innerHTML = '<div class="text-center py-20 text-slate-500"><i class="fa-solid fa-circle-notch fa-spin text-2xl mb-2"></i><br>Fetching services...</div>';
+  const r = await post({act:'fetch_api_services'});
+  if(!r.ok) { list.innerHTML = `<div class="text-center py-20 text-rose-500">${r.err}</div>`; return; }
+  
+  let html = '';
+  let currentCat = '';
+  r.services.forEach(s => {
+    if(s.category !== currentCat) {
+        currentCat = s.category;
+        html += `<div class="pt-4 pb-2 border-b border-white/5 text-[10px] font-black uppercase tracking-widest text-indigo-400">${currentCat}</div>`;
+    }
+    html += `
+    <label class="flex items-center gap-3 p-3 glass rounded-xl cursor-pointer hover:bg-white/10 transition">
+        <input type="checkbox" class="api-svc-check w-4 h-4 rounded bg-slate-800 border-white/10 text-indigo-600" value="${s.service}">
+        <div class="flex-1">
+            <div class="text-xs font-bold">${s.name}</div>
+            <div class="text-[10px] text-slate-500">ID: ${s.service} • Cost: $${s.rate}</div>
+        </div>
+    </label>`;
+  });
+  list.innerHTML = html;
+}
+function closeSyncModal() { document.getElementById('syncModal').classList.add('hidden'); }
+function selectAllApi(v) { document.querySelectorAll('.api-svc-check').forEach(c => c.checked = v); }
+async function importSelected() {
+    const ids = Array.from(document.querySelectorAll('.api-svc-check:checked')).map(c => parseInt(c.value));
+    if(!ids.length) return toast('Select at least one service', false);
+    toast('Importing...');
+    const r = await post({act:'sync_selected', selected_ids: JSON.stringify(ids)});
+    if(r.ok) { toast(`Imported ${r.inserted} new, Updated ${r.updated}.`); setTimeout(()=>location.reload(), 1500); }
+    else toast(r.err, false);
 }
 async function saveAll(){
   const rows=[];
@@ -391,7 +460,7 @@ async function saveAll(){
   r.ok?toast('All changes saved!'):toast('Save failed',false);
 }
 async function bulkMarkup(){
-  if(!confirm('This will reset all custom prices to (Cost + 5%). Proceed?')) return;
+  if(!confirm('This will reset all custom prices based on your Profit Margin setting. Proceed?')) return;
   toast('Updating prices...');
   const r = await post({act:'bulk_markup'});
   if(r.ok){ toast('Prices updated! Reloading...'); setTimeout(()=>location.reload(),1500); }
