@@ -1,11 +1,14 @@
 <?php
-if (!isset($setting)) {
-    $setting = $current_settings ?? [];
-    if (empty($setting) && isset($conn)) {
+if (!isset($setting) || !isset($setting['whatsapp'])) {
+    if (isset($conn)) {
         $res_s = $conn->query("SELECT * FROM fav_setting LIMIT 1");
-        if ($res_s && $row_s = $res_s->fetch_assoc()) $setting = $row_s;
+        if ($res_s && $row_s = $res_s->fetch_assoc()) {
+            if (!isset($setting)) $setting = $row_s;
+            else $setting = array_merge($row_s, $setting); // Page settings take priority
+        }
     }
-    if (empty($setting)) $setting = ['store_name' => 'JZ Store'];
+    if (!isset($setting['store_name'])) $setting['store_name'] = 'JZ Store';
+    if (!isset($setting['whatsapp'])) $setting['whatsapp'] = 'https://wa.me/';
 }
 ?>
 <div class="mb-8 px-1">
