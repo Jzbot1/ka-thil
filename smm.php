@@ -60,10 +60,11 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
 <style>
   :root{--theme-dark:#ffffff}
   body{font-family:'Poppins',sans-serif;
-    background:hsla(213,77%,14%,1);
-    background:linear-gradient(90deg,hsla(213,77%,14%,1) 0%,hsla(202,27%,45%,1) 100%);
-    background:-moz-linear-gradient(90deg,hsla(213,77%,14%,1) 0%,hsla(202,27%,45%,1) 100%);
-    background:-webkit-linear-gradient(90deg,hsla(213,77%,14%,1) 0%,hsla(202,27%,45%,1) 100%);
+    background-color: #020617;
+    background-image: 
+        radial-gradient(at 0% 0%, hsla(217, 100%, 10%, 1) 0, transparent 50%), 
+        radial-gradient(at 50% 0%, hsla(215, 96%, 15%, 1) 0, transparent 50%),
+        radial-gradient(at 100% 0%, hsla(217, 100%, 10%, 1) 0, transparent 50%);
     background-attachment:fixed;color:#ffffff;overflow-x:hidden}
   .glass-panel{background:rgba(255,255,255,.1);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1)}
   .game-card:active{transform:scale(.95)}
@@ -71,23 +72,24 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
   /* Category pill tabs */
   .cat-scroll{display:flex;gap:8px;padding:0 16px 4px;overflow-x:auto;scrollbar-width:none}
   .cat-scroll::-webkit-scrollbar{display:none}
-  .cat-pill{white-space:nowrap;padding:7px 16px;border-radius:99px;font-size:11px;font-weight:700;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.1);backdrop-filter:blur(8px);color:#ffffff;cursor:pointer;transition:all .2s;font-family:'Poppins',sans-serif}
-  .cat-pill.active{background:#ffffff;color:#08203E;border-color:#ffffff;box-shadow:0 4px 14px rgba(255,255,255,.15)}
+  .cat-pill{white-space:nowrap;padding:8px 18px;border-radius:14px;font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.03);backdrop-filter:blur(8px);color:rgba(255,255,255,0.6);cursor:pointer;transition:all .3s ease;font-family:'Poppins',sans-serif}
+  .cat-pill.active{background:linear-gradient(135deg, #3b82f6, #1d4ed8);color:#ffffff;border-color:rgba(255,255,255,0.1);box-shadow:0 8px 20px -6px rgba(59,130,246,0.5)}
 
   /* Service card */
-  .svc-card{background:rgba(255,255,255,.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:14px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px}
-  .svc-card:active{transform:scale(.98);background:rgba(255,255,255,.15)}
+  .svc-card{background:rgba(255,255,255,.03);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.05);border-radius:24px;padding:16px;cursor:pointer;transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);display:flex;align-items:center;gap:14px;box-shadow: 0 4px 20px -8px rgba(0,0,0,0.3)}
+  .svc-card:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,0.1);transform:translateY(-2px)}
+  .svc-card:active{transform:scale(.97)}
 
   /* Bottom sheet modal */
   .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:100;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
   .modal-overlay.show{opacity:1;pointer-events:all}
-  .modal-box{background:linear-gradient(180deg,rgba(8,32,62,.97),rgba(5,20,40,.99));border-radius:32px 32px 0 0;padding:24px 20px 40px;width:100%;max-width:480px;transform:translateY(100%);transition:transform .35s cubic-bezier(.175,.885,.32,1.1);border-top:1px solid rgba(255,255,255,.1)}
+  .modal-box{background:#0f172a;border-radius:32px 32px 0 0;padding:24px 20px 40px;width:100%;max-width:480px;transform:translateY(100%);transition:transform .35s cubic-bezier(.175,.885,.32,1.1);border-top:1px solid rgba(255,255,255,.1);box-shadow: 0 -10px 40px rgba(0,0,0,0.5)}
   .modal-overlay.show .modal-box{transform:translateY(0)}
-  .modal-pill{width:40px;height:4px;background:rgba(255,255,255,.15);border-radius:99px;margin:0 auto 20px}
+  .modal-pill{width:40px;height:4px;background:rgba(255,255,255,.1);border-radius:99px;margin:0 auto 20px}
 
   /* Pay tab */
-  .pay-tab{padding:12px 10px;border-radius:16px;border:2px solid rgba(255,255,255,.1);background:rgba(255,255,255,.08);font-size:11px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s;font-family:'Poppins',sans-serif;color:#ffffff}
-  .pay-tab.sel{border-color:#ffffff;background:rgba(255,255,255,.15)}
+  .pay-tab{padding:14px 10px;border-radius:20px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);font-size:11px;font-weight:700;cursor:pointer;text-align:center;transition:all .3s ease;font-family:'Poppins',sans-serif;color:rgba(255,255,255,0.4)}
+  .pay-tab.sel{border-color:rgba(59,130,246,0.5);background:rgba(59,130,246,0.1);color:#ffffff;box-shadow: 0 0 15px -5px rgba(59,130,246,0.4)}
 
   /* Input */
   .svc-input{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:12px 14px;width:100%;font-size:14px;font-family:'Poppins',sans-serif;color:#ffffff;outline:none;transition:border .2s}
@@ -122,36 +124,42 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
 <main class="max-w-md mx-auto pt-20 px-3">
 
   <!-- Scrolling announcement bar -->
-  <div class="mb-5 bg-white/10 backdrop-blur-md border border-white/10 rounded-xl py-2.5 px-3 flex items-center gap-3 overflow-hidden shadow-sm">
-    <i class="fa-solid fa-rocket text-white text-xs flex-shrink-0"></i>
+  <div class="mb-5 bg-blue-600/10 backdrop-blur-md border border-blue-500/20 rounded-2xl py-3 px-4 flex items-center gap-3 overflow-hidden">
+    <div class="flex items-center gap-2 flex-shrink-0">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+        </span>
+        <span class="text-[10px] font-black uppercase tracking-widest text-blue-400">Live</span>
+    </div>
     <div class="overflow-hidden w-full relative h-5">
-      <p class="animate-scroll-text whitespace-nowrap absolute text-[11px] text-white/60 font-bold top-0">
+      <p class="animate-scroll-text whitespace-nowrap absolute text-[11px] text-white/80 font-bold top-0">
         🚀 Boost Instagram, YouTube, TikTok &amp; more! ⚡ Instant delivery · 24/7 Support · <?=$total_svc?>+ Services available!
       </p>
     </div>
   </div>
 
   <!-- Hero stats strip -->
-  <div class="glass-panel rounded-2xl p-4 mb-5 flex items-center justify-around text-center">
-    <div>
-      <div class="text-base font-black text-white font-dynapuff"><?=$total_svc?>+</div>
-      <div class="text-[9px] text-white/50 font-bold uppercase tracking-wider">Services</div>
+  <div class="glass-panel rounded-3xl p-5 mb-6 flex items-center justify-around text-center">
+    <div class="flex flex-col items-center">
+      <div class="text-[14px] font-black text-white"><?=$total_svc?>+</div>
+      <div class="text-[9px] text-white/30 font-bold uppercase tracking-widest mt-1">Services</div>
     </div>
-    <div class="w-px h-8 bg-white/10"></div>
-    <div>
-      <div class="text-base font-black text-white font-dynapuff">⚡ Fast</div>
-      <div class="text-[9px] text-white/50 font-bold uppercase tracking-wider">Delivery</div>
+    <div class="w-px h-10 bg-white/5"></div>
+    <div class="flex flex-col items-center">
+      <div class="text-[14px] font-black text-white">⚡ Instant</div>
+      <div class="text-[9px] text-white/30 font-bold uppercase tracking-widest mt-1">Delivery</div>
     </div>
-    <div class="w-px h-8 bg-white/10"></div>
-    <div>
-      <div class="text-base font-black text-white font-dynapuff">24/7</div>
-      <div class="text-[9px] text-white/50 font-bold uppercase tracking-wider">Support</div>
+    <div class="w-px h-10 bg-white/5"></div>
+    <div class="flex flex-col items-center">
+      <div class="text-[14px] font-black text-white">24/7</div>
+      <div class="text-[9px] text-white/30 font-bold uppercase tracking-widest mt-1">Support</div>
     </div>
     <?php if($user_id): ?>
-    <div class="w-px h-8 bg-white/10"></div>
-    <div>
-      <div class="text-base font-black text-white font-dynapuff">₹<?=number_format($wallet,0)?></div>
-      <div class="text-[9px] text-white/50 font-bold uppercase tracking-wider">Wallet</div>
+    <div class="w-px h-10 bg-white/5"></div>
+    <div class="flex flex-col items-center">
+      <div class="text-[14px] font-black text-emerald-400">₹<?=number_format($wallet,0)?></div>
+      <div class="text-[9px] text-emerald-500/30 font-bold uppercase tracking-widest mt-1">Wallet</div>
     </div>
     <?php endif; ?>
   </div>
@@ -209,30 +217,32 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
   </div>
 
   <!-- ═══ SERVICES ══════════════════════════════════════════════════════════ -->
-  <div id="svcContainer" class="space-y-6">
+  <div id="svcContainer" class="space-y-8">
   <?php foreach($svc_map as $cat=>$svcs):
     $ico=getCatIcon($cat,$icons);
-    $colors=['bg-blue-500','bg-purple-500','bg-pink-500','bg-orange-500','bg-teal-500','bg-indigo-500','bg-red-500'];
+    $colors=['bg-blue-500','bg-purple-500','bg-pink-500','bg-orange-500','bg-emerald-500','bg-indigo-500','bg-rose-500'];
   ?>
   <div class="cat-section" data-cat="<?=htmlspecialchars($cat)?>">
-    <h3 class="text-sm font-bold text-white flex items-center gap-2 mb-3 px-1">
-      <span class="w-1 h-4 <?=$colors[array_search($cat,$cats)%count($colors)]?> rounded-full"></span>
-      <?=$ico?> <?=htmlspecialchars($cat)?>
-      <span class="ml-auto text-[10px] text-white/40 font-bold"><?=count($svcs)?> services</span>
-    </h3>
-    <div class="space-y-2">
+    <div class="flex items-center justify-between mb-4 px-1">
+        <h3 class="text-[13px] font-black text-white flex items-center gap-2 uppercase tracking-wider">
+          <span class="w-1.5 h-1.5 <?=$colors[array_search($cat,$cats)%count($colors)]?> rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"></span>
+          <?=htmlspecialchars($cat)?>
+        </h3>
+        <span class="text-[9px] text-white/20 font-bold uppercase tracking-widest bg-white/5 px-2 py-1 rounded-lg"><?=count($svcs)?> Options</span>
+    </div>
+    <div class="space-y-3">
     <?php foreach($svcs as $svc):
       $col=$colors[$svc['id']%count($colors)];
     ?>
     <div class="svc-card" onclick="openOrder(<?=json_encode(['id'=>$svc['id'],'provider_id'=>$svc['provider_id'],'name'=>$svc['display_name'],'price'=>$svc['sell_price'],'min'=>$svc['min_order'],'max'=>$svc['max_order'],'type'=>$svc['type'],'cat'=>$cat])?>)">
-      <div class="w-10 h-10 rounded-2xl <?=$col?>/20 flex items-center justify-center text-lg flex-shrink-0"><?=$ico?></div>
+      <div class="w-11 h-11 rounded-2xl bg-white/5 flex items-center justify-center text-xl flex-shrink-0 shadow-inner border border-white/5"><?=$ico?></div>
       <div class="flex-1 min-w-0">
-        <div class="text-[13px] font-bold text-white leading-snug line-clamp-2"><?=htmlspecialchars($svc['display_name'])?></div>
-        <div class="text-[10px] text-white/50 font-medium mt-0.5">Min <?=number_format($svc['min_order'])?> · Max <?=number_format($svc['max_order'])?> · <?=htmlspecialchars($svc['type'])?></div>
+        <div class="text-[13px] font-bold text-white/90 leading-tight line-clamp-2"><?=htmlspecialchars($svc['display_name'])?></div>
+        <div class="text-[10px] text-white/30 font-medium mt-1">Min <?=number_format($svc['min_order'])?> · Max <?=number_format($svc['max_order'])?></div>
       </div>
       <div class="text-right flex-shrink-0">
-        <div class="text-[15px] font-black text-white">₹<?=number_format($svc['sell_price'],2)?></div>
-        <div class="text-[9px] text-white/40 font-bold uppercase tracking-wider">per 1000</div>
+        <div class="text-[16px] font-black text-white tracking-tighter">₹<?=number_format($svc['sell_price'],2)?></div>
+        <div class="text-[8px] text-white/20 font-black uppercase tracking-widest">per 1k</div>
       </div>
     </div>
     <?php endforeach; ?>
@@ -282,13 +292,13 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
     <div class="grid grid-cols-2 gap-2 mb-4" id="payTabs">
       <div class="pay-tab sel" data-method="wallet" onclick="selPay(this)">
         <div class="text-xl mb-1">💰</div>
-        <div class="font-black text-white text-[12px]">J-Coin Wallet</div>
-        <div class="text-[10px] text-white/40 font-bold mt-0.5">Bal: ₹<?=number_format($wallet,2)?></div>
+        <div class="font-black text-[12px]">J-Coin Wallet</div>
+        <div class="text-[9px] opacity-40 font-bold mt-0.5">Bal: ₹<?=number_format($wallet,0)?></div>
       </div>
       <div class="pay-tab" data-method="gateway" onclick="selPay(this)">
         <div class="text-xl mb-1">💳</div>
-        <div class="font-black text-white text-[12px]">Pay Gateway</div>
-        <div class="text-[10px] text-white/40 font-bold mt-0.5">UPI / Card</div>
+        <div class="font-black text-[12px]">Pay Gateway</div>
+        <div class="text-[9px] opacity-40 font-bold mt-0.5">UPI / Card</div>
       </div>
     </div>
 
@@ -301,10 +311,10 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
     <?php endif; ?>
 
     <button id="m_btn" onclick="submitOrder()"
-      class="w-full py-4 rounded-2xl bg-white text-[#08203E] font-black text-[14px] shadow-xl shadow-white/10 active:scale-95 transition-all flex items-center justify-center gap-2
+      class="w-full py-4 rounded-2xl bg-white text-[#020617] font-black text-[14px] shadow-xl shadow-white/5 active:scale-95 transition-all flex items-center justify-center gap-2
       <?=!$user_id?'opacity-50 cursor-not-allowed':''?>"
       <?=!$user_id?'disabled':''?>>
-      <i class="fa-solid fa-paper-plane"></i> Place Order
+      <i class="fa-solid fa-bolt"></i> Confirm Order
     </button>
   </div>
 </div>

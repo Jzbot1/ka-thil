@@ -173,6 +173,8 @@ body{font-family:'Inter',sans-serif;background:#080f1e;color:#e2e8f0}
 @media (max-width: 768px) {
   .svc-table-container { display: none; }
   .svc-card { display: block; }
+  .nav-stats { display: none; } /* Hide extra stats on mobile header to save space */
+  .mobile-stats { display: flex; margin-bottom: 1rem; }
 }
 </style>
 </head>
@@ -184,15 +186,28 @@ body{font-family:'Inter',sans-serif;background:#080f1e;color:#e2e8f0}
     <div><div class="font-black text-white text-sm">SMM Manager</div><div class="text-[10px] text-slate-400">Service catalog & order control</div></div>
   </div>
   <div class="flex gap-3 text-xs">
-    <div class="glass rounded-xl px-3 py-2 text-center cursor-pointer hover:bg-white/10" onclick="fetchBalance()">
+    <div class="glass rounded-xl px-3 py-2 text-center cursor-pointer hover:bg-white/10 nav-stats" onclick="fetchBalance()">
       <div class="font-black text-rose-400" id="api_bal_val">...</div>
       <div class="text-slate-500 uppercase tracking-tighter" id="api_bal_cur">Balance</div>
     </div>
-    <div class="glass rounded-xl px-3 py-2 text-center"><div class="font-black text-indigo-400"><?=$total_svc?></div><div class="text-slate-500">Services</div></div>
-    <div class="glass rounded-xl px-3 py-2 text-center"><div class="font-black text-emerald-400"><?=$active_svc?></div><div class="text-slate-500">Active</div></div>
+    <div class="glass rounded-xl px-3 py-2 text-center nav-stats"><div class="font-black text-indigo-400"><?=$total_svc?></div><div class="text-slate-500">Services</div></div>
+    <div class="glass rounded-xl px-3 py-2 text-center nav-stats"><div class="font-black text-emerald-400"><?=$active_svc?></div><div class="text-slate-500">Active</div></div>
     <div class="glass rounded-xl px-3 py-2 text-center"><div class="font-black text-amber-400">₹<?=number_format($total_profit,0)?></div><div class="text-slate-500">Profit</div></div>
   </div>
 </nav>
+
+<div class="max-w-6xl mx-auto px-4 py-4 md:hidden">
+  <div class="grid grid-cols-2 gap-2">
+    <div class="glass rounded-2xl p-3 text-center" onclick="fetchBalance()">
+        <div class="text-[10px] text-slate-500 uppercase font-bold mb-1">API Balance</div>
+        <div class="text-sm font-black text-rose-400" id="api_bal_val_mob">...</div>
+    </div>
+    <div class="glass rounded-2xl p-3 text-center">
+        <div class="text-[10px] text-slate-500 uppercase font-bold mb-1">Services</div>
+        <div class="text-sm font-black text-indigo-400"><?=$total_svc?> (<?=$active_svc?> Active)</div>
+    </div>
+  </div>
+</div>
 
 <div class="max-w-6xl mx-auto px-4 py-6 space-y-6">
 
@@ -493,13 +508,17 @@ function updateCronUrl(tok){
 function fetchBalance() {
   document.getElementById('api_bal_val').innerText = '...';
   const fd = new FormData(); fd.append('act','get_balance');
-  fetch(location.href,{method:'POST',body:fd}).then(r=>r.json()).then(res=>{
+  fetch(location.pathname,{method:'POST',body:fd}).then(r=>r.json()).then(res=>{
     if(res.ok) {
-      document.getElementById('api_bal_val').innerText = '₹' + res.bal;
-      document.getElementById('api_bal_cur').innerText = 'INR Balance';
+      const val = '₹' + res.bal;
+      document.getElementById('api_bal_val').innerText = val;
+      if(document.getElementById('api_bal_val_mob')) document.getElementById('api_bal_val_mob').innerText = val;
+      document.getElementById('api_bal_cur').innerText = 'API Balance (INR)';
     } else {
       document.getElementById('api_bal_val').innerText = 'ERR';
     }
+  }).catch(() => {
+    document.getElementById('api_bal_val').innerText = 'OFFLINE';
   });
 }
 document.addEventListener('DOMContentLoaded', fetchBalance);
