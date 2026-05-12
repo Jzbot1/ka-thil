@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!empty($_POST['game_id'])) {
             $stmt = $conn->prepare("UPDATE games SET title=?, slug=?, image=?, status=?, description_title=?, description_body=?, external_url=?, category=?, id_system=?, provider=?, sort_order=?, is_flash_sale=?, badge_text=? WHERE id=?");
-            $stmt->bind_param("sssissssssiiis", $title, $slug, $imagePath, $status, $desc_title, $desc_body, $ext_url, $category, $id_system, $provider, $sort_order, $is_flash_sale, $badge_text, $_POST['game_id']);
+            $stmt->bind_param("sssissssssiisi", $title, $slug, $imagePath, $status, $desc_title, $desc_body, $ext_url, $category, $id_system, $provider, $sort_order, $is_flash_sale, $badge_text, $_POST['game_id']);
         } else {
             $stmt = $conn->prepare("INSERT INTO games (title, slug, image, status, description_title, description_body, external_url, category, id_system, provider, sort_order, is_flash_sale, badge_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             $stmt->bind_param("sssissssssiis", $title, $slug, $imagePath, $status, $desc_title, $desc_body, $ext_url, $category, $id_system, $provider, $sort_order, $is_flash_sale, $badge_text);
