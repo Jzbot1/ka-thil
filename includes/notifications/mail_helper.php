@@ -16,6 +16,8 @@ function sendOrderInvoice($order_id) {
         SELECT 
             o.*,
             u.email  AS user_email,
+            g.image AS game_image,
+            d.image_url AS product_image,
             s.smtp_enabled,
             s.store_name,
             s.smtp_from_email,
@@ -26,6 +28,8 @@ function sendOrderInvoice($order_id) {
             s.smtp_password
         FROM orders o
         LEFT JOIN users u  ON o.user_id = u.id
+        LEFT JOIN diamonds d ON o.product_id = d.product_id
+        LEFT JOIN games g ON d.game_id = g.id
         LEFT JOIN fav_setting s ON s.id = 1
         WHERE o.order_id = ?
         LIMIT 1
@@ -70,14 +74,26 @@ function sendOrderInvoice($order_id) {
     $subject    = "✅ Order Confirmed #{$order_id} — {$store_name}";
 
     // ✅ 5. Build premium HTML invoice
-    $status_color  = '#16a34a';  // green
+    $status_color  = '#22c55e';  // green-500
     $product_name  = htmlspecialchars($order['product_name'] ?? 'N/A');
     $game_name     = htmlspecialchars($order['game_name']    ?? 'N/A');
     $game_uid      = htmlspecialchars($order['game_user_id'] ?? 'N/A');
-    $price         = number_format((float)($order['price'] ?? 0), 2);
+    $game_zone     = ($order['game_zone_id'] !== 'none' && !empty($order['game_zone_id'])) ? " ({$order['game_zone_id']})" : "";
+    $price         = number_format((float)($order['price'] ?? 0), 0);
     $created_at    = date("d M Y, h:i A", strtotime($order['created_at'] ?? 'now'));
     $pay_method    = htmlspecialchars($order['payment_method'] ?? 'N/A');
     $oid           = htmlspecialchars($order_id);
+    
+    // Images
+    $base_url = defined('BASE_URL') ? BASE_URL : 'https://jzstore.in';
+    $game_img = $order['game_image'] ?? '';
+    if (!empty($game_img) && strpos($game_img, 'http') !== 0) {
+        $game_img = rtrim($base_url, '/') . '/' . ltrim($game_img, '/');
+    }
+    $prod_img = $order['product_image'] ?? '';
+    if (!empty($prod_img) && strpos($prod_img, 'http') !== 0) {
+        $prod_img = rtrim($base_url, '/') . '/' . ltrim($prod_img, '/');
+    }
 
     $message = <<<HTML
 <!DOCTYPE html>
@@ -85,104 +101,118 @@ function sendOrderInvoice($order_id) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Order Receipt #{$oid}</title>
+<title>Receipt #{$oid}</title>
 </head>
-<body style="margin:0;padding:0;background:#f0f4f8;font-family:'Segoe UI',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4f8;padding:30px 0;">
+<body style="margin:0;padding:0;background-color:#020617;font-family:'Outfit','Segoe UI',Arial,sans-serif;color:#ffffff;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#020617;padding:40px 0;">
     <tr>
       <td align="center">
-        <table width="580" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
-
-          <!-- HEADER -->
+        <!-- OUTER CONTAINER -->
+        <table width="500" cellpadding="0" cellspacing="0" style="background-color:#0f172a;border-radius:40px;overflow:hidden;border:1px solid rgba(255,255,255,0.1);box-shadow:0 25px 50px -12px rgba(0,0,0,0.5);">
+          
+          <!-- BANNER HEADER -->
           <tr>
-            <td style="background:linear-gradient(135deg,#0f4c8f 0%,#2d9cdb 100%);padding:36px 40px;text-align:center;">
-              <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:800;letter-spacing:-0.5px;">{$store_name}</h1>
-              <p style="margin:8px 0 0;color:rgba(255,255,255,0.75);font-size:12px;letter-spacing:2px;text-transform:uppercase;">Order Confirmation &amp; Invoice</p>
+            <td style="position:relative;height:120px;background-color:#1e293b;text-align:center;">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="padding:30px 20px;">
+                            <div style="width:48px;height:48px;background-color:#22c55e;border-radius:50%;margin:0 auto 10px;line-height:48px;text-align:center;">
+                                <span style="color:#ffffff;font-size:24px;">✓</span>
+                            </div>
+                            <h1 style="margin:0;color:#ffffff;font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:2px;">Order Success</h1>
+                        </td>
+                    </tr>
+                </table>
             </td>
           </tr>
 
-          <!-- STATUS BADGE -->
+          <!-- TRANSACTION INFO -->
           <tr>
-            <td style="padding:28px 40px 0;text-align:center;">
-              <span style="display:inline-block;background:#dcfce7;color:{$status_color};font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;padding:6px 18px;border-radius:50px;">✅ Completed</span>
+            <td style="padding:30px 40px 10px;text-align:center;">
+              <p style="margin:0;font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:2px;font-weight:700;">Transaction Amount</p>
+              <h2 style="margin:8px 0 0;font-size:42px;font-weight:900;color:#ffffff;">₹{$price}</h2>
             </td>
           </tr>
 
-          <!-- AMOUNT -->
+          <!-- DETAILS BOX -->
           <tr>
-            <td style="padding:16px 40px 8px;text-align:center;">
-              <p style="margin:0;font-size:12px;color:#6b7280;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Amount Paid</p>
-              <p style="margin:4px 0 0;font-size:40px;font-weight:800;color:#0f172a;">&#8377;{$price}</p>
-            </td>
-          </tr>
-
-          <!-- DIVIDER -->
-          <tr><td style="padding:20px 40px;"><hr style="border:none;border-top:1px solid #e5e7eb;"></td></tr>
-
-          <!-- ORDER DETAILS TABLE -->
-          <tr>
-            <td style="padding:0 40px 28px;">
-              <table width="100%" cellpadding="0" cellspacing="0">
+            <td style="padding:20px 40px;">
+              <table width="100%" cellpadding="0" cellspacing="0" style="background-color:rgba(255,255,255,0.05);border-radius:24px;border:1px solid rgba(255,255,255,0.05);">
+                <!-- Order ID -->
                 <tr>
-                  <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;">
-                    <span style="font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Order ID</span>
+                  <td style="padding:15px 20px;border-bottom:1px solid rgba(255,255,255,0.05);">
+                    <span style="font-size:10px;color:rgba(255,255,255,0.5);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Order ID</span>
                   </td>
-                  <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;text-align:right;">
-                    <span style="font-size:12px;font-weight:700;color:#0f172a;font-family:monospace;">#{$oid}</span>
+                  <td style="padding:15px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">
+                    <span style="font-size:12px;font-weight:700;color:#ffffff;">#{$oid}</span>
                   </td>
                 </tr>
+                <!-- Game -->
                 <tr>
-                  <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;">
-                    <span style="font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Game</span>
+                  <td style="padding:15px 20px;border-bottom:1px solid rgba(255,255,255,0.05);">
+                    <span style="font-size:10px;color:rgba(255,255,255,0.5);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Game</span>
                   </td>
-                  <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;text-align:right;">
-                    <span style="font-size:12px;font-weight:700;color:#0f172a;">{$game_name}</span>
+                  <td style="padding:15px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">
+                    <span style="font-size:12px;font-weight:700;color:#ffffff;">{$game_name}</span>
                   </td>
                 </tr>
+                <!-- Product -->
                 <tr>
-                  <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;">
-                    <span style="font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Product</span>
+                  <td style="padding:15px 20px;border-bottom:1px solid rgba(255,255,255,0.05);">
+                    <span style="font-size:10px;color:rgba(255,255,255,0.5);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Product</span>
                   </td>
-                  <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;text-align:right;">
-                    <span style="font-size:12px;font-weight:700;color:#0f172a;">{$product_name}</span>
+                  <td style="padding:15px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">
+                    <span style="font-size:12px;font-weight:700;color:#ffffff;">{$product_name}</span>
                   </td>
                 </tr>
+                <!-- Player ID -->
                 <tr>
-                  <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;">
-                    <span style="font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Player ID</span>
+                  <td style="padding:15px 20px;border-bottom:1px solid rgba(255,255,255,0.05);">
+                    <span style="font-size:10px;color:rgba(255,255,255,0.5);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Player ID</span>
                   </td>
-                  <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;text-align:right;">
-                    <span style="font-size:12px;font-weight:700;color:#0f172a;">{$game_uid}</span>
+                  <td style="padding:15px 20px;border-bottom:1px solid rgba(255,255,255,0.05);text-align:right;">
+                    <span style="font-size:12px;font-weight:700;color:#ffffff;">{$game_uid}{$game_zone}</span>
                   </td>
                 </tr>
+                <!-- Date -->
                 <tr>
-                  <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;">
-                    <span style="font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Payment Method</span>
+                  <td style="padding:15px 20px;">
+                    <span style="font-size:10px;color:rgba(255,255,255,0.5);font-weight:700;text-transform:uppercase;letter-spacing:1px;">Date</span>
                   </td>
-                  <td style="padding:10px 0;border-bottom:1px solid #f3f4f6;text-align:right;">
-                    <span style="font-size:12px;font-weight:700;color:#0f172a;">{$pay_method}</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding:10px 0;">
-                    <span style="font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:1px;">Date &amp; Time</span>
-                  </td>
-                  <td style="padding:10px 0;text-align:right;">
-                    <span style="font-size:12px;font-weight:700;color:#0f172a;">{$created_at}</span>
+                  <td style="padding:15px 20px;text-align:right;">
+                    <span style="font-size:12px;font-weight:700;color:#ffffff;">{$created_at}</span>
                   </td>
                 </tr>
               </table>
             </td>
           </tr>
 
-          <!-- FOOTER -->
+          <!-- STATUS NOTE -->
           <tr>
-            <td style="background:#f8fafc;padding:24px 40px;text-align:center;border-top:1px solid #e5e7eb;">
-              <p style="margin:0;font-size:11px;color:#9ca3af;">Thank you for your purchase at <strong style="color:#0f172a;">{$store_name}</strong>!</p>
-              <p style="margin:6px 0 0;font-size:10px;color:#d1d5db;">This is an automated invoice — please do not reply to this email.</p>
+            <td style="padding:10px 40px 30px;">
+              <div style="background-color:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:20px;padding:15px;text-align:center;">
+                <p style="margin:0 0 5px;font-size:9px;color:#60a5fa;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Status Note</p>
+                <p style="margin:0;font-size:11px;color:#ffffff;">Your recharge has been completed successfully!</p>
+              </div>
             </td>
           </tr>
 
+          <!-- FOOTER -->
+          <tr>
+            <td style="background-color:rgba(255,255,255,0.03);padding:20px;text-align:center;">
+              <p style="margin:0;font-size:9px;color:rgba(255,255,255,0.3);font-weight:700;text-transform:uppercase;letter-spacing:2px;">Thank you for shopping at {$store_name}</p>
+            </td>
+          </tr>
+
+        </table>
+
+        <!-- SOCIAL LINKS / HELP -->
+        <table width="500" cellpadding="0" cellspacing="0">
+            <tr>
+                <td style="padding:30px 20px;text-align:center;">
+                    <p style="margin:0;font-size:10px;color:rgba(255,255,255,0.3);">If you have any issues, please contact our support team.</p>
+                </td>
+            </tr>
         </table>
       </td>
     </tr>
