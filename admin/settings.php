@@ -50,14 +50,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $is_banner_on = isset($_POST['is_banner_on']) ? 1 : 0;
         $is_maintenance = isset($_POST['is_maintenance']) ? 1 : 0;
+        $gemini_api_key = trim($_POST['gemini_api_key'] ?? '');
         
         // Clean datetime-local format (YYYY-MM-DDTHH:MM) for MySQL (YYYY-MM-DD HH:MM:SS)
         $flash_sale_end = !empty($_POST['flash_sale_end']) ? str_replace('T', ' ', $_POST['flash_sale_end']) . ':00' : null;
 
-        $stmt = $conn->prepare("UPDATE fav_setting SET store_name=?, store_logo=?, fav_icon=?, description=?, keywords=?, facebook=?, instagram=?, whatsapp=?, whatsapp_group=?, is_banner_on=?, is_maintenance=?, flash_sale_end=? WHERE id=1");
+        $stmt = $conn->prepare("UPDATE fav_setting SET store_name=?, store_logo=?, fav_icon=?, description=?, keywords=?, facebook=?, instagram=?, whatsapp=?, whatsapp_group=?, is_banner_on=?, is_maintenance=?, flash_sale_end=?, gemini_api_key=? WHERE id=1");
         
         if ($stmt) {
-            $stmt->bind_param("sssssssssiis", $store_name, $store_logo, $fav_icon, $description, $keywords, $facebook, $instagram, $whatsapp, $whatsapp_group, $is_banner_on, $is_maintenance, $flash_sale_end);
+            $stmt->bind_param("sssssssssiiss", $store_name, $store_logo, $fav_icon, $description, $keywords, $facebook, $instagram, $whatsapp, $whatsapp_group, $is_banner_on, $is_maintenance, $flash_sale_end, $gemini_api_key);
             if ($stmt->execute()) {
                 $_SESSION['flash_msg'] = "Store settings & SEO updated successfully!";
                 $_SESSION['flash_type'] = "success";
@@ -351,6 +352,49 @@ $setting = $current_settings;
                     <i class="fa-solid fa-arrow-right text-white/60"></i>
                 </div>
             </a>
+        </div>
+
+        <!-- AI CHAT ASSISTANT SETTINGS -->
+        <div class="mb-10">
+            <h2 class="text-sm font-bold text-themeDark flex items-center gap-2 mb-4 px-1">
+                <span class="w-1 h-4 bg-emerald-500 rounded-full shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+                AI Support Assistant (Gemini Free)
+            </h2>
+            <form method="POST" class="glass-panel p-6 rounded-[2rem] shadow-sm">
+                <input type="hidden" name="save_settings" value="1">
+                <!-- HIDDEN FIELDS FOR PREVIOUS SETTINGS TO PREVENT OVERWRITE -->
+                <input type="hidden" name="store_name" value="<?= htmlspecialchars($current_settings['store_name']); ?>">
+                <input type="hidden" name="store_logo" value="<?= htmlspecialchars($current_settings['store_logo']); ?>">
+                <input type="hidden" name="fav_icon" value="<?= htmlspecialchars($current_settings['fav_icon']); ?>">
+                <input type="hidden" name="description" value="<?= htmlspecialchars($current_settings['description']); ?>">
+                <input type="hidden" name="keywords" value="<?= htmlspecialchars($current_settings['keywords'] ?? ''); ?>">
+                <input type="hidden" name="facebook" value="<?= htmlspecialchars($current_settings['facebook']); ?>">
+                <input type="hidden" name="instagram" value="<?= htmlspecialchars($current_settings['instagram']); ?>">
+                <input type="hidden" name="whatsapp" value="<?= htmlspecialchars($current_settings['whatsapp']); ?>">
+                <input type="hidden" name="whatsapp_group" value="<?= htmlspecialchars($current_settings['whatsapp_group'] ?? ''); ?>">
+                <input type="hidden" name="flash_sale_end" value="<?= htmlspecialchars($current_settings['flash_sale_end'] ?? ''); ?>">
+                <?php if($current_settings['is_banner_on'] == 1): ?><input type="hidden" name="is_banner_on" value="1"><?php endif; ?>
+                <?php if($current_settings['is_maintenance'] == 1): ?><input type="hidden" name="is_maintenance" value="1"><?php endif; ?>
+
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-4 mb-2">
+                        <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center text-2xl">🤖</div>
+                        <div>
+                            <p class="text-xs font-black text-themeDark uppercase">Gemini AI Assistant</p>
+                            <p class="text-[9px] text-themeDark/60 font-bold leading-tight">Integrating a free AI Key allows your "JZ Assistant" to talk to users, answer questions about prices, and help with account issues naturally.</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[10px] font-bold text-themeDark/50 uppercase ml-1 mb-1.5 flex justify-between">
+                            <span>Gemini API Key (Free)</span>
+                            <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-emerald-600 hover:underline">Get Free Key <i class="fa-solid fa-external-link text-[8px]"></i></a>
+                        </label>
+                        <input type="password" name="gemini_api_key" value="<?= htmlspecialchars($current_settings['gemini_api_key'] ?? ''); ?>" placeholder="Paste your AI Studio Key here..." class="w-full px-4 py-3 text-sm font-bold text-themeDark">
+                    </div>
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-2xl transition shadow-xl active:scale-95 text-xs tracking-widest uppercase">Save AI Configuration</button>
+                </div>
+            </form>
         </div>
 
         <!-- Email / Invoice Notification Settings -->
