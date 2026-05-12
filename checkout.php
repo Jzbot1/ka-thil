@@ -110,7 +110,7 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
         .glass-panel { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .payment-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255,255,255,0.1); }
         .payment-card.selected { border: 2px solid #ffffff; background: rgba(255, 255, 255, 0.15); box-shadow: 0 0 20px rgba(255, 255, 255, 0.1); }
-        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; background: rgba(8, 32, 62, 0.85); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1); padding: 16px 20px env(safe-area-inset-bottom); }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1); padding: 16px 20px env(safe-area-inset-bottom); }
         @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .animate-slide { animation: slideIn 0.5s ease forwards; }
     </style>
