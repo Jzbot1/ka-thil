@@ -134,24 +134,31 @@ if (!isset($setting)) {
     </main>
 
     <nav class="fixed bottom-0 w-full bg-black/40 backdrop-blur-xl z-50 h-16 flex justify-around items-center max-w-md left-1/2 -translate-x-1/2 border-t border-white/10">
+        <?php 
+            $cur = $_SERVER['PHP_SELF']; 
+            $is_home = (strpos($cur, 'index') !== false);
+            $is_hist = (strpos($cur, 'history') !== false);
+            $is_wall = (strpos($cur, 'wallet') !== false);
+            $is_prof = (strpos($cur, 'profile') !== false);
+        ?>
         <a href="<?= htmlspecialchars($setting['whatsapp']); ?>" class="flex flex-col items-center text-white/40 hover:text-white transition">
             <i class="fa-brands fa-whatsapp text-lg"></i>
             <span class="text-[9px] font-medium">Support</span>
         </a>
-        <a href="<?= BASE_URL ?>/history" class="flex flex-col items-center text-white/40 hover:text-white transition">
+        <a href="<?= BASE_URL ?>/history" class="flex flex-col items-center <?= $is_hist ? 'text-white' : 'text-white/40' ?> hover:text-white transition">
             <i class="fa-solid fa-clock-rotate-left text-lg"></i>
             <span class="text-[9px] font-medium">History</span>
         </a>
         <div class="relative -top-4">
-            <a href="<?= BASE_URL ?>/index" class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shadow-lg shadow-black/20 text-white border-4 border-black/20 transition hover:scale-105 active:scale-95">
+            <a href="<?= BASE_URL ?>/index" class="w-12 h-12 <?= $is_home ? 'bg-white text-black' : 'bg-white/10 text-white' ?> rounded-full flex items-center justify-center shadow-lg shadow-black/20 border-4 border-black/20 transition hover:scale-105 active:scale-95">
                 <i class="fa-solid fa-house"></i>
             </a>
         </div>
-        <a href="<?= BASE_URL ?>/wallet" class="flex flex-col items-center text-white/40 hover:text-white transition">
+        <a href="<?= BASE_URL ?>/wallet" class="flex flex-col items-center <?= $is_wall ? 'text-white' : 'text-white/40' ?> hover:text-white transition">
             <i class="fa-solid fa-wallet text-lg"></i>
             <span class="text-[9px] font-medium">Wallet</span>
         </a>
-        <a href="<?= BASE_URL ?>/profile" class="flex flex-col items-center text-white/40 hover:text-white transition">
+        <a href="<?= BASE_URL ?>/profile" class="flex flex-col items-center <?= $is_prof ? 'text-white' : 'text-white/40' ?> hover:text-white transition">
             <i class="fa-solid fa-user-gear text-lg"></i>
             <span class="text-[9px] font-medium">Account</span>
         </a>
