@@ -28,7 +28,7 @@ $filter_cat = trim($_POST['category'] ?? $_GET['category'] ?? '');
 
 $sql  = "SELECT id AS service_id, provider_id, category,
                 COALESCE(custom_name, original_name) AS name,
-                COALESCE(custom_price, ROUND(original_rate * 85 * 1.3, 2)) AS rate,
+                COALESCE(custom_price, ROUND(original_rate * 1.05, 2)) AS rate,
                 min_order, max_order, type
          FROM smm_services
          WHERE is_active = 1";

@@ -93,6 +93,11 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
         $conn->query("UPDATE smm_services SET is_active=$v WHERE id=$id");
         echo json_encode(['ok'=>true]); exit;
     }
+    // Bulk update markup to 5%
+    if ($act==='bulk_markup') {
+        $conn->query("UPDATE smm_services SET custom_price = ROUND(original_rate * 1.05, 2)");
+        echo json_encode(['ok'=>true]); exit;
+    }
     exit;
 }
 
@@ -142,6 +147,11 @@ body{font-family:'Inter',sans-serif;background:#080f1e;color:#e2e8f0}
 .b-on{background:#064e3b;color:#6ee7b7}.b-off{background:#450a0a;color:#fca5a5}
 .b-p{background:#1e3a5f;color:#93c5fd}.b-done{background:#064e3b;color:#6ee7b7}.b-fail{background:#450a0a;color:#fca5a5}
 #toast{position:fixed;bottom:20px;right:20px;z-index:9999;display:none}
+.svc-card { display: none; }
+@media (max-width: 768px) {
+  .svc-table-container { display: none; }
+  .svc-card { display: block; }
+}
 </style>
 </head>
 <body class="pb-20">
@@ -185,7 +195,8 @@ body{font-family:'Inter',sans-serif;background:#080f1e;color:#e2e8f0}
     <div class="flex flex-wrap gap-3">
       <button class="btn btn-p" onclick="saveApi()"><i class="fa-solid fa-floppy-disk"></i> Save</button>
       <button class="btn btn-g" onclick="testApi()"><i class="fa-solid fa-plug"></i> Test</button>
-      <button class="btn btn-o" id="syncBtn" onclick="syncServices()"><i class="fa-solid fa-rotate"></i> Sync Services from API</button>
+      <button class="btn btn-o" id="syncBtn" onclick="syncServices()"><i class="fa-solid fa-rotate"></i> Sync Services</button>
+      <button class="btn glass text-indigo-400" onclick="bulkMarkup()"><i class="fa-solid fa-percent"></i> Apply 5% Markup to All</button>
     </div>
   </div>
 
@@ -207,45 +218,77 @@ body{font-family:'Inter',sans-serif;background:#080f1e;color:#e2e8f0}
       <?php endforeach; ?>
     </div>
 
-    <div class="overflow-x-auto">
-      <table class="w-full text-xs">
-        <thead><tr class="text-slate-500 border-b border-white/10 uppercase tracking-wider">
-          <th class="pb-3 text-left pr-3 w-8">#</th>
-          <th class="pb-3 text-left pr-3">Display Name</th>
-          <th class="pb-3 text-left pr-3">Category</th>
-          <th class="pb-3 text-right pr-3">Min</th>
-          <th class="pb-3 text-right pr-3">Max</th>
-          <th class="pb-3 text-right pr-3">Cost/1K ₹</th>
-          <th class="pb-3 text-right pr-3">Your Price/1K ₹</th>
-          <th class="pb-3 text-center">Active</th>
-        </tr></thead>
-        <tbody id="svcTable" class="divide-y divide-white/5">
-        <?php foreach($svc_map as $cat=>$rows): foreach($rows as $r): 
-          $display = $r['custom_name']?:$r['original_name'];
-          $price   = $r['custom_price']?:round($r['original_rate']*85*1.3,2); // auto markup: rate * 85 INR/USD * 1.3
-        ?>
-        <tr data-cat="<?=htmlspecialchars($cat)?>" data-id="<?=$r['id']?>" class="svc-row hover:bg-white/5 transition">
-          <td class="py-2 pr-3 text-slate-500 font-mono"><?=$r['provider_id']?></td>
-          <td class="py-2 pr-3">
-            <input class="inp custom-name" style="min-width:200px" value="<?=htmlspecialchars($display)?>" placeholder="<?=htmlspecialchars($r['original_name'])?>">
-          </td>
-          <td class="py-2 pr-3 text-slate-400"><?=htmlspecialchars($cat)?></td>
-          <td class="py-2 pr-3 text-right text-slate-400"><?=number_format($r['min_order'])?></td>
-          <td class="py-2 pr-3 text-right text-slate-400"><?=number_format($r['max_order'])?></td>
-          <td class="py-2 pr-3 text-right text-indigo-300 font-mono">₹<?=number_format($r['original_rate'],2)?></td>
-          <td class="py-2 pr-3 text-right">
-            <input class="inp custom-price text-right" style="width:90px" type="number" step="0.01" min="0" value="<?=number_format($price,2,'.','')?>">
-          </td>
-          <td class="py-2 text-center">
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" class="sr-only peer svc-toggle" <?=$r['is_active']?'checked':''?> onchange="toggleSvc(<?=$r['id']?>,this.checked?1:0)">
-              <div class="w-9 h-5 bg-slate-700 rounded-full peer peer-checked:bg-indigo-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
-            </label>
-          </td>
-        </tr>
-        <?php endforeach; endforeach; ?>
-        </tbody>
-      </table>
+        <div class="svc-table-container overflow-x-auto">
+          <table class="w-full text-xs">
+            <thead><tr class="text-slate-500 border-b border-white/10 uppercase tracking-wider">
+              <th class="pb-3 text-left pr-3 w-8">#</th>
+              <th class="pb-3 text-left pr-3">Display Name</th>
+              <th class="pb-3 text-left pr-3">Category</th>
+              <th class="pb-3 text-right pr-3">Min/Max</th>
+              <th class="pb-3 text-right pr-3">Cost ₹</th>
+              <th class="pb-3 text-right pr-3">Your Price ₹ (5% Pro)</th>
+              <th class="pb-3 text-center">Active</th>
+            </tr></thead>
+            <tbody id="svcTable" class="divide-y divide-white/5">
+            <?php foreach($svc_map as $cat=>$rows): foreach($rows as $r): 
+              $display = $r['custom_name']?:$r['original_name'];
+              $price   = $r['custom_price']?:round($r['original_rate'] * 1.05, 2); // 5% profit margin
+            ?>
+            <tr data-cat="<?=htmlspecialchars($cat)?>" data-id="<?=$r['id']?>" class="svc-row hover:bg-white/5 transition">
+              <td class="py-2 pr-3 text-slate-500 font-mono"><?=$r['provider_id']?></td>
+              <td class="py-2 pr-3">
+                <input class="inp custom-name" style="min-width:200px" value="<?=htmlspecialchars($display)?>" placeholder="<?=htmlspecialchars($r['original_name'])?>">
+              </td>
+              <td class="py-2 pr-3 text-slate-400"><?=htmlspecialchars($cat)?></td>
+              <td class="py-2 pr-3 text-right text-slate-400"><?=number_format($r['min_order'])?>/<?=number_format($r['max_order'])?></td>
+              <td class="py-2 pr-3 text-right text-indigo-300 font-mono">₹<?=number_format($r['original_rate'],2)?></td>
+              <td class="py-2 pr-3 text-right">
+                <input class="inp custom-price text-right" style="width:90px" type="number" step="0.01" min="0" value="<?=number_format($price,2,'.','')?>">
+              </td>
+              <td class="py-2 text-center">
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" class="sr-only peer svc-toggle" <?=$r['is_active']?'checked':''?> onchange="toggleSvc(<?=$r['id']?>,this.checked?1:0)">
+                  <div class="w-9 h-5 bg-slate-700 rounded-full peer peer-checked:bg-indigo-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-4"></div>
+                </label>
+              </td>
+            </tr>
+            <?php endforeach; endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mobile Card Layout -->
+        <div class="svc-cards space-y-4" id="svcCards">
+          <?php foreach($svc_map as $cat=>$rows): foreach($rows as $r): 
+            $display = $r['custom_name']?:$r['original_name'];
+            $price   = $r['custom_price']?:round($r['original_rate'] * 1.05, 2);
+          ?>
+          <div data-cat="<?=htmlspecialchars($cat)?>" data-id="<?=$r['id']?>" class="svc-row svc-card glass p-4 rounded-2xl space-y-3">
+            <div class="flex justify-between items-start">
+              <div class="text-[10px] font-mono text-slate-500">ID: <?=$r['provider_id']?></div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" class="sr-only peer svc-toggle" <?=$r['is_active']?'checked':''?> onchange="toggleSvc(<?=$r['id']?>,this.checked?1:0)">
+                <div class="w-8 h-4 bg-slate-700 rounded-full peer peer-checked:bg-indigo-600 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-4"></div>
+              </label>
+            </div>
+            <div>
+              <label class="text-[9px] text-slate-500 uppercase font-bold">Display Name</label>
+              <input class="inp custom-name mt-1" value="<?=htmlspecialchars($display)?>">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-[9px] text-slate-500 uppercase font-bold">Cost (₹)</label>
+                <div class="text-xs font-mono mt-1 text-indigo-300">₹<?=number_format($r['original_rate'],2)?></div>
+              </div>
+              <div>
+                <label class="text-[9px] text-slate-500 uppercase font-bold">Price (₹)</label>
+                <input class="inp custom-price text-right mt-1" type="number" step="0.01" value="<?=number_format($price,2,'.','')?>">
+              </div>
+            </div>
+            <div class="text-[10px] text-slate-400 italic"><?=htmlspecialchars($cat)?></div>
+          </div>
+          <?php endforeach; endforeach; ?>
+        </div>
       <?php if(empty($svc_map)): ?>
       <div class="text-center py-16 text-slate-500">
         <i class="fa-solid fa-inbox text-4xl mb-3 block opacity-20"></i>
@@ -346,6 +389,13 @@ async function saveAll(){
   });
   const r=await post({act:'save_services',rows:JSON.stringify(rows)});
   r.ok?toast('All changes saved!'):toast('Save failed',false);
+}
+async function bulkMarkup(){
+  if(!confirm('This will reset all custom prices to (Cost + 5%). Proceed?')) return;
+  toast('Updating prices...');
+  const r = await post({act:'bulk_markup'});
+  if(r.ok){ toast('Prices updated! Reloading...'); setTimeout(()=>location.reload(),1500); }
+  else toast('Update failed',false);
 }
 async function toggleSvc(id,v){await post({act:'toggle',id,v});}
 function filterCat(cat,btn){

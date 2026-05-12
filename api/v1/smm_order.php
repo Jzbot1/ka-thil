@@ -45,7 +45,7 @@ if (!$tbl || $tbl->num_rows === 0) {
 // ── Load service ────────────────────────────────────────────────────────────
 $stmt = $conn->prepare("SELECT id, provider_id,
                                COALESCE(custom_name, original_name) AS svc_name,
-                               COALESCE(custom_price, ROUND(original_rate * 85 * 1.3, 2)) AS sell_price,
+                               COALESCE(custom_price, ROUND(original_rate * 1.05, 2)) AS sell_price,
                                min_order, max_order, is_active
                         FROM smm_services WHERE id = ? LIMIT 1");
 $stmt->bind_param("i", $service_id);
