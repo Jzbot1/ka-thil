@@ -60,9 +60,20 @@ if (strcasecmp($order['payment_method'], 'J-Coin') === 0) {
     curl_close($ch);
 
     $responseData = json_decode($response, true);
-    $isPaid = ($responseData["status"] ?? false) === true || 
-              in_array(strtoupper($responseData["result"]["txnStatus"] ?? ''), ["SUCCESS", "COMPLETED", "PAID"]);
-    $gatewayStatus = $responseData["result"]["txnStatus"] ?? 'Unknown';
+    
+    // Log response for debugging if it fails
+    if (!$responseData) {
+        file_put_contents(__DIR__ . '/../payment/pay0_callback_log.txt', "[" . date('Y-m-d H:i:s') . "] Verify Order $order_id | Raw Response: " . $response . "\n", FILE_APPEND);
+    }
+
+    // Robust Payment Status Check
+    $apiStatus = $responseData["status"] ?? false;
+    $txnStatus = strtoupper($responseData["result"]["txnStatus"] ?? $responseData["result"]["status"] ?? '');
+
+    $isPaid = ($apiStatus === true || strtoupper($apiStatus) === "SUCCESS" || strtoupper($apiStatus) === "COMPLETED") && 
+              in_array($txnStatus, ["SUCCESS", "COMPLETED", "PAID"]);
+    
+    $gatewayStatus = $txnStatus ?: ($apiStatus ?: 'Unknown');
 }
 
 if ($isPaid) {

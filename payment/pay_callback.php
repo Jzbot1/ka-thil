@@ -60,8 +60,13 @@ try {
     curl_close($ch);
 
     $responseData = json_decode($response, true);
-    $isSuccess = ($responseData["status"] ?? false) === true || 
-                 in_array(strtoupper($responseData["result"]["txnStatus"] ?? ''), ["SUCCESS", "COMPLETED", "PAID"]);
+    
+    // Robust Payment Status Check
+    $apiStatus = $responseData["status"] ?? false;
+    $txnStatus = strtoupper($responseData["result"]["txnStatus"] ?? $responseData["result"]["status"] ?? '');
+
+    $isSuccess = ($apiStatus === true || strtoupper($apiStatus) === "SUCCESS" || strtoupper($apiStatus) === "COMPLETED") && 
+                 in_array($txnStatus, ["SUCCESS", "COMPLETED", "PAID"]);
 
     if ($isSuccess) {
         require_once __DIR__ . '/../fulfillment_helper.php';
