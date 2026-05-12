@@ -18,6 +18,12 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = (int)$_SESSION['user_id'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // ✅ CSRF Protection Check
+    $client_token = $_POST['csrf_token'] ?? '';
+    if (empty($client_token) || !isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $client_token)) {
+        die("Error: Security verification failed (CSRF).");
+    }
+
     // 2. SANITIZE INPUT
     $product_id   = $_POST['product_id'] ?? '';
     $game_user_id = $_POST['user_id'] ?? '';

@@ -37,11 +37,13 @@ try {
     }
 
     // 3. SECURITY CHECK
-    if ($token) {
-        $expected_token = hash_hmac('sha256', $order_id . $order['price'], CALLBACK_SECRET);
-        if (!hash_equals($expected_token, $token)) {
-            throw new Exception("Security token mismatch.");
-        }
+    if (!$token) {
+        throw new Exception("Security token required.");
+    }
+    
+    $expected_token = hash_hmac('sha256', $order_id . $order['price'], CALLBACK_SECRET);
+    if (!hash_equals($expected_token, $token)) {
+        throw new Exception("Security token mismatch.");
     }
 
     // 4. CHECK IF ALREADY PROCESSED
