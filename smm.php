@@ -202,11 +202,81 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
   </div>
   <?php else: ?>
 
-  <!-- ═══ CATEGORY TABS ════════════════════════════════════════════════════ -->
+  <!-- ═══ NEW ORDER FORM ════════════════════════════════════════════════════ -->
+  <div class="mb-10">
+    <h3 class="text-sm font-bold text-white flex items-center gap-2 mb-4 px-1">
+      <span class="w-1 h-4 bg-indigo-500 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.5)]"></span>
+      Place New Order
+    </h3>
+    <div class="glass-panel rounded-[2rem] p-6 space-y-5 border border-white/10">
+      
+      <!-- Category Selection -->
+      <div class="space-y-2">
+        <label class="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Select Category</label>
+        <select id="mainCat" onchange="onCatChange()" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold outline-none focus:border-indigo-500 transition-all appearance-none">
+          <option value="">-- Choose Category --</option>
+          <?php foreach($cats as $c): ?>
+          <option value="<?=htmlspecialchars($c)?>"><?=getCatIcon($c,$icons)?> <?=htmlspecialchars($c)?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+
+      <!-- Service Selection -->
+      <div class="space-y-2">
+        <label class="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Select Service</label>
+        <select id="mainSvc" onchange="onSvcChange()" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold outline-none focus:border-indigo-500 transition-all appearance-none disabled:opacity-50" disabled>
+          <option value="">-- Select Category First --</option>
+        </select>
+      </div>
+
+      <!-- Service Details (Dynamic) -->
+      <div id="svcInfo" class="hidden animate-slide">
+        <div class="bg-indigo-500/5 border border-indigo-500/20 rounded-2xl p-4 space-y-2">
+          <div class="flex justify-between items-center">
+            <span class="text-[10px] font-bold text-indigo-300 uppercase">Rate per 1k</span>
+            <span id="infoRate" class="text-sm font-black text-white">₹0.00</span>
+          </div>
+          <div class="flex justify-between items-center">
+            <span class="text-[10px] font-bold text-indigo-300 uppercase">Min / Max</span>
+            <span id="infoRange" class="text-[10px] font-bold text-white/70">0 / 0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Link Input -->
+      <div class="space-y-2">
+        <label class="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Link / Username</label>
+        <input type="text" id="orderLink" placeholder="Enter post link or profile username" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold outline-none focus:border-indigo-500 transition-all">
+      </div>
+
+      <!-- Quantity Input -->
+      <div class="space-y-2">
+        <label class="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Quantity</label>
+        <div class="relative">
+          <input type="number" id="orderQty" oninput="updateTotal()" placeholder="0" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-black outline-none focus:border-indigo-500 transition-all">
+          <div class="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-white/20 uppercase">Units</div>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="bg-white/5 rounded-2xl p-5 flex items-center justify-between border border-white/5">
+        <div>
+            <p class="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-1">Total Pay</p>
+            <p id="totalPay" class="text-2xl font-black text-white tracking-tighter">₹0.00</p>
+        </div>
+        <button onclick="submitOrderNew()" id="submitBtn" class="bg-white text-slate-950 px-6 h-12 rounded-xl font-black text-sm hover:scale-105 active:scale-95 transition-all shadow-xl shadow-white/5 disabled:opacity-50">
+          Order Now
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ═══ BROWSE SERVICES (Optional) ════════════════════════════════════════ -->
   <div class="mb-1">
-    <h3 class="text-sm font-bold text-themeDark flex items-center gap-2 mb-3 px-1">
-      <span class="w-1 h-4 bg-blue-500 rounded-full shadow-[0_0_8px_rgba(59,130,246,.5)]"></span>
-      Browse by Category
+    <h3 class="text-sm font-bold text-white/40 flex items-center gap-2 mb-4 px-1">
+      <span class="w-1 h-4 bg-white/10 rounded-full"></span>
+      Browse Services
     </h3>
   </div>
   <div class="cat-scroll mb-5" id="catBar">
@@ -216,33 +286,27 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
     <?php endforeach; ?>
   </div>
 
-  <!-- ═══ SERVICES ══════════════════════════════════════════════════════════ -->
-  <div id="svcContainer" class="space-y-8">
+  <div id="svcContainer" class="space-y-8 opacity-60">
   <?php foreach($svc_map as $cat=>$svcs):
     $ico=getCatIcon($cat,$icons);
     $colors=['bg-blue-500','bg-purple-500','bg-pink-500','bg-orange-500','bg-emerald-500','bg-indigo-500','bg-rose-500'];
   ?>
   <div class="cat-section" data-cat="<?=htmlspecialchars($cat)?>">
     <div class="flex items-center justify-between mb-4 px-1">
-        <h3 class="text-[13px] font-black text-white flex items-center gap-2 uppercase tracking-wider">
-          <span class="w-1.5 h-1.5 <?=$colors[array_search($cat,$cats)%count($colors)]?> rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"></span>
+        <h3 class="text-[11px] font-black text-white/40 flex items-center gap-2 uppercase tracking-wider">
+          <span class="w-1 h-1 <?=$colors[array_search($cat,$cats)%count($colors)]?> rounded-full"></span>
           <?=htmlspecialchars($cat)?>
         </h3>
-        <span class="text-[9px] text-white/20 font-bold uppercase tracking-widest bg-white/5 px-2 py-1 rounded-lg"><?=count($svcs)?> Options</span>
     </div>
     <div class="space-y-3">
-    <?php foreach($svcs as $svc):
-      $col=$colors[$svc['id']%count($colors)];
-    ?>
-    <div class="svc-card" onclick="openOrder(<?=json_encode(['id'=>$svc['id'],'provider_id'=>$svc['provider_id'],'name'=>$svc['display_name'],'price'=>$svc['sell_price'],'min'=>$svc['min_order'],'max'=>$svc['max_order'],'type'=>$svc['type'],'cat'=>$cat])?>)">
-      <div class="w-11 h-11 rounded-2xl bg-white/5 flex items-center justify-center text-xl flex-shrink-0 shadow-inner border border-white/5"><?=$ico?></div>
+    <?php foreach($svcs as $svc): ?>
+    <div class="svc-card !rounded-2xl" onclick="selectFromBrowse(<?=json_encode(['id'=>$svc['id'],'cat'=>$cat])?>)">
+      <div class="w-9 h-9 rounded-xl bg-white/5 flex items-center justify-center text-lg flex-shrink-0"><?=$ico?></div>
       <div class="flex-1 min-w-0">
-        <div class="text-[13px] font-bold text-white/90 leading-tight line-clamp-2"><?=htmlspecialchars($svc['display_name'])?></div>
-        <div class="text-[10px] text-white/30 font-medium mt-1">Min <?=number_format($svc['min_order'])?> · Max <?=number_format($svc['max_order'])?></div>
+        <div class="text-[12px] font-bold text-white/80 leading-tight line-clamp-1"><?=htmlspecialchars($svc['display_name'])?></div>
       </div>
       <div class="text-right flex-shrink-0">
-        <div class="text-[16px] font-black text-white tracking-tighter">₹<?=number_format($svc['sell_price'],2)?></div>
-        <div class="text-[8px] text-white/20 font-black uppercase tracking-widest">per 1k</div>
+        <div class="text-[14px] font-black text-white">₹<?=number_format($svc['sell_price'],2)?></div>
       </div>
     </div>
     <?php endforeach; ?>
@@ -325,80 +389,116 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
 </div>
 
 <script>
-let cur={}, payMethod='wallet';
+const services = <?=json_encode($svc_map)?>;
+let currentSvc = null;
 
-function openOrder(d){
-  cur=d;
-  document.getElementById('m_name').textContent=d.name;
-  document.getElementById('m_range').textContent=`Min: ${Number(d.min).toLocaleString()} · Max: ${Number(d.max).toLocaleString()} · ${d.type}`;
-  const qi=document.getElementById('m_qty');
-  qi.min=d.min; qi.max=d.max; qi.value=d.min;
-  document.getElementById('m_link').value='';
-  calcTotal();
-  document.getElementById('orderModal').classList.add('show');
-  document.body.style.overflow='hidden';
-}
-function closeModal(){document.getElementById('orderModal').classList.remove('show');document.body.style.overflow='';}
-function closeIfOut(e){if(e.target===document.getElementById('orderModal'))closeModal();}
-
-function calcTotal(){
-  const qty=parseInt(document.getElementById('m_qty').value)||0;
-  const t=((qty/1000)*(cur.price||0)).toFixed(2);
-  document.getElementById('m_total').textContent='₹'+parseFloat(t).toLocaleString('en-IN',{minimumFractionDigits:2});
-}
-
-function selPay(el){
-  payMethod=el.dataset.method;
-  document.querySelectorAll('.pay-tab').forEach(t=>t.classList.remove('sel'));
-  el.classList.add('sel');
-}
-
-function showCat(cat,btn){
-  document.querySelectorAll('.cat-pill').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.cat-section').forEach(s=>{
-    s.style.display=(cat==='__ALL__'||s.dataset.cat===cat)?'':'none';
-  });
-}
-
-function toast(m,ok=true){
-  const t=document.getElementById('toast'),i=document.getElementById('toast-in');
-  i.innerHTML=`<i class="fa-solid fa-${ok?'circle-check text-green-600':'circle-exclamation text-red-500'}"></i>${m}`;
-  t.style.display='block'; setTimeout(()=>t.style.display='none',3500);
-}
-
-async function submitOrder(){
-  const link=document.getElementById('m_link').value.trim();
-  const qty=parseInt(document.getElementById('m_qty').value)||0;
-  if(!link){toast('Enter the target link',false);return;}
-  if(qty<cur.min||qty>cur.max){toast(`Qty must be ${Number(cur.min).toLocaleString()}–${Number(cur.max).toLocaleString()}`,false);return;}
-
-  const btn=document.getElementById('m_btn');
-  btn.disabled=true;
-  btn.innerHTML='<i class="fa-solid fa-circle-notch fa-spin"></i> Processing…';
-
-  const fd=new FormData();
-  fd.append('service_id',cur.id);fd.append('link',link);
-  fd.append('quantity',qty);fd.append('payment_method',payMethod);
-
-  try{
-    const r=await fetch('payment/process_smm_payment.php',{method:'POST',body:fd});
-    const d=await r.json();
-    if(d.ok){
-      closeModal();
-      toast('Order placed! Ref: '+d.ref);
-      if(d.redirect) setTimeout(()=>location.href=d.redirect,800);
-      else setTimeout(()=>location.href='smm_orders',1500);
-    }else{
-      toast(d.error||'Order failed',false);
-      btn.disabled=false;
-      btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> Place Order';
+function onCatChange() {
+    const cat = document.getElementById('mainCat').value;
+    const sSelect = document.getElementById('mainSvc');
+    const info = document.getElementById('svcInfo');
+    
+    sSelect.innerHTML = '<option value="">-- Choose Service --</option>';
+    info.classList.add('hidden');
+    
+    if (!cat || !services[cat]) {
+        sSelect.disabled = true;
+        return;
     }
-  }catch(e){
-    toast('Connection error',false);
-    btn.disabled=false;
-    btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> Place Order';
-  }
+    
+    services[cat].forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = s.display_name;
+        sSelect.appendChild(opt);
+    });
+    
+    sSelect.disabled = false;
+}
+
+function onSvcChange() {
+    const cat = document.getElementById('mainCat').value;
+    const sid = document.getElementById('mainSvc').value;
+    const info = document.getElementById('svcInfo');
+    
+    if (!sid) {
+        info.classList.add('hidden');
+        currentSvc = null;
+        updateTotal();
+        return;
+    }
+    
+    currentSvc = services[cat].find(s => s.id == sid);
+    if (currentSvc) {
+        document.getElementById('infoRate').textContent = '₹' + parseFloat(currentSvc.sell_price).toFixed(2);
+        document.getElementById('infoRange').textContent = `${Number(currentSvc.min_order).toLocaleString()} / ${Number(currentSvc.max_order).toLocaleString()}`;
+        info.classList.remove('hidden');
+    }
+    updateTotal();
+}
+
+function updateTotal() {
+    const qty = parseInt(document.getElementById('orderQty').value) || 0;
+    const total = currentSvc ? (qty / 1000 * currentSvc.sell_price) : 0;
+    document.getElementById('totalPay').textContent = '₹' + total.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+}
+
+function selectFromBrowse(d) {
+    document.getElementById('mainCat').value = d.cat;
+    onCatChange();
+    document.getElementById('mainSvc').value = d.id;
+    onSvcChange();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function toast(m, ok = true) {
+    const t = document.getElementById('toast'), i = document.getElementById('toast-in');
+    i.innerHTML = `<i class="fa-solid fa-${ok ? 'circle-check text-green-400' : 'circle-exclamation text-red-500'}"></i>${m}`;
+    t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 3000);
+}
+
+async function submitOrderNew() {
+    const link = document.getElementById('orderLink').value.trim();
+    const qty = parseInt(document.getElementById('orderQty').value) || 0;
+    
+    if (!currentSvc) return toast('Select a service first', false);
+    if (!link) return toast('Enter target link/ID', false);
+    if (qty < currentSvc.min_order || qty > currentSvc.max_order) {
+        return toast(`Qty must be between ${currentSvc.min_order} and ${currentSvc.max_order}`, false);
+    }
+
+    const btn = document.getElementById('submitBtn');
+    const oldText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+
+    const fd = new FormData();
+    fd.append('service_id', currentSvc.id);
+    fd.append('link', link);
+    fd.append('quantity', qty);
+    fd.append('payment_method', 'wallet'); // Default to wallet for SMM
+
+    try {
+        const r = await fetch('payment/process_smm_payment.php', {method: 'POST', body: fd});
+        const d = await r.json();
+        if (d.ok) {
+            toast('Order successful! ID: ' + d.ref);
+            setTimeout(() => location.href = 'smm_orders', 1500);
+        } else {
+            toast(d.error || 'Failed', false);
+            btn.disabled = false; btn.innerHTML = oldText;
+        }
+    } catch (e) {
+        toast('Connection error', false);
+        btn.disabled = false; btn.innerHTML = oldText;
+    }
+}
+
+function showCat(cat, btn) {
+    document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.cat-section').forEach(s => {
+        s.style.display = (cat === '__ALL__' || s.dataset.cat === cat) ? '' : 'none';
+    });
 }
 </script>
 </body>
