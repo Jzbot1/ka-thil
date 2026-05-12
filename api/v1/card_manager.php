@@ -61,6 +61,36 @@ if ($act === 'get_cvv') {
     exit;
 }
 
+// Change PIN
+if ($act === 'change_pin') {
+    $card_id = (int)$_POST['card_id'];
+    $password = $_POST['password'] ?? '';
+    $new_pin = $_POST['new_pin'] ?? '';
+    
+    if (!preg_match('/^[0-9]{4}$/', $new_pin)) {
+        echo json_encode(['ok' => false, 'err' => 'PIN must be 4 digits']); exit;
+    }
+
+    // Verify Login Password
+    $stmt = $conn->prepare("SELECT password FROM users WHERE id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $user = $stmt->get_result()->fetch_assoc();
+    
+    if (!$user || !password_verify($password, $user['password'])) {
+        echo json_encode(['ok' => false, 'err' => 'Incorrect account password']); exit;
+    }
+
+    // Update PIN
+    $pin_hash = password_hash($new_pin, PASSWORD_BCRYPT);
+    $stmt = $conn->prepare("UPDATE virtual_cards SET pin_hash = ?, wrong_pin_attempts = 0 WHERE id = ? AND user_id = ?");
+    $stmt->bind_param("sii", $pin_hash, $card_id, $user_id);
+    
+    if ($stmt->execute()) echo json_encode(['ok' => true]);
+    else echo json_encode(['ok' => false, 'err' => 'Update failed']);
+    exit;
+}
+
 // Delete card
 if ($act === 'delete') {
     $card_id = (int)$_POST['card_id'];

@@ -108,7 +108,7 @@ if ($sr && $row = $sr->fetch_assoc()) $setting['store_name'] = $row['store_name'
                                 </div>
                                 <span class="text-[10px] font-bold text-slate-400 uppercase"><?= $c['status'] === 'frozen' ? 'Unfreeze' : 'Freeze' ?></span>
                             </button>
-                            <button onclick="toast('Coming Soon')" class="flex flex-col items-center gap-2">
+                            <button onclick="openPinChange(<?= $c['id'] ?>)" class="flex flex-col items-center gap-2">
                                 <div class="w-12 h-12 glass rounded-2xl flex items-center justify-center text-lg text-amber-400">
                                     <i class="fa-solid fa-key"></i>
                                 </div>
@@ -170,6 +170,22 @@ if ($sr && $row = $sr->fetch_assoc()) $setting['store_name'] = $row['store_name'
                 <input type="password" id="pin" maxlength="4" placeholder="Enter 4-Digit PIN" class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 text-center text-2xl tracking-[10px] focus:outline-none focus:border-indigo-500 transition-all font-black">
                 <button onclick="generateCard()" id="genBtn" class="btn-premium">Create Card</button>
                 <button onclick="closeModal('genModal')" class="w-full text-xs font-bold text-slate-500 uppercase tracking-widest">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PIN CHANGE MODAL -->
+    <div class="modal" id="pinChangeModal">
+        <div class="glass w-full max-w-sm rounded-[32px] p-8 space-y-6">
+            <div class="text-center">
+                <h3 class="text-xl font-black mb-2">Change Card PIN</h3>
+                <p class="text-xs text-slate-400">Verify your account password to set a new PIN.</p>
+            </div>
+            <div class="space-y-4">
+                <input type="password" id="p_pass" placeholder="Account Password" class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-4 text-sm focus:outline-none focus:border-indigo-500 transition-all font-bold">
+                <input type="password" id="p_new" maxlength="4" placeholder="New 4-Digit PIN" class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 text-center text-2xl tracking-[10px] focus:outline-none focus:border-indigo-500 transition-all font-black">
+                <button onclick="changePin()" id="pBtn" class="btn-premium">Update PIN</button>
+                <button onclick="closeModal('pinChangeModal')" class="w-full text-xs font-bold text-slate-500 uppercase tracking-widest">Cancel</button>
             </div>
         </div>
     </div>
@@ -250,6 +266,34 @@ if ($sr && $row = $sr->fetch_assoc()) $setting['store_name'] = $row['store_name'
             const fd = new FormData(); fd.append('act', 'delete'); fd.append('card_id', id);
             const r = await fetch('api/v1/card_manager.php', {method: 'POST', body: fd}).then(r => r.json());
             if(r.ok) location.reload();
+        }
+
+        function openPinChange(id) {
+            currentCardId = id;
+            openModal('pinChangeModal');
+        }
+
+        async function changePin() {
+            const pass = document.getElementById('p_pass').value;
+            const pin = document.getElementById('p_new').value;
+            if(!pass) return alert('Enter account password');
+            if(!pin || pin.length !== 4) return alert('Enter 4-digit PIN');
+
+            const btn = document.getElementById('pBtn');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Updating...';
+            btn.disabled = true;
+
+            const fd = new FormData(); fd.append('act', 'change_pin'); fd.append('card_id', currentCardId); fd.append('password', pass); fd.append('new_pin', pin);
+            const r = await fetch('api/v1/card_manager.php', {method: 'POST', body: fd}).then(r => r.json());
+            
+            if(r.ok) {
+                alert('PIN updated successfully!');
+                closeModal('pinChangeModal');
+                document.getElementById('p_pass').value = '';
+                document.getElementById('p_new').value = '';
+            } else alert(r.err || 'Failed');
+            
+            btn.innerHTML = 'Update PIN'; btn.disabled = false;
         }
 
         function toast(m) { alert(m); }
