@@ -2,6 +2,7 @@
 /**
  * SMILEONE API SERVICE
  * Handles communication with Smile.one endpoints
+ * Order creation is handled via api/v1/smileone_order.php
  */
 
 // ✅ 1. CONFIGURATION
