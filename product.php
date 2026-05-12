@@ -132,7 +132,7 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
         .header-img { position: absolute; width: 100%; height: 100%; object-fit: cover; filter: brightness(0.8) blur(1px); transform: scale(1.1); }
         .item-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.1); }
         .item-card.selected { border: 2px solid #3b82f6; background: rgba(59, 130, 246, 0.2); box-shadow: 0 0 25px rgba(59, 130, 246, 0.2); }
-        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; background: rgba(8, 32, 62, 0.8); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1); padding: 12px 20px env(safe-area-inset-bottom); transform: translateY(100%); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1); padding: 12px 20px env(safe-area-inset-bottom); transform: translateY(100%); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .bottom-bar.show { transform: translateY(0); }
         .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.3s ease; }
         .faq-item.active .faq-answer { max-height: 500px; padding-top: 1rem; }
@@ -149,7 +149,7 @@ while($fRow = $faq_res->fetch_assoc()) { $faqs[] = $fRow; }
 </head>
 <body class="pb-32">
 
-    <div id="skeleton-loader" class="fixed inset-0 z-[100] bg-white/20 backdrop-blur-xl transition-opacity duration-500">
+    <div id="skeleton-loader" class="fixed inset-0 z-[100] bg-[#08203E] backdrop-blur-xl transition-opacity duration-500">
         <div class="header-banner skeleton"></div>
     </div>
 
