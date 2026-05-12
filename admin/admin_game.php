@@ -80,15 +80,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id_system = $_POST['id_system'];
         $provider = $_POST['provider'];
         $sort_order = (int)$_POST['sort_order'];
+        $is_flash_sale = isset($_POST['is_flash_sale']) ? 1 : 0;
         
         $imagePath = !empty($_FILES['game_image']['name']) ? uploadImage($_FILES['game_image']) : ($_POST['current_image'] ?? '');
 
         if (!empty($_POST['game_id'])) {
-            $stmt = $conn->prepare("UPDATE games SET title=?, slug=?, image=?, status=?, description_title=?, description_body=?, external_url=?, category=?, id_system=?, provider=?, sort_order=? WHERE id=?");
-            $stmt->bind_param("sssissssssii", $title, $slug, $imagePath, $status, $desc_title, $desc_body, $ext_url, $category, $id_system, $provider, $sort_order, $_POST['game_id']);
+            $stmt = $conn->prepare("UPDATE games SET title=?, slug=?, image=?, status=?, description_title=?, description_body=?, external_url=?, category=?, id_system=?, provider=?, sort_order=?, is_flash_sale=? WHERE id=?");
+            $stmt->bind_param("sssissssssiii", $title, $slug, $imagePath, $status, $desc_title, $desc_body, $ext_url, $category, $id_system, $provider, $sort_order, $is_flash_sale, $_POST['game_id']);
         } else {
-            $stmt = $conn->prepare("INSERT INTO games (title, slug, image, status, description_title, description_body, external_url, category, id_system, provider, sort_order) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssissssssi", $title, $slug, $imagePath, $status, $desc_title, $desc_body, $ext_url, $category, $id_system, $provider, $sort_order);
+            $stmt = $conn->prepare("INSERT INTO games (title, slug, image, status, description_title, description_body, external_url, category, id_system, provider, sort_order, is_flash_sale) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssissssssii", $title, $slug, $imagePath, $status, $desc_title, $desc_body, $ext_url, $category, $id_system, $provider, $sort_order, $is_flash_sale);
         }
         $stmt->execute();
         $_SESSION['flash_msg'] = "Sync Successful!";
@@ -359,6 +360,23 @@ $store_categories = $conn->query("SELECT * FROM game_categories ORDER BY sort_or
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    
+                    <!-- FLASH SALE TOGGLE -->
+                    <div class="bg-orange-500/5 border border-orange-500/20 rounded-2xl p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-orange-500/10 rounded-xl flex items-center justify-center text-orange-500">
+                                <i class="fa-solid fa-bolt-lightning"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-black text-white">Flash Sale Badge</p>
+                                <p class="text-[10px] text-orange-500/60 font-bold">Display ribbon on home page</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="is_flash_sale" value="1" <?= ($edit_game['is_flash_sale'] ?? 0) == 1 ? 'checked' : '' ?> class="sr-only peer">
+                            <div class="w-11 h-6 bg-slate-800 rounded-full peer peer-checked:bg-orange-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+                        </label>
                     </div>
 
                     <button class="btn-primary w-full text-white py-5 rounded-[20px] font-black text-sm shadow-xl shadow-indigo-500/20 mt-4">

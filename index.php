@@ -436,15 +436,21 @@ ob_end_flush();
                             }
                             $f_img = BASE_URL . '/' . $f_img;
                         }
+                        
+                        $discount = 0;
+                        if (!empty($flash['old_price']) && $flash['old_price'] > 0) {
+                            $discount = round((($flash['old_price'] - $flash['price']) / $flash['old_price']) * 100);
+                        }
                         ?>
                         <a href="product/<?= htmlspecialchars($flash['game_slug'] ?? '') ?>?auto_select=<?= urlencode($flash['product_id']) ?>"
-                            class="game-card flex flex-col items-center gap-2 transition duration-300 group">
-                            <?php
-                            $discount = 0;
-                            if (!empty($flash['old_price']) && $flash['old_price'] > 0) {
-                                $discount = round((($flash['old_price'] - $flash['price']) / $flash['old_price']) * 100);
-                            }
-                            ?>
+                            class="game-card flex flex-col items-center gap-2 transition duration-300 group relative">
+                            
+                            <!-- FLASH RIBBON -->
+                            <div class="absolute -top-1 -right-1 z-10">
+                                <div class="bg-orange-500 text-white text-[7px] font-black px-1.5 py-0.5 rounded shadow-lg animate-pulse">
+                                    -<?= $discount ?>%
+                                </div>
+                            </div>
 
                             <div
                                 class="w-14 h-14 rounded-xl bg-white/10 overflow-hidden shadow-lg border border-white/10 relative">
@@ -499,10 +505,20 @@ ob_end_flush();
                             $game_slug = !empty($item['slug']) ? $item['slug'] : 'game-' . $item['id'];
                             $clean_url = "product/" . htmlspecialchars($game_slug);
                             $is_out_of_stock = ($item['status'] == 0);
+                            $is_on_flash = ($item['is_flash_sale'] ?? 0) == 1;
                             ?>
                             <a href="<?= $is_out_of_stock ? 'javascript:void(0)' : $clean_url ?>"
-                                class="game-card flex flex-col items-center gap-2 transition duration-300 <?= $is_out_of_stock ? 'opacity-50 grayscale' : '' ?>"
+                                class="game-card flex flex-col items-center gap-2 transition duration-300 relative <?= $is_out_of_stock ? 'opacity-50 grayscale' : '' ?>"
                                 data-title="<?= strtolower(htmlspecialchars($item['title'])) ?>">
+                                
+                                <?php if($is_on_flash): ?>
+                                <div class="absolute -top-1.5 -right-1.5 z-20 pointer-events-none">
+                                    <div class="bg-gradient-to-r from-orange-400 to-red-500 text-white text-[7px] font-black px-2 py-0.5 rounded-full shadow-lg border border-white/20 flex items-center gap-1">
+                                        <i class="fa-solid fa-bolt-lightning text-[6px]"></i> SALE
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+
                                 <div
                                     class="w-14 h-14 rounded-xl bg-white/10 overflow-hidden shadow-lg border border-white/10 relative">
                                     <?php
@@ -641,6 +657,7 @@ ob_end_flush();
     </main>
 
     <script>
+        window.flashSaleEnd = <?= json_encode($setting['flash_sale_end'] ?? null) ?>;
         document.addEventListener('DOMContentLoaded', function () {
             // Swiper Init
             const swiper = new Swiper('.swiper', {
