@@ -16,8 +16,8 @@ $order_id = $_REQUEST['orderId'] ?? $json_data['orderId'] ?? null;
 $token    = $_REQUEST['token'] ?? $json_data['token'] ?? null;
 
 // Audit Logging
-$log_entry = sprintf("[%s] Order: %s | Method: %s\n", date('Y-m-d H:i:s'), $order_id ?? 'N/A', $_SERVER['REQUEST_METHOD']);
-file_put_contents('pay0_callback_log.txt', $log_entry, FILE_APPEND);
+$log_entry = sprintf("[%s] Order: %s | Method: %s | Gateway: %s\n", date('Y-m-d H:i:s'), $order_id ?? 'N/A', $_SERVER['REQUEST_METHOD'], $order['payment_method'] ?? 'Unknown');
+file_put_contents('payment_callback_log.txt', $log_entry, FILE_APPEND);
 
 if (!$order_id) {
     http_response_code(400);
@@ -52,12 +52,20 @@ try {
         exit();
     }
 
-    // 5. SERVER-SIDE STATUS VERIFICATION WITH GATEWAY (Pay0)
-    $pay0_postData = ["user_token" => PAY0_USER_TOKEN, "order_id" => $order_id];
-    $ch = curl_init(PAY_STATUS_URL);
+    // 5. SERVER-SIDE STATUS VERIFICATION WITH GATEWAY
+    $gateway_status_url = PAY_STATUS_URL;
+    $gateway_user_token = PAY0_USER_TOKEN;
+
+    if ($order['payment_method'] === 'jzpay') {
+        $gateway_status_url = JZPAY_STATUS_URL;
+        $gateway_user_token = JZPAY_TOKEN;
+    }
+
+    $status_postData = ["user_token" => $gateway_user_token, "order_id" => $order_id];
+    $ch = curl_init($gateway_status_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($pay0_postData));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($status_postData));
     $response = curl_exec($ch);
     curl_close($ch);
 

@@ -75,9 +75,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
 
         // 4. INITIATE GATEWAY REQUEST
+        $gateway_url = PAY_API_URL;
+        $gateway_token = PAY0_USER_TOKEN;
+
+        if ($pay_method === 'jzpay') {
+            $gateway_url = JZPAY_CREATE_URL;
+            $gateway_token = JZPAY_TOKEN;
+        }
+
         $post_data = [
             'customer_mobile' => !empty($email) ? $email : '9999999999', 
-            'user_token'      => PAY0_USER_TOKEN,
+            'user_token'      => $gateway_token,
             'amount'          => $correct_price, 
             'order_id'        => $order_id,
             'redirect_url'    => BASE_URL . "/payment/pay_callback.php?orderId=$order_id",
@@ -85,17 +93,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'remark2'         => 'ID: ' . $game_user_id . ' (' . $correct_name . ')'
         ];
 
-        $ch = curl_init(PAY_API_URL);
+        if ($pay_method === 'jzpay') {
+            // For JZPay, redirect_url should be success page or callback
+            $post_data['redirect_url'] = BASE_URL . "/payment/receipt/" . $order_id;
+        }
+
+        $ch = curl_init($gateway_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post_data));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Standard for many local environments
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         
         $response = curl_exec($ch);
         $apiResponse = json_decode($response, true);
         curl_close($ch);
 
-        if ($apiResponse && isset($apiResponse['status']) && $apiResponse['status'] === true) {
+        if ($apiResponse && isset($apiResponse['status']) && ($apiResponse['status'] === true || $apiResponse['status'] === 'true')) {
             $paymentUrl = $apiResponse['result']['payment_url'] ?? null;
             if ($paymentUrl) {
                 header("Location: $paymentUrl");

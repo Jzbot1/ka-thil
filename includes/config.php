@@ -65,6 +65,11 @@ define('USD_TO_INR', (float)env('USD_TO_INR', 85.0));
 
 define('CALLBACK_SECRET', env('CALLBACK_SECRET'));
 
+// JZPay Configuration
+define('JZPAY_TOKEN', env('JZPAY_TOKEN'));
+define('JZPAY_CREATE_URL', env('JZPAY_CREATE_URL', 'https://jzpay.shop/api/create-order'));
+define('JZPAY_STATUS_URL', env('JZPAY_STATUS_URL', 'https://jzpay.shop/api/check-order-status'));
+
 
 // Detect Base URL Dynamically
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
