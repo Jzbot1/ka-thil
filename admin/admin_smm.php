@@ -23,7 +23,18 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
     if ($act==='test') {
         $a = new SmmPanelApi($_POST['url'],$_POST['key']);
         $b = $a->balance();
-        echo json_encode($b&&isset($b->balance)?['ok'=>true,'bal'=>$b->balance,'cur'=>$b->currency??'USD']:['ok'=>false,'err'=>$a->last_error_msg?:'Bad key']); exit;
+        if ($b && isset($b->balance)) {
+            $bal = (float)$b->balance;
+            $cur = $b->currency ?? 'USD';
+            if (strtoupper($cur) === 'USD') {
+                $bal = $bal * USD_TO_INR;
+                $cur = 'INR';
+            }
+            echo json_encode(['ok'=>true,'bal'=>$bal,'cur'=>$cur]);
+        } else {
+            echo json_encode(['ok'=>false,'err'=>$a->last_error_msg?:'Bad key']);
+        }
+        exit;
     }
 
     // Get live balance
@@ -204,7 +215,7 @@ body{font-family:'Inter',sans-serif;background:#080f1e;color:#e2e8f0}
           <th class="pb-3 text-left pr-3">Category</th>
           <th class="pb-3 text-right pr-3">Min</th>
           <th class="pb-3 text-right pr-3">Max</th>
-          <th class="pb-3 text-right pr-3">Cost/1K</th>
+          <th class="pb-3 text-right pr-3">Cost/1K ₹</th>
           <th class="pb-3 text-right pr-3">Your Price/1K ₹</th>
           <th class="pb-3 text-center">Active</th>
         </tr></thead>
@@ -221,7 +232,7 @@ body{font-family:'Inter',sans-serif;background:#080f1e;color:#e2e8f0}
           <td class="py-2 pr-3 text-slate-400"><?=htmlspecialchars($cat)?></td>
           <td class="py-2 pr-3 text-right text-slate-400"><?=number_format($r['min_order'])?></td>
           <td class="py-2 pr-3 text-right text-slate-400"><?=number_format($r['max_order'])?></td>
-          <td class="py-2 pr-3 text-right text-indigo-300 font-mono">$<?=number_format($r['original_rate'],4)?></td>
+          <td class="py-2 pr-3 text-right text-indigo-300 font-mono">₹<?=number_format($r['original_rate'],2)?></td>
           <td class="py-2 pr-3 text-right">
             <input class="inp custom-price text-right" style="width:90px" type="number" step="0.01" min="0" value="<?=number_format($price,2,'.','')?>">
           </td>
@@ -363,10 +374,10 @@ function updateCronUrl(tok){
 function fetchBalance() {
   document.getElementById('api_bal_val').innerText = '...';
   const fd = new FormData(); fd.append('act','get_balance');
-  fetch(API_URL,{method:'POST',body:fd}).then(r=>r.json()).then(res=>{
+  fetch(location.href,{method:'POST',body:fd}).then(r=>r.json()).then(res=>{
     if(res.ok) {
-      document.getElementById('api_bal_val').innerText = res.bal;
-      document.getElementById('api_bal_cur').innerText = res.cur;
+      document.getElementById('api_bal_val').innerText = '₹' + res.bal;
+      document.getElementById('api_bal_cur').innerText = 'INR Balance';
     } else {
       document.getElementById('api_bal_val').innerText = 'ERR';
     }
