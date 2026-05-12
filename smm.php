@@ -60,11 +60,8 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
 <style>
   :root{--theme-dark:#ffffff}
   body{font-family:'Poppins',sans-serif;
-    background-color: #020617;
-    background-image: 
-        radial-gradient(at 0% 0%, hsla(217, 100%, 10%, 1) 0, transparent 50%), 
-        radial-gradient(at 50% 0%, hsla(215, 96%, 15%, 1) 0, transparent 50%),
-        radial-gradient(at 100% 0%, hsla(217, 100%, 10%, 1) 0, transparent 50%);
+    background: hsla(213, 77%, 14%, 1);
+    background: linear-gradient(90deg, hsla(213, 77%, 14%, 1) 0%, hsla(202, 27%, 45%, 1) 100%);
     background-attachment:fixed;color:#ffffff;overflow-x:hidden}
   .glass-panel{background:rgba(255,255,255,.1);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1)}
   .game-card:active{transform:scale(.95)}
@@ -92,8 +89,31 @@ function getCatIcon($cat,$icons){foreach($icons as $k=>$v) if(stripos($cat,$k)!=
   .pay-tab.sel{border-color:rgba(59,130,246,0.5);background:rgba(59,130,246,0.1);color:#ffffff;box-shadow: 0 0 15px -5px rgba(59,130,246,0.4)}
 
   /* Input */
-  .svc-input{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.15);border-radius:14px;padding:12px 14px;width:100%;font-size:14px;font-family:'Poppins',sans-serif;color:#ffffff;outline:none;transition:border .2s}
-  .svc-input:focus{border-color:#ffffff;background:rgba(255,255,255,.12)}
+  .svc-input, select {
+    background: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 16px !important;
+    padding: 14px 16px !important;
+    width: 100%;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff !important;
+    outline: none;
+    transition: all .3s ease;
+    backdrop-filter: blur(10px);
+  }
+  .svc-input:focus, select:focus {
+    border-color: rgba(59, 130, 246, 0.5) !important;
+    background: rgba(15, 23, 42, 0.8) !important;
+    box-shadow: 0 0 15px -5px rgba(59, 130, 246, 0.4);
+  }
+  
+  /* Fix for select options in dark mode */
+  select option {
+    background: #0f172a;
+    color: #ffffff;
+    padding: 10px;
+  }
 
   /* Scrollbar hidden */
   .no-scrollbar::-webkit-scrollbar{display:none}
