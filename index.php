@@ -511,10 +511,16 @@ ob_end_flush();
                                 class="game-card flex flex-col items-center gap-2 transition duration-300 relative <?= $is_out_of_stock ? 'opacity-50 grayscale' : '' ?>"
                                 data-title="<?= strtolower(htmlspecialchars($item['title'])) ?>">
                                 
-                                <?php if($is_on_flash): ?>
+                                <?php 
+                                $badge = $item['badge_text'] ?? '';
+                                if(empty($badge) && $is_on_flash) $badge = 'SALE';
+                                ?>
+
+                                <?php if(!empty($badge)): ?>
                                 <div class="absolute -top-1.5 -right-1.5 z-20 pointer-events-none">
                                     <div class="bg-gradient-to-r from-orange-400 to-red-500 text-white text-[7px] font-black px-2 py-0.5 rounded-full shadow-lg border border-white/20 flex items-center gap-1">
-                                        <i class="fa-solid fa-bolt-lightning text-[6px]"></i> SALE
+                                        <?php if($is_on_flash): ?><i class="fa-solid fa-bolt-lightning text-[6px]"></i><?php endif; ?>
+                                        <?= htmlspecialchars($badge) ?>
                                     </div>
                                 </div>
                                 <?php endif; ?>

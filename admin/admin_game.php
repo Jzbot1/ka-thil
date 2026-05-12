@@ -81,15 +81,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $provider = $_POST['provider'];
         $sort_order = (int)$_POST['sort_order'];
         $is_flash_sale = isset($_POST['is_flash_sale']) ? 1 : 0;
+        $badge_text = trim($_POST['badge_text']);
         
         $imagePath = !empty($_FILES['game_image']['name']) ? uploadImage($_FILES['game_image']) : ($_POST['current_image'] ?? '');
 
         if (!empty($_POST['game_id'])) {
-            $stmt = $conn->prepare("UPDATE games SET title=?, slug=?, image=?, status=?, description_title=?, description_body=?, external_url=?, category=?, id_system=?, provider=?, sort_order=?, is_flash_sale=? WHERE id=?");
-            $stmt->bind_param("sssissssssiii", $title, $slug, $imagePath, $status, $desc_title, $desc_body, $ext_url, $category, $id_system, $provider, $sort_order, $is_flash_sale, $_POST['game_id']);
+            $stmt = $conn->prepare("UPDATE games SET title=?, slug=?, image=?, status=?, description_title=?, description_body=?, external_url=?, category=?, id_system=?, provider=?, sort_order=?, is_flash_sale=?, badge_text=? WHERE id=?");
+            $stmt->bind_param("sssissssssiiis", $title, $slug, $imagePath, $status, $desc_title, $desc_body, $ext_url, $category, $id_system, $provider, $sort_order, $is_flash_sale, $badge_text, $_POST['game_id']);
         } else {
-            $stmt = $conn->prepare("INSERT INTO games (title, slug, image, status, description_title, description_body, external_url, category, id_system, provider, sort_order, is_flash_sale) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("sssissssssii", $title, $slug, $imagePath, $status, $desc_title, $desc_body, $ext_url, $category, $id_system, $provider, $sort_order, $is_flash_sale);
+            $stmt = $conn->prepare("INSERT INTO games (title, slug, image, status, description_title, description_body, external_url, category, id_system, provider, sort_order, is_flash_sale, badge_text) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssissssssiis", $title, $slug, $imagePath, $status, $desc_title, $desc_body, $ext_url, $category, $id_system, $provider, $sort_order, $is_flash_sale, $badge_text);
         }
         $stmt->execute();
         $_SESSION['flash_msg'] = "Sync Successful!";
@@ -373,10 +374,13 @@ $store_categories = $conn->query("SELECT * FROM game_categories ORDER BY sort_or
                                 <p class="text-[10px] text-orange-500/60 font-bold">Display ribbon on home page</p>
                             </div>
                         </div>
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" name="is_flash_sale" value="1" <?= ($edit_game['is_flash_sale'] ?? 0) == 1 ? 'checked' : '' ?> class="sr-only peer">
-                            <div class="w-11 h-6 bg-slate-800 rounded-full peer peer-checked:bg-orange-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
-                        </label>
+                        <div class="flex items-center gap-3">
+                            <input type="text" name="badge_text" value="<?= htmlspecialchars($edit_game['badge_text'] ?? '') ?>" placeholder="e.g. HOT, NEW, 10% OFF" class="input-style w-32 rounded-xl p-2 text-[10px] font-black uppercase text-center outline-none">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="is_flash_sale" value="1" <?= ($edit_game['is_flash_sale'] ?? 0) == 1 ? 'checked' : '' ?> class="sr-only peer">
+                                <div class="w-11 h-6 bg-slate-800 rounded-full peer peer-checked:bg-orange-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-full"></div>
+                            </label>
+                        </div>
                     </div>
 
                     <button class="btn-primary w-full text-white py-5 rounded-[20px] font-black text-sm shadow-xl shadow-indigo-500/20 mt-4">
