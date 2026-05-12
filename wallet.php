@@ -111,6 +111,21 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
             </div>
         </div>
 
+        <!-- VIRTUAL CARD PROMO -->
+        <a href="wallet_cards" class="block glass-panel rounded-3xl p-5 mb-8 border border-indigo-500/30 bg-indigo-500/5 relative overflow-hidden group">
+            <div class="absolute -right-4 -top-4 w-24 h-24 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition-all"></div>
+            <div class="flex items-center gap-4 relative z-10">
+                <div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-xl shadow-lg shadow-indigo-600/20">
+                    <i class="fa-solid fa-credit-card text-white"></i>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-sm font-black text-white">Virtual Debit Card</h3>
+                    <p class="text-[10px] text-indigo-300 font-bold uppercase tracking-widest">Internal Wallet Payments</p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-indigo-500 text-xs mr-2 group-hover:translate-x-1 transition-transform"></i>
+            </div>
+        </a>
+
         <!-- ADD FUNDS SECTION -->
         <div class="space-y-6">
             <div class="flex items-center justify-between px-1">

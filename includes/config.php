@@ -92,4 +92,7 @@ require_once __DIR__ . '/functions.php';
 if (file_exists(__DIR__ . '/SmmPanelApi.php')) {
     require_once __DIR__ . '/SmmPanelApi.php';
 }
+
+// Include Virtual Card System
+require_once __DIR__ . '/VirtualCardSystem.php';
 ?>

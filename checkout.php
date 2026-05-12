@@ -205,6 +205,8 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
                                             <?php if ($user_balance < $product_price): ?>
                                                 <span class="text-rose-400 ml-1">(Insufficient)</span>
                                             <?php endif; ?>
+                                        <?php elseif ($pm['method_code'] == 'wallet_card'): ?>
+                                            Virtual Debit Card
                                         <?php else: ?>
                                             Instant UPI
                                         <?php endif; ?>
@@ -219,6 +221,23 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
                 <?php else: ?>
                     <p class="text-center text-xs text-white/50 py-4">No payment methods available.</p>
                 <?php endif; ?>
+        </section>
+
+        <!-- CARD PAYMENT FORM -->
+        <section id="cardForm" class="hidden animate-slide">
+            <div class="glass-panel rounded-[2rem] p-6 space-y-4 border border-white/10">
+                <div class="flex items-center gap-3 mb-2">
+                    <i class="fa-solid fa-credit-card text-rose-500"></i>
+                    <h3 class="text-xs font-bold text-white uppercase tracking-widest">Card Details</h3>
+                </div>
+                <div class="space-y-4">
+                    <input type="text" id="c_num" placeholder="Card Number" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold outline-none focus:border-rose-500">
+                    <div class="grid grid-cols-2 gap-3">
+                        <input type="text" id="c_exp" placeholder="MM/YY" maxlength="5" class="bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold outline-none focus:border-rose-500">
+                        <input type="password" id="c_cvv" placeholder="CVV" maxlength="3" class="bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold outline-none focus:border-rose-500">
+                    </div>
+                    <input type="password" id="c_pin" placeholder="Enter 4-Digit PIN" maxlength="4" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold outline-none focus:border-rose-500">
+                </div>
             </div>
         </section>
 
@@ -256,6 +275,11 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
             el.querySelector('.dot').classList.remove('scale-0');
             selection.method = code;
             selection.methodName = name;
+
+            // Toggle card form
+            const cf = document.getElementById('cardForm');
+            if(code === 'wallet_card') cf.classList.remove('hidden');
+            else cf.classList.add('hidden');
         }
 
         function handlePay() {
@@ -273,9 +297,26 @@ if ($setting_result && $row = $setting_result->fetch_assoc()) {
             const form = document.createElement('form');
             form.method = 'POST';
             
-            // Redirect to J-Coin processor if selected, otherwise standard buy_now
+            // Redirect based on method
             if (selection.method === 'jcoin') {
                 form.action = '<?= BASE_URL ?>/payment/process_jcoin_payment';
+            } else if (selection.method === 'wallet_card') {
+                form.action = '<?= BASE_URL ?>/payment/process_card_payment';
+                
+                // Add card fields
+                const cardFields = {
+                    card_num: document.getElementById('c_num').value,
+                    card_expiry: document.getElementById('c_exp').value,
+                    card_cvv: document.getElementById('c_cvv').value,
+                    card_pin: document.getElementById('c_pin').value
+                };
+                for(const key in cardFields) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = cardFields[key];
+                    form.appendChild(input);
+                }
             } else {
                 form.action = '<?= BASE_URL ?>/payment/buy_now';
             }

@@ -118,6 +118,11 @@ $flash_end = $setting['flash_sale_end'] ?? '';
                     <div class="flex-1 font-bold text-sm text-slate-700">Games & Categories</div>
                     <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
                 </a>
+                <a href="admin_cards.php" class="bg-white p-4 rounded-2xl border border-slate-100 flex items-center gap-4 hover:bg-slate-50 transition">
+                    <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600"><i class="fa-solid fa-credit-card"></i></div>
+                    <div class="flex-1 font-bold text-sm text-slate-700">Virtual Cards & Logs</div>
+                    <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+                </a>
             </div>
         </div>
 
